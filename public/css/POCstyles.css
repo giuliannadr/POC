@@ -1,0 +1,251 @@
+body {
+    background: linear-gradient(to bottom, #7e00d9, #270e38);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Outfit", sans-serif;
+    background-attachment: fixed;
+}
+.nav-posta {
+    position: fixed;
+    top: -10px; /* un poco arriba para ocultar los bordes superiores */
+    left: 0;
+    background-color: #010a7e;
+    color: white;
+    padding: 20px 40px;
+    font-size: 30px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    margin-left: 80px;
+
+
+}
+
+.registro {
+
+    background-color: #87ff5f;
+    border: solid #cbffba 3px;
+    text-decoration: none;
+    color: #7e00d9;
+    padding: 13px 90px;
+    border-radius: 30px;
+    font-size: 25px;
+    display: inline-block;
+    transition: all 0.3s ease; /* para una transición suave */
+}
+
+.registro:hover {
+    background-color: #010a7e;
+    color: #87ff5f;
+    font-weight: bold;
+}
+
+.typewriter-wrapper {
+    display: inline-block;
+    width: 22ch; /* ancho fijo igual a la línea más larga */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.typewriter-line1,
+.typewriter-line2 {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: monospace;
+    border-right: 3px solid white;
+    width: 22ch;
+}
+
+/* Animaciones solo en clase activa */
+.animate-line1 {
+    animation: typing1 2s steps(22) forwards, remove-cursor 0s forwards 2s;
+}
+
+.animate-line2 {
+    opacity: 0;
+    animation: typing2 2s steps(17) forwards 2.2s, blink 0.7s step-end infinite 4.2s;
+}
+
+/* Keyframes */
+@keyframes typing1 {
+    to {
+        width: 22ch;
+    }
+}
+@keyframes remove-cursor {
+    to {
+        border-right: none;
+    }
+}
+@keyframes typing2 {
+    0% {
+        width: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 17ch;
+        opacity: 1;
+    }
+}
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.ease {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s ease forwards;
+    animation-delay: 0.5s; /* para que no aparezca instantáneo */
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1.5s ease forwards;
+    animation-delay: 2.5s; /* Aparece después del párrafo */
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* El div que contiene la tarjeta */
+#login-card {
+    background-color: #010a7e;
+    width: 600px;
+    padding: 30px;
+    border-radius: 30px;
+    border: solid #dcb2fa 4px;
+    margin: 50px auto 120px auto; /* margen arriba y abajo, centrado horizontal */
+}
+
+.registroTit{
+    font-size: 75px;
+    color: white;
+    font-weight: bolder;
+}
+.registroP{
+    font-size: 40px;
+    margin-top: 30px;
+    color: white;
+    font-weight:500;
+    margin-top: 5px;
+}
+.contenedorRegistro {
+    position: relative;
+    width: 100%;
+    height: 800px; /* Altura del bloque, puede ajustarse */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* fondo grande detrás */
+.registroTits {
+    position: absolute;
+    background-color: #490C98;
+    border-radius: 30px;
+    padding: 35px;
+    padding-left: 75px;
+    width: 80%;
+    /* Altura del fondo */
+    left: 50px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 100px;
+}
+
+/* tarjeta encima */
+.registroCard {
+    position: relative;
+    background-color: #010a7e;
+    height: 750px;
+    width: 550px;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+    margin-left: auto;
+    margin-right: 150px;
+    border-radius: 30px;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00eaff; /* Borde con color */
+}
+
+.fechaGenero{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+.input{
+    margin-bottom: 10px;
+    width: 400px;
+}
+.input label{
+    color: white;
+}
+.input input{
+    border-radius: 30px;
+}
+
+#registro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit{
+    background-color: #A6FD35;
+    padding: 10px;
+    border-radius: 30px;
+    width: 180px;
+    border: none;
+    color: #8F3AFD;
+    font-weight: bold;
+
+}
+.submit:disabled {
+    background-color: #cccccc; /* Gris claro */
+    color: #666666;            /* Texto gris oscuro */
+    cursor: not-allowed;       /* Cursor que indica que no se puede clickear */
+    opacity: 0.7;              /* Opcional: le da una apariencia apagada */
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+.loginA{
+    margin-top: -18px;
+    color: #c293ff;
+}

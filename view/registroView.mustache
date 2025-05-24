@@ -1,0 +1,132 @@
+<main class="contenedorRegistro">
+
+    <div class="registroTits">
+        <h1 class="registroTit">Registro</h1>
+        <p class="registroP" >
+            Dale! Que ya estás<br />con un pie adentro...
+        </p>
+
+        {{#error}}
+            <div class="alert alert-danger">{{error}}</div>
+        {{/error}}
+
+    </div>
+
+
+    <div class="registroCard">
+        <div class="text-center mb-4">
+            <img  class="profile-img" src="" alt="Imagen de Perfil">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="profilePic" accept="image/*" id="profilePic" style="display:none" onchange="this.form.submit()">
+                <button type="button" class="btn-change" onclick="document.getElementById('profilePic').click()">Cambiar Foto de Perfil</button>
+            </form>
+        </div>
+
+        <form action="/registro/registro"  id="registro" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" name="rutaFotoPerfil" value="">
+            <div class="input">
+                <label for="nombreRegistro" class="form-label">Nombre completo:</label>
+                <input name="nombreRegistro" type="text"  class="form-control" placeholder="Nombre completo" required>
+            </div>
+            <div class="fechaGenero input">
+                <div>
+                    <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
+                    <input name="fechaNacimiento" type="date"  class="form-control" style="width: 190px;" required>
+                </div>
+                <div>
+                    <label for="sexo" class="form-label">Sexo:</label>
+                    <select class="form-control"  name="sexo" style="width: 190px; border-radius: 30px;">
+                        <option value="" disabled selected>Seleccioná el sexo</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="prefiero_no_decirlo">Prefiero no decirlo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input">
+                <label for="usuarioRegistro" class="form-label">Usuario:</label>
+                <input name="usuarioRegistro" type="text" class="form-control" placeholder="Usuario" required autocomplete="off">
+            </div>
+
+            <div class="input">
+                <label for="emailRegistro" class="form-label">Email:</label>
+                <input name="emailRegistro" type="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="input">
+                <label for="passRegistro" class="form-label">Contraseña:</label>
+                <input name="passRegistro" type="password" class="form-control" placeholder="Contraseña" required>
+            </div>
+            <div class="input">
+                <label for="passConfirmar" class="form-label">Confirmar contraseña:</label>
+                <input name="passConfirmar" type="password" class="form-control" placeholder="Confirmar contraseña" required>
+            </div>
+
+
+            <input type="submit" value="Registrarse"  id="submitBtn" class="btn-submit mt-3 submit"  disabled>
+
+        </form>
+        <div class="login">
+            <p style="color: white;">
+                ¿Ya tenés una cuenta?
+            </p>
+            <a href="home.html" class="loginA">Inicia Sesión</a>
+        </div>
+    </div>
+
+</main>
+{{#mostrarPopupActivacion}}
+    <div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registro exitoso</h5>
+                    <button type="button" class="btn-close" onclick="cerrarModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¡Registro exitoso! Por favor revisá tu casilla de correo para activar tu cuenta.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="cerrarModal()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function cerrarModal() {
+            document.querySelector('.modal').style.display = 'none';
+        }
+    </script>
+{{/mostrarPopupActivacion}}
+<script>
+    const form = document.getElementById('registro');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('input', () => {
+        const inputs = form.querySelectorAll('input[required]');
+        let allFilled = true;
+
+        inputs.forEach(input => {
+            if (input.value.trim() === '') {
+                allFilled = false;
+            }
+        });
+
+        submitBtn.disabled = !allFilled;
+    });
+
+    // Validación de las contraseñas
+    document.getElementById("registro").onsubmit = function(e) {
+        const contrasena = document.querySelector('input[name="passRegistro"]').value;
+        const confirmarContrasena = document.querySelector('input[name="passConfirmar"]').value;
+
+        if (contrasena !== confirmarContrasena) {
+            alert("Las contraseñas no coinciden. Por favor, intentalo de nuevo.");
+            e.preventDefault();
+        }
+    };
+
+   </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
