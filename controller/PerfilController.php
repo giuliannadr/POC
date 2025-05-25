@@ -26,15 +26,20 @@ class PerfilController
         // Obtener datos del perfil
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
 
+        // 🚨 Agregá esto para ver qué trae:
+
+
         // Renderizar la vista con header
-        $this->view->render('headerChico', 'perfilView', [
+        $this->view->render('headerChico', 'perfil', [
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
-            'genero' => $datos['sexo'],
-            'fecha_nacimiento' => $datos['fecha_nac'],
-            'email' => $datos['mail'],
-            'usuario' => $datos['nombre_usuario'],
+            'genero' => $datos['genero'],
+            'fecha_nacimiento' => $datos['fecha_nacimiento'],
+            'email' => $datos['email'],
+            'usuario' => $datos['usuario'],
             'foto_perfil' => $datos['foto_perfil'] ?? ''
         ]);
+
     }
+
 }
