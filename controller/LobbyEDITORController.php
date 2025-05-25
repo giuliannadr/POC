@@ -13,10 +13,6 @@ class LobbyEDITORController
     {
         session_start(); // Accede a sesion
 
-        // SESION HARCODEADA ELIMINAR DESPUES
-        $_SESSION['usuario'] = 'usuarioPrueba';
-        $_SESSION['tipo'] = 'editor';
-
         // Redirige si no hay usuario o si el tipo no es 'editor'
         if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'editor') {
             $this->view->render('headerChico', 'homeLogin');
