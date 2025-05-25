@@ -11,17 +11,31 @@ class LobbyEDITORController
 
     public function show()
     {
-        session_start(); // Necesario para acceder a $_SESSION
+        session_start(); // Accede a sesion
 
-        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'jugador') {
+        // SESION HARCODEADA ELIMINAR DESPUES
+        $_SESSION['usuario'] = 'usuarioPrueba';
+        $_SESSION['tipo'] = 'editor';
 
-            $this->view->render('headerChico','homeLogin');
+        // Redirige si no hay usuario o si el tipo no es 'editor'
+        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'editor') {
+            $this->view->render('headerChico', 'homeLogin');
             exit;
         }
 
         $usuario = $_SESSION['usuario'];
-        $this->view->render('headerChico','lobbyEDITORView', ['usuario' => $usuario]);
 
+        // Botones en el nav segun el rol
+        $botones = [
+            ['texto' => 'Gestionar Preguntas', 'link' => '/editor/gestionarPreguntas'],
+            ['texto' => 'Preguntas Reportadas', 'link' => '/editor/preguntasReportadas'],
+            ['texto' => 'Preguntas Sugeridas', 'link' => '/editor/preguntasSugeridas'],
+        ];
+
+        // Se pasa a mustachol los botones
+        $this->view->render('headerAdminEditor', 'lobbyEDITOR', [
+            'usuario' => $usuario,
+            'botones' => $botones
+        ]);
     }
-
 }
