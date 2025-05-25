@@ -46,10 +46,10 @@ class RegistroController
 
         if ($this->model->activarCuenta($token)) {
             // Activación exitosa
-            $this->view->render('headerChico', 'homeLoginView', ['success' => 'Cuenta activada correctamente. ¡Bienvenido!']);
+            $this->view->render('headerChico', 'homeLogin', ['success' => 'Cuenta activada correctamente. ¡Bienvenido!']);
         } else {
             // Activación fallida
-            $this->view->render('headerChico', 'homeLoginView', ['error' => 'Token inválido o cuenta ya activada.']);
+            $this->view->render('headerChico', 'homeLogin', ['error' => 'Token inválido o cuenta ya activada.']);
         }
     }
 }

@@ -68,8 +68,8 @@ class JugadorModel
         $mensajeHTML = "<h1>¡Gracias por registrarte!</h1>
             <p>Activá tu cuenta y accedé al lobby haciendo clic en el enlace:</p>
             <p>
-          <a href='http://localhost/POC/index.php?controller=home&method=show&token=$tokenActivacion'
-         style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>
+        <a href='http://localhost/POC/index.php?controller=registro&method=activar&token=$tokenActivacion'
+        style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>
             Activar cuenta y entrar al lobby
             </a>
             </p>";
