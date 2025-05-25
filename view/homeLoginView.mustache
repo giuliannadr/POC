@@ -63,7 +63,13 @@
             "
             />
 
-            <form action="POC/login/validar" method="post" style="margin-left: 50px; margin-right: 50px">
+            {{#error}}
+                <div style="color: #ff6666; font-weight: bold; margin-bottom: 15px; text-align:center;">
+                    {{error}}
+                </div>
+            {{/error}}
+
+             <form action="/POC/login/validar" method="post" style="margin-left: 50px; margin-right: 50px">
                 <div class="mt-4">
                     <label
                             for="email"
@@ -90,7 +96,7 @@
                             class="form-control"
                             style="border-radius: 30px"
                             type="password"
-                            name="pass"
+                            name="contrasena"
                             id="pass"
                     />
                 </div>
@@ -104,41 +110,20 @@
         </div>
     </div>
 </main>
-<script>
-    const line1 = document.getElementById('line1');
-    const line2 = document.getElementById('line2');
+<div id="message-data" data-error="{{error}}" data-success="{{success}}" style="display:none;"></div>
 
-    const text1 = '¡Bienvenido/a a una';
-    const text2 = 'nueva aventura!';
+<div id="popup">
+    <div id="popup-content">
+        <span id="popup-message"></span>
+        <button onclick="document.getElementById('popup').style.display='none'">Cerrar</button>
+    </div>
+</div>
 
-    function reset() {
-        line1.style.width = '0ch';
-        line1.style.borderRight = '3px solid white';
-        line2.style.width = '0ch';
-        line2.style.opacity = '0';
-        line2.style.borderRight = '3px solid white';
-        line1.classList.remove('animate-line1');
-        line2.classList.remove('animate-line2');
-        void line1.offsetWidth;  // reflow
-        void line2.offsetWidth;
-    }
+<script src="/POC/public/js/home.js"></script>
 
-    function startAnimation() {
-        line1.textContent = text1;
-        line2.textContent = text2;
-        line1.classList.add('animate-line1');
-        line2.classList.add('animate-line2');
-    }
+<!-- Div oculto para pasar mensajes desde Mustache a JS -->
 
-    function loop() {
-        reset();
-        setTimeout(startAnimation, 50); // pequeño delay para que tome efecto reset
-    }
 
-    loop(); // iniciar primera vez
-
-    setInterval(loop, 9000); // repetir cada 5 segundos
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

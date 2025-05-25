@@ -28,7 +28,7 @@ class RegistroController
             $fotoPerfil = $_POST['rutaFotoPerfil'] ?? '';
 
             // Llamás a la función del modelo
-            $exito = $this->model->registrarUsuario($nombre, $usuario, $fechaNacimiento, $sexo, $email, $contrasena, $fotoPerfil);
+            $exito = $this->model->registrarJugador($nombre, $usuario, $fechaNacimiento, $sexo, $email, $contrasena, $fotoPerfil);
 
             if (!$exito) {
                 $this->view->render('headerChico','registro', ['error' => 'El email o usuario ya están en uso']);
@@ -40,18 +40,16 @@ class RegistroController
             $this->view->render('headerChico','registro');
         }
     }
-
-    public function activar() {
+    public function activar()
+    {
         $token = $_GET['token'] ?? '';
 
         if ($this->model->activarCuenta($token)) {
-            // Podés setear sesión si querés que el usuario quede logueado automáticamente
-            // $_SESSION['usuario'] = ...;
-
-            $this->view->render('headerGrande','lobbyJug');
+            // Activación exitosa
+            $this->view->render('headerChico', 'homeLoginView', ['success' => 'Cuenta activada correctamente. ¡Bienvenido!']);
         } else {
-            $this->view->render('headerChico','registro', ['error' => 'Token inválido o cuenta ya activada.']);
+            // Activación fallida
+            $this->view->render('headerChico', 'homeLoginView', ['error' => 'Token inválido o cuenta ya activada.']);
         }
     }
-
 }

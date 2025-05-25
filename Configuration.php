@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 foreach (glob("model/*.php") as $filename) {
     require_once $filename;
 }
@@ -11,10 +13,17 @@ foreach (glob("core/*.php") as $filename) {
 }
 
 
-include_once('vendor/mustache/src/Mustache/Autoloader.php');
+
+
 
 class Configuration
 {
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = $this->getDatabase();
+    }
     public function getDatabase()
     {
         $config = $this->getIniConfig();
@@ -28,6 +37,7 @@ class Configuration
         );
     }
 
+   
     public function getIniConfig()
     {
         return parse_ini_file("configuration/config.ini", true);
@@ -42,9 +52,12 @@ class Configuration
 
     public function getRegistroController()
     {
-        return new RegistroController(new UsuarioModel($this->getDatabase()),$this->getViewer());
+        return new RegistroController(new JugadorModel($this->db),$this->getViewer());
     }
 
+    public function getLoginController(){
+        return new LoginController(new UsuarioModel($this->db),$this->getViewer());
+    }
 
 
 

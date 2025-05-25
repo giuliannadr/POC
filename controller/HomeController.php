@@ -11,17 +11,12 @@ class HomeController
 
     public function show()
     {
-        $this->view->render("headerChico","homeLogin");
-
-
+        $this->view->render("headerChico", "homeLogin", [
+            'error' => '',
+            'success' => ''
+        ]);
     }
 
 
-    public function validar(){
 
-    }
-
-    public function showRegistro(){
-        $this->view->render("headerChico","registro");
-    }
 }
