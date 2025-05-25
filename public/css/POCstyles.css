@@ -30,8 +30,6 @@ body {
     display: flex;
     justify-content: center;
     margin-left: 80px;
-
-
 }
 
 .registro {
@@ -444,4 +442,49 @@ body {
 
 .fw-extrabold {
     font-weight: 800;
+}
+
+.contenedor-perfil {
+    background-color: #010a7e;
+    border-radius: 20px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 800px;
+}
+
+.info-label {
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.info-box {
+    background-color: white;
+    color: #010a7e;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.profile-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #010a7e;
+}
+
+.boton-animado {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.boton-animado:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }

@@ -1,0 +1,56 @@
+<main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+    <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
+        <article class="contenedor-perfil text-center">
+            <div class="profile-icon mx-auto mb-3">
+                {{#foto_perfil}}
+                    <img src="{{foto_perfil}}" alt="Foto de perfil" class="rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+                {{/foto_perfil}}
+
+                {{^foto_perfil}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#A6FD35"
+                         class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path fill-rule="evenodd"
+                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                    </svg>
+                {{/foto_perfil}}
+            </div>
+
+
+            <section class="text-start">
+                <div>
+                    <div class="info-label">Nombres</div>
+                    <div class="info-box">{{nombre}}</div>
+                </div>
+                <div>
+                    <div class="info-label">Apellidos</div>
+                    <div class="info-box">{{apellido}}</div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="info-label">Género</div>
+                        <div class="info-box">{{genero}}</div>
+                    </div>
+                    <div class="col">
+                        <div class="info-label">Fecha de nacimiento</div>
+                        <div class="info-box">{{fecha_nacimiento}}</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-label">Email</div>
+                    <div class="info-box">{{email}}</div>
+                </div>
+                <div>
+                    <div class="info-label">Nombre de usuario</div>
+                    <div class="info-box">{{usuario}}</div>
+                </div>
+            </section>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="index.php" class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Volver</a>
+                <a href="index.php?controller=Perfil&method=editar"
+                   class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Editar perfil</a>
+            </div>
+        </article>
+    </div>
+</main>

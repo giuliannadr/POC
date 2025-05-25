@@ -77,4 +77,10 @@ class Configuration
         //return new FileView();
         return new MustachePresenter("view");
     }
+
+    public function getPerfilController()
+    {
+        return new PerfilController(new JugadorModel($this->db), $this->getViewer());
+    }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -13,7 +14,8 @@ class UsuarioModel
         $this->database = $database;
     }
 
-    public function validarLogin($email,$contrasena){
+    public function validarLogin($email, $contrasena)
+    {
         $sql = "SELECT id_usuario, mail, contraseña, nombre_usuario 
                 FROM Usuario 
                 WHERE (mail = ?)";
@@ -68,6 +70,7 @@ class UsuarioModel
         $stmt->close();
         return true;
     }
+
     function esAdmin($id_usuario)
     {
         $sql = "SELECT id_usuario FROM Administrador WHERE id_usuario = ?";
@@ -83,6 +86,7 @@ class UsuarioModel
         $stmt->close();
         return true;
     }
+
     function esJugador($id_usuario)
     {
         $sql = "SELECT id_usuario FROM Jugador WHERE id_usuario = ?";
@@ -98,21 +102,27 @@ class UsuarioModel
         $stmt->close();
         return true;
     }
-    function esJugadorActivo($id){
- $sql = "SELECT activado FROM Jugador WHERE id_usuario = ?";
- $stmt = $this->database->prepare($sql);
- $stmt->bind_param("i", $id);
- $stmt->execute();
- $result = $stmt->get_result();
- $jugadorActivo = $result->fetch_assoc();
 
- if ($result->num_rows == 0 or $jugadorActivo['activado'] == 0) {
-     $stmt->close();
-     return false;
- }
+    function esJugadorActivo($id)
+    {
+        $sql = "SELECT activado FROM Jugador WHERE id_usuario = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $jugadorActivo = $result->fetch_assoc();
+
+        if ($result->num_rows == 0 or $jugadorActivo['activado'] == 0) {
+            $stmt->close();
+            return false;
+        }
         $stmt->close();
- return true;
+        return true;
     }
 
+
+
+
 }
+
 ?>
