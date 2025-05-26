@@ -11,17 +11,28 @@ class LobbyADMController
 
     public function show()
     {
-        session_start(); // Necesario para acceder a $_SESSION
+        session_start();
 
-        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'jugador') {
-
-            $this->view->render('headerChico','homeLogin');
+        // Redirige al home si no hay usuario o si el tipo de usuario no es 'admin'
+        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'admin') {
+            $this->view->render('headerChico', 'homeLogin');
             exit;
         }
 
         $usuario = $_SESSION['usuario'];
-        $this->view->render('headerChico','lobbyADMView', ['usuario' => $usuario]);
 
+        // Botones para el nav rol admin
+        // Hay que ver como se haria lo de los filtros
+        $botones = [
+            ['texto' => 'Dia', 'link' => '#'],
+            ['texto' => 'Semana', 'link' => '#'],
+            ['texto' => 'Mes', 'link' => '#']
+        ];
+
+        // Se pasa a mustachol los botones
+        $this->view->render('headerAdminEditor', 'lobbyADM', [
+            'usuario' => $usuario,
+            'botones' => $botones
+        ]);
     }
-
 }

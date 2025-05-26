@@ -5,7 +5,7 @@ class LoginController
     private $view;
     private $model;
 
-    public function __construct($model,$view)
+    public function __construct($model, $view)
     {
         $this->view = $view;
         $this->model = $model;
@@ -33,16 +33,28 @@ class LoginController
             $_SESSION['usuario'] = $usuario;
             $_SESSION['tipo'] = $tipo;
 
-            if ($tipo === 'jugador') {
-                $this->view->render('headerChico', 'lobbyJug', ['usuario' => $usuario]);
+            if
+            ($tipo === 'admin') {
+                header('Location: /POC/index.php?controller=LobbyADM&method=show');
+                exit;
             } elseif ($tipo === 'editor') {
-                $this->view->render('headerChico', 'lobbyEDITOR', ['usuario' => $usuario]);
-            } elseif ($tipo === 'admin') {
-                $this->view->render('headerChico', 'lobbyADM', ['usuario' => $usuario]);
+                header('Location: /POC/index.php?controller=LobbyEDITOR&method=show');
+                exit;
+            } elseif ($tipo === 'jugador') {
+                header('Location: /POC/index.php?controller=LobbyJug&method=show');
+                exit;
             }
-            exit;
         }
     }
 
+
+    public function cerrarSesion()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        header('Location: index.php?controller=Home&method=show');
+        exit;
+    }
 }
 

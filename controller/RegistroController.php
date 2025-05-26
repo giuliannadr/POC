@@ -20,6 +20,7 @@ class RegistroController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtener los datos del form (sólo los que necesitás)
             $nombre = $_POST['nombreRegistro'] ?? '';
+            $apellido = $_POST['apellidoRegistro'] ?? '';
             $usuario = $_POST['usuarioRegistro'] ?? '';
             $fechaNacimiento = $_POST['fechaNacimiento'] ?? '';
             $sexo = $_POST['sexo'] ?? '';
@@ -29,7 +30,7 @@ class RegistroController
             $fotoPerfil = $_POST['rutaFotoPerfil'] ?? '';
 
             // Llamás a la función del modelo
-            $exito = $this->model->registrarJugador($nombre, $usuario, $fechaNacimiento, $sexo, $email, $contrasena, $fotoPerfil);
+            $exito = $this->model->registrarJugador($nombre, $apellido, $usuario, $fechaNacimiento, $sexo, $email, $contrasena, $fotoPerfil);
 
             if (!$exito) {
                 $this->view->render('headerChico','registro', ['error' => 'El email o usuario ya están en uso']);
