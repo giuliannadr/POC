@@ -27,7 +27,7 @@ class JugadorModel
     }
 
     // Registra un nuevo jugador (inserta en Usuario y luego en Jugador)
-    public function registrarJugador($nombreCompleto, $usuario, $fechaNacimiento, $sexo, $email, $contrasena, $fotoPerfil)
+    public function registrarJugador($nombre, $apellido, $usuario, $fechaNacimiento, $sexo, $email, $contrasena, $fotoPerfil)
     {
         if ($this->existeUsuarioOEmail($email, $usuario)) {
             return false; // Ya existe email o usuario
@@ -53,13 +53,13 @@ class JugadorModel
         $stmt->close();
 
         // Insertar en Jugador
-        $sql = "INSERT INTO Jugador (id_usuario, nombre_completo, fecha_nac, sexo, foto_perfil, activado, token_activacion) 
-                VALUES (?, ?, ?, ?, ?, 0, ?)";
+        $sql = "INSERT INTO Jugador (id_usuario, nombre, apellido, fecha_nac, sexo, foto_perfil, activado, token_activacion) 
+                VALUES (?, ?, ?, ?, ?, ?, 0, ?)";
         $stmt = $this->database->prepare($sql);
         if ($stmt === false) {
             die("Error al preparar consulta Jugador: " . $this->database->error);
         }
-        $stmt->bind_param("isssss", $idUsuario, $nombreCompleto, $fechaNacimiento, $sexo, $fotoPerfil, $tokenActivacion);
+        $stmt->bind_param("issssss", $idUsuario, $nombre, $apellido, $fechaNacimiento, $sexo, $fotoPerfil, $tokenActivacion);
         $stmt->execute();
         $stmt->close();
 
@@ -131,6 +131,30 @@ class JugadorModel
         $stmt->close();
         return false; // Token inválido
     }
+
+    public function obtenerDatosPerfil($id_usuario) {
+        $sql = "SELECT 
+                u.nombre_usuario AS usuario,
+                u.mail AS email,
+                j.nombre,
+                j.apellido,
+                j.sexo AS genero,
+                j.fecha_nac AS fecha_nacimiento,
+                j.foto_perfil
+            FROM usuario u
+            JOIN jugador j ON u.id_usuario = j.id_usuario
+            WHERE u.id_usuario = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $datos = $result->fetch_assoc();
+        $stmt->close();
+
+        return $datos;
+    }
+
 
     // Puedes agregar otros métodos como login, obtener datos, etc.
 }

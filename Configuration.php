@@ -13,9 +13,6 @@ foreach (glob("core/*.php") as $filename) {
 }
 
 
-
-
-
 class Configuration
 {
     private $db;
@@ -24,6 +21,7 @@ class Configuration
     {
         $this->db = $this->getDatabase();
     }
+
     public function getDatabase()
     {
         $config = $this->getIniConfig();
@@ -37,12 +35,11 @@ class Configuration
         );
     }
 
-   
+
     public function getIniConfig()
     {
         return parse_ini_file("configuration/config.ini", true);
     }
-
 
 
     public function getHomeController()
@@ -52,14 +49,23 @@ class Configuration
 
     public function getRegistroController()
     {
-        return new RegistroController(new JugadorModel($this->db),$this->getViewer());
+        return new RegistroController(new JugadorModel($this->db), $this->getViewer());
     }
 
-    public function getLoginController(){
-        return new LoginController(new UsuarioModel($this->db),$this->getViewer());
+    public function getLoginController()
+    {
+        return new LoginController(new UsuarioModel($this->db), $this->getViewer());
     }
 
+    public function getLobbyEDITORController()
+    {
+        return new LobbyEDITORController($this->getViewer());
+    }
 
+    public function getLobbyADMController()
+    {
+        return new LobbyADMController($this->getViewer());
+    }
 
     public function getRouter()
     {
@@ -71,4 +77,14 @@ class Configuration
         //return new FileView();
         return new MustachePresenter("view");
     }
+
+    public function getPerfilController()
+    {
+        return new PerfilController(new JugadorModel($this->db), $this->getViewer());
+    }
+
+    public function getLobbyJugController() {
+        return new LobbyJugController($this->getViewer());
+    }
+
 }
