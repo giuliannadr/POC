@@ -26,7 +26,7 @@ class PerfilController
         // Obtener datos del perfil
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
 
-        // 🚨 Agregá esto para ver qué trae:
+        //  Agregá esto para ver qué trae:
 
 
         // Renderizar la vista con header

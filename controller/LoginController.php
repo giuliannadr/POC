@@ -39,11 +39,11 @@ class LoginController
                 exit;
             } elseif ($tipo === 'editor') {
                 header('Location: /POC/index.php?controller=LobbyEDITOR&method=show');
-                exit();
+                exit;
             } elseif ($tipo === 'jugador') {
-                $this->view->render('headerChico', 'lobbyJug', ['usuario' => $usuario]);
+                header('Location: /POC/index.php?controller=LobbyJug&method=show');
+                exit;
             }
-            exit;
         }
     }
 

@@ -1,7 +1,75 @@
-<h1>LOBBY JUGADOR</h1>
-<a href="index.php?controller=Perfil&method=mostrar">
-    <button>Ir a mi perfil</button>
-</a>
-<a class="btn btn-lg mt-3 boton-verde fw-bold" href="index.php?controller=Login&method=cerrarSesion">
-    Cerrar Sesión
-</a>
+<div class="main">
+    <div class="card-usuario">
+        <div class="icono">
+            <svg xmlns="http://www.w3.org/2000/svg" id="icon" width="130" height="130" fill="currentColor"
+                 class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                <path fill-rule="evenodd"
+                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+        </div>
+        <div>
+            <h2 class="text-light">{{usuario.nombre_usuario}}</h2>
+            <div class="botones">
+                <a class="btn btn-lg boton-verde fw-bold" href="index.php?controller=Perfil&method=mostrar">
+                    Ver Perfil
+                </a>
+                <a class="btn btn-lg mt-3 btn-blue fw-bold" href="index.php?controller=Login&method=cerrarSesion">
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="desafios">
+        <div>
+            <h2>DESAFIOS</h2>
+        </div>
+        <div class="d-flex flex-column gap-4 align-items-center text-white mx-4">
+
+            <div class="fila-usuario">
+                <div class="usuario">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon" width="50" height="50" fill="currentColor"
+                         class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd"
+                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                    <p class="m-0 fs-4 fw-medium">Javito</p>
+                </div>
+                <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-150px texto-verde fondo-violetaoscuro">Aceptar</p>
+            </div>
+
+            <!-- <div class="fila-usuario">
+                 <div class="usuario">
+                 <svg xmlns="http://www.w3.org/2000/svg" id="icon" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                 </svg>
+                 <p class="m-0 fs-4 fw-medium">usuario 2</p>
+                 </div>
+                 <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-150px texto-verde fondo-violetaoscuro">En espera</p>
+             </div>
+             <div class="fila-usuario">
+                 <div class="usuario">
+                 <svg xmlns="http://www.w3.org/2000/svg" id="icon" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                 </svg>
+                 <p class="m-0 fs-4 fw-medium">usuario 3</p>
+                 </div>
+                 <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-150px texto-verde fondo-violetaoscuro">Aceptar</p>
+             </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="jugar">
+    <button class="btn-jugar ">JUGAR</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+</body>
+</html>
