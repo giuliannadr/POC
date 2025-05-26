@@ -12,6 +12,7 @@ class RegistroController
 
     public function show()
     {
+        
         $this->view->render("headerChico", "registro");
     }
 
