@@ -67,6 +67,10 @@ class Configuration
         return new LobbyADMController($this->getViewer());
     }
 
+    public function getLobbyUsuarioController(){
+        return new LobbyUsuarioController($this->getViewer());
+}
+
     public function getRouter()
     {
         return new Router("getHomeController", "show", $this);
