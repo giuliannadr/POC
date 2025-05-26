@@ -37,7 +37,10 @@ class PerfilController
             'fecha_nacimiento' => $datos['fecha_nacimiento'],
             'email' => $datos['email'],
             'usuario' => $datos['usuario'],
-            'foto_perfil' => $datos['foto_perfil'] ?? ''
+            'foto_perfil' => $datos['foto_perfil'],
+            'ciudad' => $datos['ciudad'],
+            'pais' => $datos['pais']
+                ?? ''
         ]);
 
     }
