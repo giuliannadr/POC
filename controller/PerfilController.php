@@ -30,7 +30,7 @@ class PerfilController
 
 
         // Renderizar la vista con header
-        $this->view->render('headerChico', 'perfil', [
+        $this->view->render('headerPerfil', 'perfil', [
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
             'genero' => $datos['genero'],

@@ -20,7 +20,7 @@ class LobbyJugController
         }
 
         $usuario = $_SESSION['usuario'];
-        $this->view->render('headerChico','lobbyJugView', ['usuario' => $usuario]);
+        $this->view->render('headerChico','lobbyJug', ['usuario' => $usuario]);
 
     }
 

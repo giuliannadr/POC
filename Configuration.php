@@ -83,4 +83,8 @@ class Configuration
         return new PerfilController(new JugadorModel($this->db), $this->getViewer());
     }
 
+    public function getLobbyJugController() {
+        return new LobbyJugController($this->getViewer());
+    }
+
 }
