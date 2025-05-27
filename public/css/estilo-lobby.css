@@ -3,8 +3,13 @@
     --color-violeta-oscuro: #430073;
     --color-violeta-claro: #7E00D9;
     --color-violet-masclaro: #8F3AFD;
+<<<<<<< HEAD
     --color-azul: #010A7E;
     --color-verde: #A6FD35;
+=======
+    --color-azul: #010a7e;
+    --color-verde: #87ff5f;
+>>>>>>> main
 }
 
 body {
@@ -78,7 +83,11 @@ body {
     text-align: center;
 }
 
+<<<<<<< HEAD
 .fila-usuario{
+=======
+.fila-usuario {
+>>>>>>> main
     display: flex;
     flex-direction: row;
     gap: 1em;
@@ -151,7 +160,11 @@ body {
     color: var(--color-verde) !important;
 }
 
+<<<<<<< HEAD
 .btn-violeta{
+=======
+.btn-violeta {
+>>>>>>> main
     background-color: var(--color-violet-masclaro);
     color: white;
     border-radius: 15px;
@@ -159,11 +172,19 @@ body {
 
 }
 
+<<<<<<< HEAD
 .btn-violeta:hover{
     background-color: var(--color-azul);
 }
 
 .desafios{
+=======
+.btn-violeta:hover {
+    background-color: var(--color-azul);
+}
+
+.desafios {
+>>>>>>> main
 
     display: flex;
     flex-direction: column;
@@ -178,15 +199,26 @@ body {
 
 }
 
+<<<<<<< HEAD
 .main{
+=======
+.main {
+>>>>>>> main
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 2em;
+<<<<<<< HEAD
     gap: 100em;
 }
 
 .card-usuario{
+=======
+
+}
+
+.card-usuario {
+>>>>>>> main
     display: flex;
     gap: 1em;
     border: solid 1px white;
@@ -200,6 +232,7 @@ body {
     justify-content: center;
 }
 
+<<<<<<< HEAD
 #icon{
     color: var(--color-verde);
 }
@@ -214,18 +247,45 @@ body {
     color: var(--color-violeta-oscuro);
 }
 .botones{
+=======
+#icon {
+    color: var(--color-verde);
+}
+
+.btn-blue {
+    background-color: var(--color-azul);
+    color: white;
+    transition: all 200ms ease-in-out;
+}
+
+.btn-blue:hover {
+    background-color: var(--color-verde);
+    color: var(--color-violeta-claro);
+}
+
+.botones {
+>>>>>>> main
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
+<<<<<<< HEAD
 .usuario{
+=======
+.usuario {
+>>>>>>> main
     display: flex;
     gap: 10px;
     align-items: center;
     justify-content: center;
 }
+<<<<<<< HEAD
 .btn-jugar{
+=======
+
+.btn-jugar {
+>>>>>>> main
     font-size: 30px;
     width: 60%;
     border-radius: 50px;
@@ -235,11 +295,20 @@ body {
     transition: 0.2s;
 }
 
+<<<<<<< HEAD
 .btn-jugar:hover{
     background-color: var(--color-azul);
     color: var(--color-verde);
 }
 .jugar{
+=======
+.btn-jugar:hover {
+    background-color: var(--color-azul);
+    color: var(--color-verde);
+}
+
+.jugar {
+>>>>>>> main
     display: flex;
     align-items: center;
     justify-content: center;

@@ -26,7 +26,7 @@ class PerfilController
         // Obtener datos del perfil
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
 
-        // 🚨 Agregá esto para ver qué trae:
+        //  Agregá esto para ver qué trae:
 
 
         // Renderizar la vista con header
@@ -37,7 +37,10 @@ class PerfilController
             'fecha_nacimiento' => $datos['fecha_nacimiento'],
             'email' => $datos['email'],
             'usuario' => $datos['usuario'],
-            'foto_perfil' => $datos['foto_perfil'] ?? ''
+            'foto_perfil' => $datos['foto_perfil'],
+            'ciudad' => $datos['ciudad'],
+            'pais' => $datos['pais']
+                ?? ''
         ]);
 
     }
