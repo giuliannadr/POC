@@ -16,10 +16,12 @@ foreach (glob("core/*.php") as $filename) {
 class Configuration
 {
     private $db;
+    private $email;
 
     public function __construct()
     {
         $this->db = $this->getDatabase();
+        $this->email = $this->getEmail();
     }
 
     public function getDatabase()
@@ -32,6 +34,17 @@ class Configuration
             $config['database']['pass'],
             $config['database']['dbname'],
             $config['database']['port']
+        );
+    }
+
+    public function getEmail()
+    {
+        $config = $this->getIniConfig();
+
+        return new Email(
+            $config['email']['email'],
+            $config['email']['password']
+            
         );
     }
 
@@ -49,7 +62,7 @@ class Configuration
 
     public function getRegistroController()
     {
-        return new RegistroController(new JugadorModel($this->db), $this->getViewer());
+        return new RegistroController(new JugadorModel($this->db, $this->email), $this->getViewer());
     }
 
     public function getLoginController()
@@ -80,7 +93,7 @@ class Configuration
 
     public function getPerfilController()
     {
-        return new PerfilController(new JugadorModel($this->db), $this->getViewer());
+        return new PerfilController(new JugadorModel($this->db, $this->email), $this->getViewer());
     }
 
     public function getLobbyJugController() {

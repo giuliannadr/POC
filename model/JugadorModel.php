@@ -5,11 +5,13 @@ use PHPMailer\PHPMailer\Exception;
 class JugadorModel
 {
     private $database;
+    private $email;
 
 
-    public function __construct($database)
+    public function __construct($database, $email)
     {
         $this->database = $database;
+        $this->email = $email;
 
     }
 
@@ -70,17 +72,17 @@ class JugadorModel
             <p>
         <a href='http://localhost/POC/index.php?controller=registro&method=activar&token=$tokenActivacion'
         style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>
-            Activar cuenta y entrar al lobby
+            Activar cuenta
             </a>
             </p>";
 
-        self::enviarCorreoActivacion($email, $asunto, $mensajeHTML);
+        $this->enviarCorreoActivacion($email, $asunto, $mensajeHTML);
 
         return true;
     }
 
     // Envía mail con link de activación
-    public static function enviarCorreoActivacion($destinatario, $asunto, $mensajeHTML)
+    public function enviarCorreoActivacion($destinatario, $asunto, $mensajeHTML)
     {
         $mail = new PHPMailer(true);
 
@@ -89,12 +91,12 @@ class JugadorModel
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'preguntadosprogweb2@gmail.com';
-            $mail->Password   = 'fiqx yujx cgmm ykhc'; // No subir a repos públicos
+            $mail->Username   = $this->email->getMail();
+            $mail->Password   = $this->email->getPassword(); // No subir a repos públicos
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
-            $mail->setFrom('preguntadosprogweb2@gmail.com', 'Preguntados App');
+            $mail->setFrom($this->email->getMail(), 'Preguntados App');
             $mail->addAddress($destinatario);
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';

@@ -14,6 +14,25 @@ body {
     font-family: 'Outfit';
 }
 
+.main {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin-top: 2em;
+
+ }
+.main-jugadores {
+    display: flex;
+    flex-direction: column;
+
+    /* Centrar verticalmente (eje principal: columna) */
+    justify-content: center;
+
+    /* Centrar horizontalmente (eje transversal) */
+    align-items: center;
+
+    margin: 0 auto;
+}
 .header-izquierda {
     position: absolute;
     background-color: var(--color-azul);
@@ -78,19 +97,6 @@ body {
     text-align: center;
 }
 
-.fila-usuario {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    border-radius: 2.5rem;
-    width: 100%;
-    background-color: var(--color-violeta-claro);
-    text-align: center;
-    width: 30em;
-}
 
 @media (min-width: 576px) {
     .fila-estadistica {
@@ -163,74 +169,16 @@ body {
     background-color: var(--color-azul);
 }
 
-.desafios {
 
-    display: flex;
-    flex-direction: column;
-    padding: 3em;
-    border: var(--color-verde) 1px solid;
-    border-radius: 15px;
-    color: var(--color-verde);
-    background-color: var(--color-violeta);
-    position: relative;
-    left: 20em;
-    align-items: center;
 
-}
 
-.main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2em;
 
-}
 
-.card-usuario {
-    display: flex;
-    gap: 1em;
-    border: solid 1px white;
-    border-radius: 15px;
-    padding: 1em;
-    background-color: var(--color-violeta);
-    width: 30%;
-    position: absolute;
-    left: 0;
-    align-items: center;
-    justify-content: center;
-}
 
-#icon {
-    color: var(--color-verde);
-}
-
-.btn-blue {
-    background-color: var(--color-azul);
-    color: white;
-    transition: all 200ms ease-in-out;
-}
-
-.btn-blue:hover {
-    background-color: var(--color-verde);
-    color: var(--color-violeta-claro);
-}
-
-.botones {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.usuario {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-}
 
 .btn-jugar {
     font-size: 30px;
-    width: 60%;
+    width: 50%;
     border-radius: 50px;
     background-color: var(--color-verde);
     color: var(--color-violeta-oscuro);
@@ -243,6 +191,8 @@ body {
     color: var(--color-verde);
 }
 
+
+
 .jugar {
     display: flex;
     align-items: center;
@@ -250,3 +200,149 @@ body {
     margin-top: 4em;
 }
 
+
+
+
+/* ------------------ RANKING ------------------ */
+
+.posicion{
+    background-color:var(--color-verde);
+    border-radius: 50%;
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+.posicion p {
+    margin: 0;
+    color: var(--color-violeta);/* Quita márgenes */
+    line-height: 50px;   /* Igual a la altura para centrar verticalmente */
+    text-align: center;  /* Centrar horizontalmente */
+    width: 100%;         /* Que ocupe todo el ancho */
+    font-weight: bold;   /* Opcional, para que se vea mejor */
+    font-size: 20px;
+}
+
+
+.usuario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; /* opcional */
+    width: 100%; /* para que tome todo el ancho del contenedor padre */
+    padding: 0 10px 0 0 ;
+}
+
+.ranking {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    border: var(--color-verde) 1px solid;
+    border-radius: 15px;
+    color: var(--color-verde);
+    background-color: var(--color-violeta);
+    align-items: center;
+    height: 200px;
+
+
+}
+.fila-usuario {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 3.5rem;
+    background-color: var(--color-violeta-claro);
+    text-align: center;
+    width: 25em;
+    margin-top: 20px;
+}
+
+
+/* ------------------ PERFIL ------------------ */
+
+
+.card-usuario {
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    gap: 2em;                /* Espacio controlado entre los elementos */
+    border: solid 1px white;
+    border-radius: 15px;
+    padding: 2em 3em;
+    background-color: var(--color-violeta);
+    width: 50%;
+    height: auto;
+
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+
+.usuarioPerfil{
+    display: flex;
+    flex-direction: column; /* o 'row' si querés usuario y puntaje uno al lado del otro */
+    margin-top: 18px;
+    /* Esto alinea el contenido al inicio (izquierda) */
+    text-align: left;
+}
+.icono{
+
+    display: flex;
+    flex-direction: row;
+    margin-left: 40px;
+}
+.foto-perfil{
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-verde);
+    margin-right: 20px;
+}
+
+#icon {
+    color: var(--color-verde);
+
+}
+.botones {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+}
+.boton-verde {
+     background-color: #87ff5f;
+     text-decoration: none;
+     color: #7e00d9;
+     transition: all 0.3s ease; /* para una transición suave */
+ }
+
+.boton-verde:hover {
+    background-color: var(--color-violeta-claro);
+    color: #87ff5f;
+    font-weight: bold;
+}
+.btn-blue {
+     background-color: var(--color-azul);
+     color: white;
+     transition: all 200ms ease-in-out;
+ }
+
+.btn-blue:hover {
+    background-color: red;
+    color: white;
+}
+.puntos {
+    border-radius: 40px;
+    display: flex;
+    width: 120px;
+    justify-content: center; /* Corregido */
+    align-items: center;
+    background-color: var(--color-violeta-claro) ;
+    text-align: center;
+    padding: 5px 20px 0 20px; /* Opcional: para más espacio interno */
+}

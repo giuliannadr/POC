@@ -40,11 +40,15 @@ class UsuarioModel
 
         if ($this->esJugador($id_usuario)) {
             if ($this->esJugadorActivo($id_usuario)) {
+                $datosJugador = $this->obtenerDatosJugador($id_usuario);
+                // Merge entre Usuario y Jugador
+                $usuarioDatos = array_merge($usuarioDatos, $datosJugador);
                 return ['tipo' => 'jugador', 'datos' => $usuarioDatos];
             } else {
                 return ['error' => 'Usuario no activado. Revise su casilla de email para activar su cuenta.'];
             }
-        } elseif ($this->esEditor($id_usuario)) {
+        }
+        elseif ($this->esEditor($id_usuario)) {
             return ['tipo' => 'editor', 'datos' => $usuarioDatos];
         } elseif ($this->esAdmin($id_usuario)) {
             return ['tipo' => 'admin', 'datos' => $usuarioDatos];
@@ -120,9 +124,21 @@ class UsuarioModel
         return true;
     }
 
+    public function obtenerDatosJugador($id_usuario)
+    {
+        $sql = "SELECT * FROM Jugador WHERE id_usuario = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $datosJugador = $result->fetch_assoc();
+        $stmt->close();
+        return $datosJugador;
+    }
 
 
 
 }
+
 
 ?>

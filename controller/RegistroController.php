@@ -19,38 +19,28 @@ class RegistroController
     public function registro() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtener los datos del form
-            $nombre = $_POST['nombreRegistro'] ?? '';
-            $apellido = $_POST['apellidoRegistro'] ?? '';
-            $usuario = $_POST['usuarioRegistro'] ?? '';
-            $fechaNacimiento = $_POST['fechaNacimiento'] ?? '';
-            $sexo = $_POST['sexo'] ?? '';
-            $email = $_POST['emailRegistro'] ?? '';
-            $contrasena = $_POST['passRegistro'] ?? '';
-            $pais = $_POST['paisSeleccionado'] ?? '';
-            $ciudad = $_POST['ciudadSeleccionada'] ?? '';
+            $nombre = isset($_POST['nombreRegistro']) ? $_POST['nombreRegistro'] : '';
+            $apellido = isset($_POST['apellidoRegistro']) ? $_POST['apellidoRegistro'] : '';
+            $usuario = isset($_POST['usuarioRegistro']) ? $_POST['usuarioRegistro'] : '';
+            $fechaNacimiento = isset($_POST['fechaNacimiento']) ? $_POST['fechaNacimiento'] : '';
+            $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : '';
+            $email = isset($_POST['emailRegistro']) ? $_POST['emailRegistro'] : '';
+            $contrasena = isset($_POST['passRegistro']) ? $_POST['passRegistro'] : '';
+            $pais = isset($_POST['paisSeleccionado']) ? $_POST['paisSeleccionado'] : '';
+            $ciudad = isset($_POST['ciudadSeleccionada']) ? $_POST['ciudadSeleccionada'] : '';
 
             // Procesar la imagen subida
             if (isset($_FILES['profilePic']) && $_FILES['profilePic']['error'] === UPLOAD_ERR_OK) {
                 $archivoTmp = $_FILES['profilePic']['tmp_name'];
-                $nombreArchivo = basename($_FILES['profilePic']['name']);
-                $carpetaDestino = __DIR__ . '/uploads/';
-
-                // Crear carpeta si no existe
-                if (!is_dir($carpetaDestino)) {
-                    mkdir($carpetaDestino, 0755, true);
-                }
-
-                $rutaFinal = $carpetaDestino . $nombreArchivo;
-
-                if (move_uploaded_file($archivoTmp, $rutaFinal)) {
-                    // Guardamos la ruta relativa para la base de datos o para mostrar
-                    $fotoPerfil = '/POC/public/uploads/' . $nombreArchivo;
-                } else {
-                    $fotoPerfil = ''; // Error al mover el archivo
-                }
+                $tipoMime = mime_content_type($archivoTmp); // Obtener mime type (ej: image/jpeg)
+                $contenidoImagen = file_get_contents($archivoTmp);
+                $base64 = base64_encode($contenidoImagen);
+                // Guardamos la imagen con el prefijo para mostrar en <img src="data:...">
+                $fotoPerfil = "data:$tipoMime;base64,$base64";
             } else {
                 $fotoPerfil = ''; // No se subió imagen o hubo error
             }
+
 
             // Llamás a la función del modelo
             $exito = $this->model->registrarJugador(
@@ -71,7 +61,7 @@ class RegistroController
 
     public function activar()
     {
-        $token = $_GET['token'] ?? '';
+        $token = isset($_GET['token']) ? $_GET['token'] : '';
 
         if ($this->model->activarCuenta($token)) {
             // Activación exitosa

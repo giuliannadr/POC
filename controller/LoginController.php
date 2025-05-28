@@ -16,8 +16,8 @@ class LoginController
     {
         session_start();
 
-        $email = $_POST['email'] ?? '';
-        $contrasena = $_POST['contrasena'] ?? '';
+        $email = isset($_POST['email']) ? $_POST['email'] : '';
+        $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : '';
 
         $resultado = $this->model->validarLogin($email, $contrasena);
 

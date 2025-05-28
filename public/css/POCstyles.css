@@ -7,6 +7,8 @@
     --color-verde: #87ff5f;
 }
 
+/* ------------------ BODY ------------------ */
+
 body {
     background: linear-gradient(to bottom, #7e00d9, #270e38);
     min-height: 100vh;
@@ -16,6 +18,7 @@ body {
     background-attachment: fixed;
 }
 
+/* ------------------ HEADER CHICO ------------------ */
 .nav-posta {
     position: fixed;
     top: -10px; /* un poco arriba para ocultar los bordes superiores */
@@ -31,6 +34,8 @@ body {
     justify-content: center;
     margin-left: 80px;
 }
+
+/* ------------------ REGISTRO ------------------ */
 
 .registro {
     background-color: #87ff5f;
@@ -50,18 +55,149 @@ body {
     font-weight: bold;
 }
 
-.boton-verde {
-    background-color: #87ff5f;
-    text-decoration: none;
-    color: #7e00d9;
-    transition: all 0.3s ease; /* para una transición suave */
+
+.registroTit {
+    font-size: 75px;
+    color: white;
+    font-weight: bolder;
 }
 
-.boton-verde:hover {
+.registroP {
+    font-size: 40px;
+    margin-top: 30px;
+    color: white;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.contenedorRegistro {
+    position: relative;
+    width: 100%;
+    height: auto; /* Altura del bloque, puede ajustarse */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* fondo grande detrás */
+.registroTits {
+
+    position: absolute;
+    background-color: #490C98;
+    border-radius: 30px;
+    padding: 35px;
+    padding-left: 75px;
+    width: 80%;
+    /* Altura del fondo */
+    left: 50px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 100px;
+}
+
+/* tarjeta encima */
+.registroCard {
+    position: relative;
     background-color: #010a7e;
-    color: #87ff5f;
+    height: auto;
+    width: 550px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+    margin-left: auto;
+    margin-right: 150px;
+    border-radius: 30px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+#profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-verde);
+}
+#previewImg {
+    width: 100px;             /* igual que el SVG */
+    height: 100px;            /* igual que el SVG */
+    border-radius: 50%;       /* borde redondeado igual */
+    object-fit: cover;        /* que la imagen se ajuste bien */
+    border: 2px solid var(--color-verde); /* mismo borde que el SVG */
+    display: none;            /* ocultar por defecto */
+}
+
+
+.fechaGenero {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.input {
+    margin-bottom: 10px;
+    width: 400px;
+}
+
+.input label {
+    color: white;
+}
+
+.input input {
+    border-radius: 30px;
+}
+
+#registro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit {
+    background-color: #A6FD35;
+    padding: 10px;
+    border-radius: 30px;
+    width: 180px;
+    border: none;
+    color: #8F3AFD;
+    font-weight: bold;
+
+}
+
+.submit:disabled {
+    background-color: #cccccc; /* Gris claro */
+    color: #666666; /* Texto gris oscuro */
+    cursor: not-allowed; /* Cursor que indica que no se puede clickear */
+    opacity: 0.7; /* Opcional: le da una apariencia apagada */
+}
+
+
+
+.btn-change {
+    margin-top: 8px;
+    margin-bottom: 0;
+    background-color: var(--color-verde); /* azul bootstrap clásico */
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px; /* para bordes redondeados */
+    color: var(--color-violeta-claro); /* texto blanco para contraste */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    width: 188px;
     font-weight: bold;
 }
+
+.btn-change:hover {
+    background-color: #0056b3; /* azul más oscuro al pasar el mouse */
+    color: white;
+}
+/* ------------------ HOME / LOGIN ------------------ */
 
 .typewriter-wrapper {
     display: inline-block;
@@ -149,6 +285,8 @@ body {
 }
 
 
+/* ------------------ LOGIN ------------------ */
+
 /* El div que contiene la tarjeta */
 #login-card {
     background-color: #010a7e;
@@ -159,114 +297,6 @@ body {
     margin: 50px auto 120px auto; /* margen arriba y abajo, centrado horizontal */
 }
 
-.registroTit {
-    font-size: 75px;
-    color: white;
-    font-weight: bolder;
-}
-
-.registroP {
-    font-size: 40px;
-    margin-top: 30px;
-    color: white;
-    font-weight: 500;
-    margin-top: 5px;
-}
-
-.contenedorRegistro {
-    position: relative;
-    width: 100%;
-    height: auto; /* Altura del bloque, puede ajustarse */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* fondo grande detrás */
-.registroTits {
-    position: absolute;
-    background-color: #490C98;
-    border-radius: 30px;
-    padding: 35px;
-    padding-left: 75px;
-    width: 80%;
-    /* Altura del fondo */
-    left: 50px;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 100px;
-}
-
-/* tarjeta encima */
-.registroCard {
-    position: relative;
-    background-color: #010a7e;
-    height: auto;
-    width: 550px;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 2;
-    margin-left: auto;
-    margin-right: 150px;
-    border-radius: 30px;
-}
-
-.profile-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #00eaff; /* Borde con color */
-}
-
-.fechaGenero {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-}
-
-.input {
-    margin-bottom: 10px;
-    width: 400px;
-}
-
-.input label {
-    color: white;
-}
-
-.input input {
-    border-radius: 30px;
-}
-
-#registro {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.submit {
-    background-color: #A6FD35;
-    padding: 10px;
-    border-radius: 30px;
-    width: 180px;
-    border: none;
-    color: #8F3AFD;
-    font-weight: bold;
-
-}
-
-.submit:disabled {
-    background-color: #cccccc; /* Gris claro */
-    color: #666666; /* Texto gris oscuro */
-    cursor: not-allowed; /* Cursor que indica que no se puede clickear */
-    opacity: 0.7; /* Opcional: le da una apariencia apagada */
-}
 
 .login {
     display: flex;
@@ -279,6 +309,9 @@ body {
     margin-top: -18px;
     color: #c293ff;
 }
+
+
+/* ------------------ POPUPS ------------------ */
 
 #popup {
     position: fixed;
@@ -345,6 +378,10 @@ body {
     background-color: #75c800;
 }
 
+
+/* ------------------ HEADER GRANDE / LOBBYS ------------------ */
+
+
 .fondo-violeta {
     background-color: var(--color-violeta);
 }
@@ -369,6 +406,25 @@ body {
     width: 100px;
 }
 
+.fila-estadistica {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 2.5rem;
+    width: 100%;
+    background-color: var(--color-violeta-claro);
+    text-align: center;
+}
+
+@media (min-width: 576px) {
+    .fila-estadistica {
+        flex-direction: row;
+    }
+}
+
+
 .btn-nav {
     font-weight: bold;
     padding: 0.7rem 1.2rem;
@@ -389,23 +445,7 @@ body {
     transform: rotate(180deg);
 }
 
-.fila-estadistica {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    border-radius: 2.5rem;
-    width: 100%;
-    background-color: var(--color-violeta-claro);
-    text-align: center;
-}
 
-@media (min-width: 576px) {
-    .fila-estadistica {
-        flex-direction: row;
-    }
-}
 
 .contenedor-article {
     display: flex;
@@ -444,6 +484,9 @@ body {
     font-weight: 800;
 }
 
+
+/* ------------------ PERFIL VIEW ------------------ */
+
 .contenedor-perfil {
     background-color: #010a7e;
     border-radius: 20px;
@@ -467,6 +510,7 @@ body {
     font-weight: 500;
 }
 
+
 .profile-icon {
     width: 90px;
     height: 90px;
@@ -488,4 +532,5 @@ body {
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
 
