@@ -39,8 +39,7 @@ class PerfilController
             'usuario' => $datos['usuario'],
             'foto_perfil' => $datos['foto_perfil'],
             'ciudad' => $datos['ciudad'],
-            'pais' => $datos['pais']
-                ?? ''
+            'pais' => isset($datos['pais']) ? $datos['pais'] : ''
         ]);
 
     }

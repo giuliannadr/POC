@@ -1,0 +1,182 @@
+
+:root {
+    --color-violeta: #490C98;
+    --color-violeta-oscuro: #430073;
+    --color-violeta-claro: #7E00D9;
+    --color-violet-masclaro: #8F3AFD;
+    --color-azul: #010a7e;
+    --color-verde: #87ff5f;
+}
+
+.contenedor-redondeado {
+    border-radius: 0 0 20px 20px;
+}
+.fondo-azul {
+    background-color: var(--color-azul);
+}
+body{
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Outfit", sans-serif;
+    background-attachment: fixed;
+}
+
+.deporte{
+    background: linear-gradient(to bottom, #ffffff, #ff7100);
+}
+
+.historia{
+    background: linear-gradient(to bottom, #ffffff, #ffd83c);
+}
+
+.geografia{
+    background: linear-gradient(to bottom, #ffffff, #0c32c5);
+}
+
+.arte{
+    background: linear-gradient(to bottom, #ffffff, #d8000e);
+}
+
+.entretenimiento{
+    background: linear-gradient(to bottom, #ffffff, #d906e4);
+}
+.ciencia{
+    background: linear-gradient(to bottom, #ffffff, #3bae32);
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.p-deporte{
+    background-color: #ff7100 ;
+}
+.p-historia{
+    background-color: #ffd83c ;
+}
+.p-ciencia{
+    background-color: #3bae32 ;
+}
+.p-arte{
+    background-color: #d8000e ;
+}
+.p-entretenimiento{
+    background-color: #d906e4 ;
+}
+.p-geografia{
+    background-color: #0c32c5 ;
+}
+
+.pregunta {
+    position: relative;
+    border-radius: 40px;
+    padding: 15px 20px;
+    width: 65%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 100px;
+
+}
+
+.pregunta .svg {
+    flex-shrink: 0;
+}
+
+.segs {
+    flex-shrink: 0;
+    color: var(--color-azul);
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    margin: 0;
+    margin-right: 15px;
+    border-radius: 50%;
+    border: 3px solid var(--color-azul);
+    width: 40px;
+    height: 40px;
+
+    /* 🔧 Lo nuevo para centrar el número */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preg {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 20px;
+    margin: 0;
+    text-align: center;
+    pointer-events: none;
+    width: 100%;
+    font-size: 23px;
+}
+.respuestas {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 650px;  /* O el ancho que querés que tenga el contenedor */
+    gap: 20px; /* espacio entre respuestas */
+    margin-top: 30px;
+}
+
+.r {
+    background-color: white;
+    border-radius: 40px;
+    margin: 0;
+    padding: 10px 0;  /* algo de padding para mejor visual */
+    width: 100%; /* ocupa todo el ancho del contenedor */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 73px;
+    cursor: pointer; /* para que parezca clickeable */
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+.r:hover {
+    background-color: #d5d2d2; /* efecto hover */
+}
+
+.r p{
+    margin: 0;
+    color: var(--color-azul);
+    font-weight:600;
+    font-size: 23px;
+}
+.r input[type="radio"] {
+    display: none;
+}
+
+.r input[type="radio"]:checked + p {
+    /*background-color: var(--color-violeta-claro);*/
+    color: white;
+    font-weight: 700;
+}
+
+.r input[type="radio"]:focus + p {
+    outline: 2px solid var(--color-violeta-oscuro);
+}
+
+
+.abandonar{
+    border-radius: 40px;
+    padding: 10px;
+}
+.puntos{
+
+    color: white;
+    padding: 10px;
+    border-radius: 40px;
+    border: 3px solid var(--color-verde);
+
+}

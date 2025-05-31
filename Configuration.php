@@ -100,4 +100,9 @@ class Configuration
         return new LobbyJugController($this->getViewer());
     }
 
+    public function getPreguntasController(){
+        return new PreguntasController(new PreguntasModel($this->db),$this->getViewer());
+    }
+
+
 }

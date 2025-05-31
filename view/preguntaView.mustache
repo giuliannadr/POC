@@ -1,0 +1,32 @@
+
+<main>
+    <div class="pregunta {{clasePregunta}}">
+        <div class="svg">
+            {{{svgCategoria}}}
+        </div>
+
+        <p class="preg">{{pregunta.enunciado}}</p>
+        <p class="segs">8</p>
+    </div>
+    <form id="formRespuestas" action="/POC/preguntas/validarRespuesta" method="POST">
+        <input type="hidden" name="id_partida" value="{{partida}}">
+          <div class="respuestas">
+            {{#respuestas}}
+                <label class="r">
+                    <input type="radio" name="respuesta" value="{{id_respuesta}}" style="display:none" />
+                    <p>{{texto}}</p>
+                </label>
+            {{/respuestas}}
+        </div>
+    </form>
+</main>
+
+<script>
+    document.querySelectorAll('#formRespuestas input[type="radio"]').forEach(input => {
+        input.addEventListener('change', () => {
+            document.getElementById('formRespuestas').submit();
+        });
+    });
+</script>
+</body>
+</html>
