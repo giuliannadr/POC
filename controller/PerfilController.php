@@ -28,10 +28,11 @@ class PerfilController
         $datos['modo_edicion'] = false;
 
         // Renderizar la vista con header
+
         $this->view->render('headerPerfil', 'perfil', [
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
-            'genero' => $datos['genero'],
+            'sexo' => $datos['sexo'],
             'fecha_nacimiento' => $datos['fecha_nacimiento'],
             'email' => $datos['email'],
             'usuario' => $datos['usuario'],
@@ -54,9 +55,16 @@ class PerfilController
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
         $datos['modo_edicion'] = true;
 
-        $this->view->render('headerPerfil', 'perfil', $datos);
+        // Marcar selección del sexo
+        $sexo_normalizado = strtolower(trim($datos['sexo']));
 
+        $datos['sexo_masculino'] = $sexo_normalizado === 'masculino';
+        $datos['sexo_femenino'] = $sexo_normalizado === 'femenino';
+        $datos['sexo_otro'] = $sexo_normalizado === 'prefiero no cargarlo';
+
+        $this->view->render('headerPerfil', 'perfil', $datos);
     }
+
 
     public function guardar()
     {
@@ -72,7 +80,7 @@ class PerfilController
         $datos = [
             'nombre' => $_POST['nombre'],
             'apellido' => $_POST['apellido'],
-            'genero' => $_POST['genero'],
+            'sexo' => $_POST['sexo'],
             'fecha_nacimiento' => $_POST['fecha_nacimiento'],
             'ciudad' => $_POST['ciudad'],
             'pais' => $_POST['pais']

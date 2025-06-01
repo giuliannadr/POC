@@ -128,7 +128,6 @@ body {
     border-radius: 50%;       /* borde redondeado igual */
     object-fit: cover;        /* que la imagen se ajuste bien */
     border: 2px solid var(--color-verde); /* mismo borde que el SVG */
-    display: none;            /* ocultar por defecto */
 }
 
 
