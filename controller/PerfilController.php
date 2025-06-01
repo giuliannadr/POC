@@ -4,24 +4,28 @@ class PerfilController
 {
     private $model;
     private $view;
+    private $session;
 
-    public function __construct($model, $view)
+    public function __construct($model, $view,$session)
     {
         $this->model = $model;
         $this->view = $view;
+        $this->session = $session;
     }
 
     public function mostrar()
     {
-        session_start();
+        /*session_start();
 
         // Si no hay sesión activa, redirigir al login
         if (!isset($_SESSION['usuario'])) {
             header('Location: index.php?controller=Login&method=mostrarLogin');
             exit;
-        }
+        }*/
 
-        $id_usuario = $_SESSION['usuario']['id_usuario'];
+        $this->session->verificarSesion();
+        $usuario = $this->session->obtenerUsuario();
+        $id_usuario = $usuario["id_usuario"];
 
         // Obtener datos del perfil
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
@@ -46,15 +50,19 @@ class PerfilController
     }
 
     public function editar() {
-        session_start();
+
+        /*session_start();
 
         // Verificar si el usuario está autenticado
         if (!isset($_SESSION['usuario'])) {
             header('Location: index.php?controller=Login&method=mostrarLogin');
             exit;
-        }
+        }*/
+        $this->session->verificarSesion();
 
-        $id_usuario = $_SESSION['usuario']['id_usuario'];
+        $usuario = $this->session->obtenerUsuario();
+        $id_usuario = $usuario['id_usuario'];
+
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
 
         // Renderizar la vista de edición
@@ -72,14 +80,16 @@ class PerfilController
     }
 
     public function actualizar() {
-        session_start();
+       /* session_start();
 
         if (!isset($_SESSION['usuario'])) {
             header('Location: index.php?controller=Login&method=mostrarLogin');
             exit;
-        }
+        }*/
+        $usuario = $this->session->obtenerUsuario();
+        $id_usuario = $usuario['id_usuario'];
 
-        $id_usuario = $_SESSION['usuario']['id_usuario'];
+
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $nombre_usuario = $_POST['nombre_usuario'];

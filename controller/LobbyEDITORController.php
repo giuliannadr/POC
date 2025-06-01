@@ -3,15 +3,17 @@
 class LobbyEDITORController
 {
     private $view;
+    private $session;
 
-    public function __construct($view)
+    public function __construct($view,$session)
     {
         $this->view = $view;
+        $this->session = $session;
     }
 
     public function show()
     {
-        session_start(); // Accede a sesion
+        $this->session->verificarSesion(); // Accede a sesion
 
         // Redirige si no hay usuario o si el tipo no es 'editor'
         if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'editor') {
@@ -19,7 +21,7 @@ class LobbyEDITORController
             exit;
         }
 
-        $usuario = $_SESSION['usuario'];
+        $usuario = $this->session->obtenerUsuario();
 
         // Botones en el nav segun el rol
         $botones = [

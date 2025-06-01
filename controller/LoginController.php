@@ -4,17 +4,19 @@ class LoginController
 {
     private $view;
     private $model;
+    private $session;
 
-    public function __construct($model, $view)
+    public function __construct($model, $view, $session)
     {
         $this->view = $view;
         $this->model = $model;
+        $this->session = $session;
 
     }
 
     public function validar()
     {
-        session_start();
+
 
         $email = $_POST['email'] ?? '';
         $contrasena = $_POST['contrasena'] ?? '';
@@ -30,7 +32,7 @@ class LoginController
             $tipo = $resultado['tipo'];
             $usuario = $resultado['datos'];
 
-            $_SESSION['usuario'] = $usuario;
+           /* $_SESSION['usuario'] = $usuario;
             $_SESSION['tipo'] = $tipo;
 
             if
@@ -43,16 +45,32 @@ class LoginController
             } elseif ($tipo === 'jugador') {
                 header('Location: /POC/index.php?controller=LobbyJug&method=show');
                 exit;
+            }*/
+
+            // Usar SessionController en lugar de acceder directamente a $_SESSION
+            $this->session->iniciarSesion($usuario, $tipo);
+
+            // Redirigir según el tipo de usuario
+            switch ($tipo) {
+                case 'admin':
+                    header('Location: /POC/index.php?controller=LobbyADM&method=show');
+                    break;
+                case 'editor':
+                    header('Location: /POC/index.php?controller=LobbyEDITOR&method=show');
+                    break;
+                case 'jugador':
+                    header('Location: /POC/index.php?controller=LobbyJug&method=show');
+                    break;
             }
+            exit();
+
         }
     }
 
 
     public function cerrarSesion()
     {
-        session_start();
-        session_unset();
-        session_destroy();
+        $this->session->cerrarSesion();
         header('Location: index.php?controller=Home&method=show');
         exit;
     }

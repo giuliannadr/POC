@@ -3,22 +3,24 @@
 class LobbyJugController
 {
     private $view;
+    private $session;
 
-    public function __construct($view)
+    public function __construct($view,$session)
     {
         $this->view = $view;
+        $this->session = $session;
     }
 
     public function show()
     {
-        session_start(); // Necesario para acceder a $_SESSION
+        $this->session->verificarSesion(); // Necesario para acceder a $_SESSION
 
         if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'jugador') {
             $this->view->render('headerChico', 'homeLogin');
             exit;
         }
 
-        $usuario = $_SESSION['usuario'];
+        $usuario = $this->session->obtenerUsuario();
 
         $botones = [
             ['texto' => 'Ver ranking', 'link' => '#'],

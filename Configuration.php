@@ -54,17 +54,17 @@ class Configuration
 
     public function getLoginController()
     {
-        return new LoginController(new UsuarioModel($this->db), $this->getViewer());
+        return new LoginController(new UsuarioModel($this->db), $this->getViewer(), $this->getSessionController());
     }
 
     public function getLobbyEDITORController()
     {
-        return new LobbyEDITORController($this->getViewer());
+        return new LobbyEDITORController($this->getViewer(),$this->getSessionController());
     }
 
     public function getLobbyADMController()
     {
-        return new LobbyADMController($this->getViewer());
+        return new LobbyADMController($this->getViewer(),$this->getSessionController());
     }
 
     public function getRouter()
@@ -84,11 +84,15 @@ class Configuration
             die("❌ Error: La base de datos no está inicializada correctamente.");
         }
 
-        return new PerfilController(new JugadorModel($this->db), $this->getViewer());
+        return new PerfilController(new JugadorModel($this->db), $this->getViewer(),$this->getSessionController());
     }
 
     public function getLobbyJugController() {
-        return new LobbyJugController($this->getViewer());
+        return new LobbyJugController($this->getViewer(),$this->getSessionController());
     }
+    public function getSessionController() {
+        return new SessionController();
+    }
+
 
 }

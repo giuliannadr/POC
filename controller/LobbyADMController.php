@@ -3,15 +3,17 @@
 class LobbyADMController
 {
     private $view;
+    private $session;
 
-    public function __construct($view)
+    public function __construct($view,$session)
     {
         $this->view = $view;
+        $this->session = $session;
     }
 
     public function show()
     {
-        session_start();
+        $this->session->verificarSesion();
 
         // Redirige al home si no hay usuario o si el tipo de usuario no es 'admin'
         if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'admin') {
@@ -19,7 +21,7 @@ class LobbyADMController
             exit;
         }
 
-        $usuario = $_SESSION['usuario'];
+        $usuario = $this->session->obtenerUsuario();
 
         // Botones para el nav rol admin
         // Hay que ver como se haria lo de los filtros
