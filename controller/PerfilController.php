@@ -25,9 +25,7 @@ class PerfilController
 
         // Obtener datos del perfil
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
-
-        //  Agregá esto para ver qué trae:
-
+        $datos['modo_edicion'] = false;
 
         // Renderizar la vista con header
         $this->view->render('headerPerfil', 'perfil', [
@@ -54,8 +52,10 @@ class PerfilController
 
         $id_usuario = $_SESSION['usuario']['id_usuario'];
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
+        $datos['modo_edicion'] = true;
 
-        $this->view->render('headerPerfil', 'perfil', array_merge($datos, ['modo_edicion' => true]));
+        $this->view->render('headerPerfil', 'perfil', $datos);
+
     }
 
     public function guardar()
@@ -89,12 +89,13 @@ class PerfilController
         // Guardar datos en la base de datos
         $this->model->actualizarPerfil($id_usuario, $datos);
 
+        // ACTUALIZAR DATOS EN SESIÓN
+        $datos_actualizados = $this->model->obtenerDatosPerfil($id_usuario);
+        $_SESSION['usuario'] = array_merge($_SESSION['usuario'], $datos_actualizados);
+
         // redirige al perfil con los datos actualizados
         header('Location: index.php?controller=Perfil&method=mostrar');
     }
-
-
-
 
 
 }

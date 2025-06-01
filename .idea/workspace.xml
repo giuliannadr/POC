@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_5_2025_17_19__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/PerfilController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PerfilController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/JugadorModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/JugadorModel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/perfilView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilView.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +70,8 @@
       <workItem from="1748642919408" duration="128000" />
       <workItem from="1748643109274" duration="950000" />
       <workItem from="1748735315297" duration="6058000" />
-      <workItem from="1748743590788" duration="2607000" />
+      <workItem from="1748743590788" duration="2910000" />
+      <workItem from="1748748041532" duration="1563000" />
     </task>
     <servers />
   </component>

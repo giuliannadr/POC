@@ -2,7 +2,10 @@
     <div class="card-usuario">
         <div class="icono">
             {{#usuario.tiene_foto}}
-                <img class = "foto-perfil" src="{{usuario.foto_perfil}}" alt="Foto de perfil" width="130" height="130">
+                <img src="{{{usuario.foto_perfil}}}"
+                     alt="Foto de perfil"
+                     class="foto-perfil"
+                     style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #00eaff; top: 0; left: 0;">
             {{/usuario.tiene_foto}}
 
             {{^usuario.tiene_foto}}
