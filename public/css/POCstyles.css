@@ -128,7 +128,6 @@ body {
     border-radius: 50%;       /* borde redondeado igual */
     object-fit: cover;        /* que la imagen se ajuste bien */
     border: 2px solid var(--color-verde); /* mismo borde que el SVG */
-    display: none;            /* ocultar por defecto */
 }
 
 
@@ -524,6 +523,19 @@ body {
     color: #010a7e;
 }
 
+.boton-verde {
+    background-color: #87ff5f;
+    text-decoration: none;
+    color: #7e00d9;
+    transition: all 0.3s ease; /* para una transición suave */
+}
+
+.boton-verde:hover {
+    background-color: var(--color-violeta-claro);
+    color: #87ff5f;
+    font-weight: bold;
+}
+
 .boton-animado {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -532,5 +544,7 @@ body {
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
+
 
 
