@@ -1,3 +1,77 @@
+
+{{#modo_edicion}}
+    <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+        <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
+            <article class="contenedor-perfil text-center">
+                <div class="profile-icon mx-auto mb-3">
+                    {{#foto_perfil}}
+                        <img src="{{foto_perfil}}" alt="Foto de perfil" class="rounded-circle"
+                             style="width: 200px; height: 200px; object-fit: cover;">
+                    {{/foto_perfil}}
+
+                    {{^foto_perfil}}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#A6FD35"
+                             class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    {{/foto_perfil}}
+                </div>
+
+                <form action="index.php?controller=Perfil&method=guardar" method="POST" class="text-start">
+                    <div>
+                        <div class="info-label">Nombres</div>
+                        <input type="text" class="form-control mb-2 info-box" name="nombre" value="{{nombre}}">
+                    </div>
+
+                    <div>
+                        <div class="info-label">Apellidos</div>
+
+                        <input type="text" class="form-control mb-2 info-box" name="apellido" value="{{apellido}}">
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="info-label">Género</div>
+                            <select name="genero" class="form-control mb-2 info-box">
+                                <option value="masculino" {{#genero_masculino}}selected{{/genero_masculino}}>Masculino</option>
+                                <option value="femenino" {{#genero_femenino}}selected{{/genero_femenino}}>Femenino</option>
+                                <option value="otro" {{#genero_otro}}selected{{/genero_otro}}>Otro</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <div class="info-label">Fecha de nacimiento</div>
+                            <input type="date" class="form-control mb-2 info-box" name="fecha_nacimiento" value="{{fecha_nacimiento}}">
+                        </div>
+                    </div>
+                    
+                    <label class="info-label">Ubicación:</label>
+                    <div class="d-flex align-items-stretch gap-2">
+                        <input type="text" id="ubicacion" class="form-control info-box" value="{{ciudad}}, {{pais}}" readonly>
+                    </div>
+                    <button type="button" class="btn boton-verde fw-bold rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#mapModal">
+                        Elegir en el mapa
+                    </button>
+                    <!-- Campos ocultos para enviar los valores reales -->
+                    <input type="hidden" name="ciudad" id="ciudadSeleccionada" value="{{ciudad}}">
+                    <input type="hidden" name="pais" id="paisSeleccionado" value="{{pais}}">
+
+                    <!-- Botones -->
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a href="index.php?controller=Perfil&method=mostrar"
+                           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Cancelar</a>
+                        <button type="submit"
+                                class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Guardar cambios</button>
+                    </div>
+                </form>
+            </article>
+        </div>
+    </main>
+{{/modo_edicion}}
+
+
+{{^modo_edicion}}
 <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
     <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
         <article class="contenedor-perfil text-center">
@@ -5,6 +79,7 @@
                 {{#foto_perfil}}
                     <img src="{{foto_perfil}}" alt="Foto de perfil" class="rounded-circle"
                          style="width: 200px; height: 200px; object-fit: cover;">
+
                 {{/foto_perfil}}
 
                 {{^foto_perfil}}
@@ -43,13 +118,13 @@
                     <div class="info-label">Nombre de usuario</div>
                     <div class="info-box">{{usuario}}</div>
                 </div>
+
                 <div>
-                    <div class="info-label">Ciudad</div>
-                    <div class="info-box">{{ciudad}}</div>
-                </div>
-                <div>
-                    <div class="info-label">Pais</div>
-                    <div class="info-box">{{pais}}</div>
+                    <div class="info-label"> Ubicación </div>
+                    <div class="info-box">{{ciudad}}, {{pais}} </div>
+                <!-- Campos ocultos para enviar los valores reales -->
+                <input type="hidden" name="ciudad" id="ciudadSeleccionada" value="{{ciudad}}">
+                <input type="hidden" name="pais" id="paisSeleccionado" value="{{pais}}">
                 </div>
             </section>
 
@@ -62,8 +137,85 @@
         </article>
     </div>
 </main>
+{{/modo_edicion}}
+
+<!-- MODAL CON EL MAPA -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Seleccioná ciudad y país</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="map" style="height: 400px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmLocationBtn" class="btn btn-success" disabled>Confirmar Ubicación</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet (mapa) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+<script>
+    let map, marker;
+    const paisInput = document.getElementById('paisSeleccionado');
+    const ciudadInput = document.getElementById('ciudadSeleccionada');
+    const confirmBtn = document.getElementById('confirmLocationBtn');
+    const ubicacionTexto = document.getElementById("ubicacion");
+    const mapModal = document.getElementById('mapModal');
+
+    mapModal.addEventListener('shown.bs.modal', () => {
+        if (!map) {
+            map = L.map('map').setView([-34.6037, -58.3816], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            map.on('click', async function (e) {
+                const lat = e.latlng.lat.toFixed(5);
+                const lng = e.latlng.lng.toFixed(5);
+
+                if (marker) {
+                    marker.setLatLng(e.latlng);
+                } else {
+                    marker = L.marker(e.latlng).addTo(map);
+                }
+
+                const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const address = data.address;
+                const pais = address.country || "Desconocido";
+                const ciudad = address.city || address.town || address.village || "Desconocido";
+
+                paisInput.value = pais;
+                ciudadInput.value = ciudad;
+                ubicacionTexto.value = `${ciudad}, ${pais}`;
+                confirmBtn.disabled = false;
+            });
+        } else {
+            setTimeout(() => map.invalidateSize(), 200);
+        }
+    });
+
+    confirmBtn.addEventListener('click', () => {
+        const modal = bootstrap.Modal.getInstance(mapModal);
+        modal.hide();
+    });
+</script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 </body>
 </html>

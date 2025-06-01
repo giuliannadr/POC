@@ -44,4 +44,46 @@ class PerfilController
 
     }
 
+    public function editar()
+    {
+        session_start();
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: index.php?controller=Login&method=mostrarLogin');
+            exit;
+        }
+
+        $id_usuario = $_SESSION['usuario']['id_usuario'];
+        $datos = $this->model->obtenerDatosPerfil($id_usuario);
+
+        $this->view->render('headerPerfil', 'perfil', array_merge($datos, ['modo_edicion' => true]));
+    }
+
+    public function guardar()
+    {
+        session_start();
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: index.php?controller=Login&method=mostrarLogin');
+            exit;
+        }
+
+        $id_usuario = $_SESSION['usuario']['id_usuario'];
+
+        // agarro los datos del formulario
+        $datos = [
+            'nombre' => $_POST['nombre'],
+            'apellido' => $_POST['apellido'],
+            'genero' => $_POST['genero'],
+            'fecha_nacimiento' => $_POST['fecha_nacimiento'],
+            'ciudad' => $_POST['ciudad'],
+            'pais' => $_POST['pais'],
+        ];
+
+        // los guardo en la base de datos
+        $this->model->actualizarPerfil($id_usuario, $datos);
+
+        // redirige al perfil con los datos actualizados
+        header('Location: index.php?controller=Perfil&method=mostrar');
+    }
+
+
 }

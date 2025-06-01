@@ -159,6 +159,30 @@ class JugadorModel
         return $datos;
     }
 
+    public function actualizarPerfil($id_usuario, $datos)
+    {
+        $sql = "UPDATE jugador SET 
+            nombre = ?, 
+            apellido = ?, 
+            sexo = ?, 
+            fecha_nac = ?, 
+            ciudad = ?, 
+            pais = ?
+            WHERE id_usuario = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("ssssssi",
+            $datos['nombre'],
+            $datos['apellido'],
+            $datos['genero'],
+            $datos['fecha_nacimiento'],
+            $datos['ciudad'],
+            $datos['pais'],
+            $id_usuario
+        );
+        $stmt->execute();
+        $stmt->close();
+    }
 
     // Puedes agregar otros métodos como login, obtener datos, etc.
 }
