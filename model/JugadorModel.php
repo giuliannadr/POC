@@ -140,7 +140,7 @@ class JugadorModel
                 u.mail AS email,
                 j.nombre,
                 j.apellido,
-                j.sexo AS genero,
+                j.sexo,
                 j.fecha_nac AS fecha_nacimiento,
                 j.foto_perfil,
                 j.ciudad AS ciudad,
@@ -159,6 +159,57 @@ class JugadorModel
         return $datos;
     }
 
+    public function actualizarPerfil($id_usuario, $datos)
+    {
+        if (!empty($datos['foto_perfil'])) {
+            // Si se proporciona una imagen, incluimos la columna foto_perfil
+            $sql = "UPDATE jugador SET 
+            nombre = ?, 
+            apellido = ?, 
+            sexo = ?, 
+            fecha_nac = ?, 
+            ciudad = ?, 
+            pais = ?, 
+            foto_perfil = ?
+            WHERE id_usuario = ?";
+
+            $stmt = $this->database->prepare($sql);
+            $stmt->bind_param("sssssssi",
+                $datos['nombre'],
+                $datos['apellido'],
+                $datos['sexo'],
+                $datos['fecha_nacimiento'],
+                $datos['ciudad'],
+                $datos['pais'],
+                $datos['foto_perfil'], // esta es la imagen base64
+                $id_usuario
+            );
+        } else {
+            // Si no se proporciona imagen, no se modifica la columna foto_perfil
+            $sql = "UPDATE jugador SET 
+            nombre = ?, 
+            apellido = ?, 
+            sexo = ?, 
+            fecha_nac = ?, 
+            ciudad = ?, 
+            pais = ?
+            WHERE id_usuario = ?";
+
+            $stmt = $this->database->prepare($sql);
+            $stmt->bind_param("ssssssi",
+                $datos['nombre'],
+                $datos['apellido'],
+                $datos['sexo'],
+                $datos['fecha_nacimiento'],
+                $datos['ciudad'],
+                $datos['pais'],
+                $id_usuario
+            );
+        }
+
+        $stmt->execute();
+        $stmt->close();
+    }
 
     // Puedes agregar otros métodos como login, obtener datos, etc.
 }
