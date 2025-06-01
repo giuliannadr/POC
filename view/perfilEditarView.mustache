@@ -1,0 +1,17 @@
+<div class="container p-5" style="display: flex; width: 100%; height: auto;
+align-items: center;justify-items: center; background-color: #010a7e; border-radius: 3em; position: absolute; top: 15em; left: 13em">
+<h1>Editar Perfil</h1>
+
+<form class="container" method="POST" action="index.php?controller=Perfil&method=actualizar" style="display: flex; flex-direction: column;gap: 9px">
+    <label>Nombre de usuario:</label>
+    <input type="text" name="nombre_usuario" value="{{usuario}}" style="border-radius: 10em">
+
+    <label>Email:</label>
+    <input type="email" name="email" value="{{email}}" style="border-radius: 10em">
+
+    <label>Foto de perfil:</label>
+    <input type="text" name="foto_perfil" value="{{foto_perfil}}" style="border-radius: 10em">
+
+    <button class="boton-verde p-2" type="submit" style="border-radius: 10em">Guardar cambios</button>
+</form>
+</div>

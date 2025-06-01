@@ -80,6 +80,10 @@ class Configuration
 
     public function getPerfilController()
     {
+        if (!$this->db) {
+            die("❌ Error: La base de datos no está inicializada correctamente.");
+        }
+
         return new PerfilController(new JugadorModel($this->db), $this->getViewer());
     }
 

@@ -157,6 +157,21 @@ class JugadorModel
         return $datos;
     }
 
+    public function actualizarPerfil($id_usuario, $nombre_usuario, $email, $foto_perfil) {
+        $sql = "UPDATE usuario SET nombre_usuario = ?, mail = ? WHERE id_usuario = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("ssi", $nombre_usuario, $email, $id_usuario);
+        $stmt->execute();
+        $stmt->close();
+
+        $sql_jugador = "UPDATE jugador SET foto_perfil = ? WHERE id_usuario = ?";
+        $stmt_jugador = $this->database->prepare($sql_jugador);
+        $stmt_jugador->bind_param("si", $foto_perfil, $id_usuario);
+        $stmt_jugador->execute();
+        $stmt_jugador->close();
+
+        return "✅ Perfil actualizado correctamente.";
+    }
 
     // Puedes agregar otros métodos como login, obtener datos, etc.
 }
