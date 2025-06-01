@@ -1,25 +1,44 @@
-
 {{#modo_edicion}}
     <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
         <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
             <article class="contenedor-perfil text-center">
-                <div class="profile-icon mx-auto mb-3">
-                    {{#foto_perfil}}
-                        <img src="{{foto_perfil}}" alt="Foto de perfil" class="rounded-circle"
-                             style="width: 200px; height: 200px; object-fit: cover;">
-                    {{/foto_perfil}}
 
-                    {{^foto_perfil}}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#A6FD35"
-                             class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                            <path fill-rule="evenodd"
-                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                        </svg>
-                    {{/foto_perfil}}
-                </div>
+                <form action="index.php?controller=Perfil&method=guardar" method="POST" enctype="multipart/form-data"
+                      class="text-start">
 
-                <form action="index.php?controller=Perfil&method=guardar" method="POST" class="text-start">
+                    <div class="text-center mb-4">
+                        <div id="profile-container"
+                             style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
+                            {{#foto_perfil}}
+                                <img id="previewImg" src="{{foto_perfil}}" alt="Foto de perfil" class="rounded-circle"
+                                     style="position: absolute; top: 0; left: 0; width: 150px; height: 150px; object-fit: cover; border: 2px solid #00eaff;">
+                            {{/foto_perfil}}
+
+                            {{^foto_perfil}}
+                                <svg xmlns="http://www.w3.org/2000/svg" id="profile-svg" width="150" height="150"
+                                     fill="#A6FD35"
+                                     class="bi bi-person-circle" viewBox="0 0 16 16"
+                                     style="position: absolute; top: 0; left: 0; border-radius: 50%; border: 2px solid #00eaff; object-fit: cover;">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                    <path fill-rule="evenodd"
+                                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                </svg>
+                                <img id="previewImg" src="" alt="Vista previa"
+                                     style="position: absolute; top: 0; left: 0; width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid #00eaff; display: none;">
+                            {{/foto_perfil}}
+                        </div>
+
+
+                        <input type="file" class="text-center" name="profilePic" accept="image/*" id="profilePic"
+                               style="display:none;" onchange="previewImage(this)">
+
+                        <div class="mt-2 py-3">
+                            <button type="button" class="btn-change"
+                                    onclick="document.getElementById('profilePic').click()">Cambiar Foto de Perfil
+                            </button>
+                        </div>
+                    </div>
+
                     <div>
                         <div class="info-label">Nombres</div>
                         <input type="text" class="form-control mb-2 info-box" name="nombre" value="{{nombre}}">
@@ -35,22 +54,27 @@
                         <div class="col">
                             <div class="info-label">Género</div>
                             <select name="genero" class="form-control mb-2 info-box">
-                                <option value="masculino" {{#genero_masculino}}selected{{/genero_masculino}}>Masculino</option>
-                                <option value="femenino" {{#genero_femenino}}selected{{/genero_femenino}}>Femenino</option>
+                                <option value="masculino" {{#genero_masculino}}selected{{/genero_masculino}}>Masculino
+                                </option>
+                                <option value="femenino" {{#genero_femenino}}selected{{/genero_femenino}}>Femenino
+                                </option>
                                 <option value="otro" {{#genero_otro}}selected{{/genero_otro}}>Otro</option>
                             </select>
                         </div>
                         <div class="col">
                             <div class="info-label">Fecha de nacimiento</div>
-                            <input type="date" class="form-control mb-2 info-box" name="fecha_nacimiento" value="{{fecha_nacimiento}}">
+                            <input type="date" class="form-control mb-2 info-box" name="fecha_nacimiento"
+                                   value="{{fecha_nacimiento}}">
                         </div>
                     </div>
-                    
+
                     <label class="info-label">Ubicación:</label>
                     <div class="d-flex align-items-stretch gap-2">
-                        <input type="text" id="ubicacion" class="form-control info-box" value="{{ciudad}}, {{pais}}" readonly>
+                        <input type="text" id="ubicacion" class="form-control info-box" value="{{ciudad}}, {{pais}}"
+                               readonly>
                     </div>
-                    <button type="button" class="btn boton-verde fw-bold rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#mapModal">
+                    <button type="button" class="btn boton-verde fw-bold rounded-pill px-4" data-bs-toggle="modal"
+                            data-bs-target="#mapModal">
                         Elegir en el mapa
                     </button>
                     <!-- Campos ocultos para enviar los valores reales -->
@@ -62,7 +86,8 @@
                         <a href="index.php?controller=Perfil&method=mostrar"
                            class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Cancelar</a>
                         <button type="submit"
-                                class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Guardar cambios</button>
+                                class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Guardar cambios
+                        </button>
                     </div>
                 </form>
             </article>
@@ -72,71 +97,71 @@
 
 
 {{^modo_edicion}}
-<main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
-    <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
-        <article class="contenedor-perfil text-center">
-            <div class="profile-icon mx-auto mb-3">
-                {{#foto_perfil}}
-                    <img src="{{foto_perfil}}" alt="Foto de perfil" class="rounded-circle"
-                         style="width: 200px; height: 200px; object-fit: cover;">
+    <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+        <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
+            <article class="contenedor-perfil text-center">
 
-                {{/foto_perfil}}
+                <section class="text-start">
+                    <div class="profile-icon mx-auto mb-3">
+                        {{#foto_perfil}}
+                            <img src="{{foto_perfil}}" alt="Foto de perfil" class="rounded-circle"
+                                 style="width: 200px; height: 150px; object-fit: cover; border: 2px solid #00eaff;">
+                        {{/foto_perfil}}
 
-                {{^foto_perfil}}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#A6FD35"
-                         class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path fill-rule="evenodd"
-                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                    </svg>
-                {{/foto_perfil}}
-            </div>
-            <section class="text-start">
-                <div>
-                    <div class="info-label">Nombres</div>
-                    <div class="info-box">{{nombre}}</div>
-                </div>
-                <div>
-                    <div class="info-label">Apellidos</div>
-                    <div class="info-box">{{apellido}}</div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="info-label">Género</div>
-                        <div class="info-box">{{genero}}</div>
+                        {{^foto_perfil}}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#A6FD35"
+                                 class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                <path fill-rule="evenodd"
+                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                            </svg>
+                        {{/foto_perfil}}
                     </div>
-                    <div class="col">
-                        <div class="info-label">Fecha de nacimiento</div>
-                        <div class="info-box">{{fecha_nacimiento}}</div>
+                    <div>
+                        <div class="info-label">Nombres</div>
+                        <div class="info-box">{{nombre}}</div>
                     </div>
-                </div>
-                <div>
-                    <div class="info-label">Email</div>
-                    <div class="info-box">{{email}}</div>
-                </div>
-                <div>
-                    <div class="info-label">Nombre de usuario</div>
-                    <div class="info-box">{{usuario}}</div>
-                </div>
+                    <div>
+                        <div class="info-label">Apellidos</div>
+                        <div class="info-box">{{apellido}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="info-label">Género</div>
+                            <div class="info-box">{{genero}}</div>
+                        </div>
+                        <div class="col">
+                            <div class="info-label">Fecha de nacimiento</div>
+                            <div class="info-box">{{fecha_nacimiento}}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="info-label">Email</div>
+                        <div class="info-box">{{email}}</div>
+                    </div>
+                    <div>
+                        <div class="info-label">Nombre de usuario</div>
+                        <div class="info-box">{{usuario}}</div>
+                    </div>
 
-                <div>
-                    <div class="info-label"> Ubicación </div>
-                    <div class="info-box">{{ciudad}}, {{pais}} </div>
-                <!-- Campos ocultos para enviar los valores reales -->
-                <input type="hidden" name="ciudad" id="ciudadSeleccionada" value="{{ciudad}}">
-                <input type="hidden" name="pais" id="paisSeleccionado" value="{{pais}}">
-                </div>
-            </section>
+                    <div>
+                        <div class="info-label"> Ubicación</div>
+                        <div class="info-box">{{ciudad}}, {{pais}} </div>
+                        <!-- Campos ocultos para enviar los valores reales -->
+                        <input type="hidden" name="ciudad" id="ciudadSeleccionada" value="{{ciudad}}">
+                        <input type="hidden" name="pais" id="paisSeleccionado" value="{{pais}}">
+                    </div>
+                </section>
 
-            <div class="mt-4 d-flex justify-content-between">
-                <a href="index.php?controller=LobbyJug&method=show"
-                   class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Volver</a>
-                <a href="index.php?controller=Perfil&method=editar"
-                   class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Editar perfil</a>
-            </div>
-        </article>
-    </div>
-</main>
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="index.php?controller=LobbyJug&method=show"
+                       class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Volver</a>
+                    <a href="index.php?controller=Perfil&method=editar"
+                       class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Editar perfil</a>
+                </div>
+            </article>
+        </div>
+    </main>
 {{/modo_edicion}}
 
 <!-- MODAL CON EL MAPA -->
@@ -151,7 +176,8 @@
                 <div id="map" style="height: 400px;"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="confirmLocationBtn" class="btn btn-success" disabled>Confirmar Ubicación</button>
+                <button type="button" id="confirmLocationBtn" class="btn btn-success" disabled>Confirmar Ubicación
+                </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -159,7 +185,7 @@
 </div>
 
 <!-- Leaflet (mapa) -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 
 <script>
@@ -209,13 +235,30 @@
         const modal = bootstrap.Modal.getInstance(mapModal);
         modal.hide();
     });
+
+    function previewImage(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Mostrar la imagen preview
+                const previewImg = document.getElementById('previewImg');
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+
+                // Ocultar el SVG
+                document.getElementById('profile-svg').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 </body>
 </html>

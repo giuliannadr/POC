@@ -75,15 +75,26 @@ class PerfilController
             'genero' => $_POST['genero'],
             'fecha_nacimiento' => $_POST['fecha_nacimiento'],
             'ciudad' => $_POST['ciudad'],
-            'pais' => $_POST['pais'],
+            'pais' => $_POST['pais']
         ];
 
-        // los guardo en la base de datos
+        // Procesar imagen si se subió
+        if (isset($_FILES['profilePic']) && $_FILES['profilePic']['error'] === UPLOAD_ERR_OK) {
+            $tipo = $_FILES['profilePic']['type']; // ej. image/jpeg
+            $contenido = file_get_contents($_FILES['profilePic']['tmp_name']);
+            $base64 = 'data:' . $tipo . ';base64,' . base64_encode($contenido);
+            $datos['foto_perfil'] = $base64;
+        }
+
+        // Guardar datos en la base de datos
         $this->model->actualizarPerfil($id_usuario, $datos);
 
         // redirige al perfil con los datos actualizados
         header('Location: index.php?controller=Perfil&method=mostrar');
     }
+
+
+
 
 
 }

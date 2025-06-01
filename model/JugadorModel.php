@@ -161,7 +161,32 @@ class JugadorModel
 
     public function actualizarPerfil($id_usuario, $datos)
     {
-        $sql = "UPDATE jugador SET 
+        if (!empty($datos['foto_perfil'])) {
+            // Si se proporciona una imagen, incluimos la columna foto_perfil
+            $sql = "UPDATE jugador SET 
+            nombre = ?, 
+            apellido = ?, 
+            sexo = ?, 
+            fecha_nac = ?, 
+            ciudad = ?, 
+            pais = ?, 
+            foto_perfil = ?
+            WHERE id_usuario = ?";
+
+            $stmt = $this->database->prepare($sql);
+            $stmt->bind_param("sssssssi",
+                $datos['nombre'],
+                $datos['apellido'],
+                $datos['genero'],
+                $datos['fecha_nacimiento'],
+                $datos['ciudad'],
+                $datos['pais'],
+                $datos['foto_perfil'], // esta es la imagen base64
+                $id_usuario
+            );
+        } else {
+            // Si no se proporciona imagen, no se modifica la columna foto_perfil
+            $sql = "UPDATE jugador SET 
             nombre = ?, 
             apellido = ?, 
             sexo = ?, 
@@ -170,16 +195,18 @@ class JugadorModel
             pais = ?
             WHERE id_usuario = ?";
 
-        $stmt = $this->database->prepare($sql);
-        $stmt->bind_param("ssssssi",
-            $datos['nombre'],
-            $datos['apellido'],
-            $datos['genero'],
-            $datos['fecha_nacimiento'],
-            $datos['ciudad'],
-            $datos['pais'],
-            $id_usuario
-        );
+            $stmt = $this->database->prepare($sql);
+            $stmt->bind_param("ssssssi",
+                $datos['nombre'],
+                $datos['apellido'],
+                $datos['genero'],
+                $datos['fecha_nacimiento'],
+                $datos['ciudad'],
+                $datos['pais'],
+                $id_usuario
+            );
+        }
+
         $stmt->execute();
         $stmt->close();
     }
