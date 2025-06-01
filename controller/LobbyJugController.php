@@ -1,5 +1,5 @@
 <?php
-
+require_once("core/Session.php");
 class LobbyJugController
 {
     private $view;
@@ -11,10 +11,10 @@ class LobbyJugController
 
     public function show()
     {
-        session_start(); // Necesario para acceder a $_SESSION
 
 
-        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'jugador') {
+
+        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador')  {
             $this->view->render('headerChico', 'homeLogin');
             exit;
         }

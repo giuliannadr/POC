@@ -1,5 +1,6 @@
 <?php
 
+require_once("core/Session.php");
 class PreguntasController
 {
     private $view;
@@ -14,15 +15,14 @@ class PreguntasController
 
     public function crearPartida()
     {
-        session_start(); // Necesario para acceder a $_SESSION
 
 
-        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'jugador') {
+        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador')  {
             $this->view->render('headerChico', 'homeLogin');
             exit;
         }
 
-        $usuario = $_SESSION['usuario'];
+        $usuario = Session::get('usuario');
 
         $partida = $this->model->crearPartida($usuario['id_usuario']);
 
@@ -108,15 +108,15 @@ class PreguntasController
 public function validarRespuesta()
 {
 
-    session_start(); // Necesario para acceder a $_SESSION
 
 
-    if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'jugador') {
+
+    if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador')  {
         $this->view->render('headerChico', 'homeLogin');
         exit;
     }
 
-    $usuario = $_SESSION['usuario'];
+    $usuario = Session::get('usuario');
 
     $idPartida = isset($_POST['id_partida']) ? $_POST['id_partida'] : null;
     $idRespuesta = isset($_POST['respuesta']) ? $_POST['respuesta'] : null;
@@ -126,7 +126,8 @@ if($this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador)) {
    $esCorrecta = true;
    $this->obtenerPreguntaNoRepetida($idPartida);
 }else{
-    header("Location: /POC/lobbyJug/show");
+    $lobby = new LobbyJugController($this->view);
+    $lobby->show();
     exit;
 }
 

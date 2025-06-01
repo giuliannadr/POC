@@ -1,5 +1,5 @@
 <?php
-
+require_once("core/Session.php");
 class LobbyADMController
 {
     private $view;
@@ -11,10 +11,9 @@ class LobbyADMController
 
     public function show()
     {
-        session_start();
 
-        // Redirige al home si no hay usuario o si el tipo de usuario no es 'admin'
-        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'admin') {
+
+        if (!Session::exists('usuario') || Session::get('tipo') !== 'admin')  {
             $this->view->render('headerChico', 'homeLogin');
             exit;
         }

@@ -1,5 +1,5 @@
 <?php
-
+require_once("core/Session.php");
 class PerfilController
 {
     private $model;
@@ -13,15 +13,22 @@ class PerfilController
 
     public function mostrar()
     {
-        session_start();
+
+
 
         // Si no hay sesión activa, redirigir al login
-        if (!isset($_SESSION['usuario'])) {
+        if (!Session::exists('usuario') ) {
             header('Location: index.php?controller=Login&method=mostrarLogin');
             exit;
         }
 
-        $id_usuario = $_SESSION['usuario']['id_usuario'];
+        $usuario = Session::get('usuario'); // Esto devuelve el array completo (o null si no existe)
+
+        if ($usuario && isset($usuario['id_usuario'])) {
+            $id_usuario = $usuario['id_usuario'];
+        } else {
+            $id_usuario = null; // o manejar error si no existe
+        }
 
         // Obtener datos del perfil
         $datos = $this->model->obtenerDatosPerfil($id_usuario);

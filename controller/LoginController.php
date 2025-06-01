@@ -1,5 +1,5 @@
 <?php
-
+require_once("core/Session.php");
 class LoginController
 {
     private $view;
@@ -14,7 +14,7 @@ class LoginController
 
     public function validar()
     {
-        session_start();
+
 
         $email = isset($_POST['email']) ? $_POST['email'] : '';
         $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : '';
@@ -30,19 +30,20 @@ class LoginController
             $tipo = $resultado['tipo'];
             $usuario = $resultado['datos'];
 
-            $_SESSION['usuario'] = $usuario;
-            $_SESSION['tipo'] = $tipo;
+            Session::set('usuario', $usuario);
+            Session::set('tipo', $tipo);
+
 
             if
             ($tipo === 'admin') {
-                header('Location: /POC/index.php?controller=LobbyADM&method=show');
-                exit;
+                $lobby = new LobbyADMController($this->view);
+                $lobby->show();
             } elseif ($tipo === 'editor') {
-                header('Location: /POC/index.php?controller=LobbyEDITOR&method=show');
-                exit;
+                $lobby = new LobbyEDITORController($this->view);
+                $lobby->show();
             } elseif ($tipo === 'jugador') {
-                header('Location: /POC/index.php?controller=LobbyJug&method=show');
-                exit;
+                $lobby = new LobbyJugController($this->view);
+                $lobby->show();
             }
         }
     }
@@ -50,10 +51,9 @@ class LoginController
 
     public function cerrarSesion()
     {
-        session_start();
-        session_unset();
-        session_destroy();
-        header('Location: index.php?controller=Home&method=show');
+        session_unset();  // limpiar variables de sesión
+        Session::destroy();
+        $this->view->render('headerChico', 'homeLogin');
         exit;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-
+require_once("core/Session.php");
 class LobbyEDITORController
 {
     private $view;
@@ -11,10 +11,10 @@ class LobbyEDITORController
 
     public function show()
     {
-        session_start(); // Accede a sesion
+
 
         // Redirige si no hay usuario o si el tipo no es 'editor'
-        if (!isset($_SESSION['usuario']) || $_SESSION['tipo'] !== 'editor') {
+        if (!Session::exists('usuario') || Session::get('tipo') !== 'editor')  {
             $this->view->render('headerChico', 'homeLogin');
             exit;
         }

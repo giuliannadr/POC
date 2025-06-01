@@ -18,6 +18,8 @@ class Configuration
     private $db;
     private $email;
 
+
+
     public function __construct()
     {
         $this->db = $this->getDatabase();
