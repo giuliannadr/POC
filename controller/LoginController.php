@@ -1,5 +1,6 @@
 <?php
 require_once("core/Session.php");
+require_once("core/DataLobbys.php");
 class LoginController
 {
     private $view;
@@ -33,17 +34,19 @@ class LoginController
             Session::set('usuario', $usuario);
             Session::set('tipo', $tipo);
 
-
+            $dataLobby = new DataLobbys();
             if
             ($tipo === 'admin') {
-                $lobby = new LobbyADMController($this->view);
-                $lobby->show();
+                $data = $dataLobby->getLobbyAdminData();
+                $this->view->render('headerAdminEditor', 'lobbyADM', $data);
             } elseif ($tipo === 'editor') {
-                $lobby = new LobbyEDITORController($this->view);
-                $lobby->show();
+                $data = $dataLobby->getLobbyEditorData();
+                $this->view->render('headerAdminEditor', 'lobbyEDITOR', $data);
             } elseif ($tipo === 'jugador') {
-                $lobby = new LobbyJugController($this->view);
-                $lobby->show();
+
+                $usuario = Session::get('usuario');
+                $data = $dataLobby->getLobbyJugData($usuario);
+                $this->view->render('headerGrande', 'lobbyJug', $data);
             }
         }
     }

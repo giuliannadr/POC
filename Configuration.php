@@ -99,7 +99,7 @@ class Configuration
     }
 
     public function getLobbyJugController() {
-        return new LobbyJugController($this->getViewer());
+        return new LobbyJugController(new JugadorModel($this->db, $this->email),$this->getViewer());
     }
 
     public function getPreguntasController(){

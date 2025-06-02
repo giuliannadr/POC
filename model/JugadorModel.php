@@ -134,30 +134,7 @@ class JugadorModel
         return false; // Token inválido
     }
 
-    public function obtenerDatosPerfil($id_usuario) {
-        $sql = "SELECT 
-                u.nombre_usuario AS usuario,
-                u.mail AS email,
-                j.nombre,
-                j.apellido,
-                j.sexo,
-                j.fecha_nac AS fecha_nacimiento,
-                j.foto_perfil,
-                j.ciudad AS ciudad,
-                j.pais AS pais
-            FROM usuario u
-            JOIN jugador j ON u.id_usuario = j.id_usuario
-            WHERE u.id_usuario = ?";
 
-        $stmt = $this->database->prepare($sql);
-        $stmt->bind_param("i", $id_usuario);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $datos = $result->fetch_assoc();
-        $stmt->close();
-
-        return $datos;
-    }
 
     public function actualizarPerfil($id_usuario, $datos)
     {
@@ -211,6 +188,31 @@ class JugadorModel
         $stmt->close();
     }
 
-    // Puedes agregar otros métodos como login, obtener datos, etc.
+    /* -------------------------------- OBTENER DATOS -------------------------------- */
+    public function obtenerDatosPerfil($id_usuario) {
+        $sql = "SELECT 
+                u.nombre_usuario AS usuario,
+                u.mail AS email,
+                j.nombre,
+                j.apellido,
+                j.sexo,
+                j.fecha_nac AS fecha_nacimiento,
+                j.foto_perfil,
+                j.ciudad AS ciudad,
+                j.pais AS pais
+            FROM usuario u
+            JOIN jugador j ON u.id_usuario = j.id_usuario
+            WHERE u.id_usuario = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $datos = $result->fetch_assoc();
+        $stmt->close();
+
+        return $datos;
+    }
+
 }
 ?>

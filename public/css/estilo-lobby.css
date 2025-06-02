@@ -184,6 +184,8 @@ body {
     color: var(--color-violeta-oscuro);
     padding: 5px;
     transition: 0.2s;
+    text-align: center;
+    text-decoration: none;
 }
 
 .btn-jugar:hover {

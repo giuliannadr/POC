@@ -19,19 +19,9 @@ class LobbyEDITORController
             exit;
         }
 
-        $usuario = $_SESSION['usuario'];
+        $dataLobby = new DataLobbys();
+        $data = $dataLobby->getLobbyEditorData();
 
-        // Botones en el nav segun el rol
-        $botones = [
-            ['texto' => 'Gestionar Preguntas', 'link' => '/editor/gestionarPreguntas'],
-            ['texto' => 'Preguntas Reportadas', 'link' => '/editor/preguntasReportadas'],
-            ['texto' => 'Preguntas Sugeridas', 'link' => '/editor/preguntasSugeridas'],
-        ];
-
-        // Se pasa a mustachol los botones
-        $this->view->render('headerAdminEditor', 'lobbyEDITOR', [
-            'usuario' => $usuario,
-            'botones' => $botones
-        ]);
+        $this->view->render('headerAdminEditor', 'lobbyEDITOR', $data);
     }
 }

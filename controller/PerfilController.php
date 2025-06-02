@@ -1,5 +1,6 @@
 <?php
 require_once("core/Session.php");
+require_once("core/DataLobbys.php");
 class PerfilController
 {
     private $model;
@@ -18,11 +19,11 @@ class PerfilController
 
         // Si no hay sesión activa, redirigir al login
         if (!Session::exists('usuario') ) {
-            header('Location: index.php?controller=Login&method=mostrarLogin');
-            exit;
+            $this->view->render('headerChico', 'homeLogin');
         }
 
         $usuario = Session::get('usuario'); // Esto devuelve el array completo (o null si no existe)
+
 
         if ($usuario && isset($usuario['id_usuario'])) {
             $id_usuario = $usuario['id_usuario'];
@@ -52,13 +53,18 @@ class PerfilController
 
     public function editar()
     {
-        session_start();
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: index.php?controller=Login&method=mostrarLogin');
-            exit;
+        if (!Session::exists('usuario') ) {
+            $this->view->render('headerChico', 'homeLogin');
         }
 
-        $id_usuario = $_SESSION['usuario']['id_usuario'];
+        $usuario = Session::get('usuario');
+
+        if ($usuario && isset($usuario['id_usuario'])) {
+            $id_usuario = $usuario['id_usuario'];
+        } else {
+            $id_usuario = null; // o manejar error si no existe
+        }
+
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
         $datos['modo_edicion'] = true;
 
@@ -75,14 +81,17 @@ class PerfilController
 
     public function guardar()
     {
-        session_start();
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: index.php?controller=Login&method=mostrarLogin');
-            exit;
+        if (!Session::exists('usuario') ) {
+            $this->view->render('headerChico', 'homeLogin');
         }
 
-        $id_usuario = $_SESSION['usuario']['id_usuario'];
+        $usuario = Session::get('usuario');
 
+        if ($usuario && isset($usuario['id_usuario'])) {
+            $id_usuario = $usuario['id_usuario'];
+        } else {
+            $id_usuario = null; // o manejar error si no existe
+        }
         // agarro los datos del formulario
         $datos = [
             'nombre' => $_POST['nombre'],
@@ -102,14 +111,15 @@ class PerfilController
         }
 
         // Guardar datos en la base de datos
-        $this->model->actualizarPerfil($id_usuario, $datos);
+        $datos_actualizados = $this->model->actualizarPerfil($id_usuario, $datos);
 
         // ACTUALIZAR DATOS EN SESIÓN
-        $datos_actualizados = $this->model->obtenerDatosPerfil($id_usuario);
-        $_SESSION['usuario'] = array_merge($_SESSION['usuario'], $datos_actualizados);
+        $usuario_actual = Session::get('usuario');
+        $usuario_actual = array_merge($usuario_actual, $datos_actualizados);
+        Session::set('usuario', $usuario_actual);
 
         // redirige al perfil con los datos actualizados
-        header('Location: index.php?controller=Perfil&method=mostrar');
+        $this->mostrar();
     }
 
 

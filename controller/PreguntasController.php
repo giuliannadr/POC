@@ -1,6 +1,7 @@
 <?php
 
 require_once("core/Session.php");
+require_once("core/DataLobbys.php");
 class PreguntasController
 {
     private $view;
@@ -108,9 +109,6 @@ class PreguntasController
 public function validarRespuesta()
 {
 
-
-
-
     if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador')  {
         $this->view->render('headerChico', 'homeLogin');
         exit;
@@ -122,13 +120,27 @@ public function validarRespuesta()
     $idRespuesta = isset($_POST['respuesta']) ? $_POST['respuesta'] : null;
     $id_jugador = $usuario['id_usuario'];
 $esCorrecta = false;
+
 if($this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador)) {
    $esCorrecta = true;
    $this->obtenerPreguntaNoRepetida($idPartida);
 }else{
-    $lobby = new LobbyJugController($this->view);
-    $lobby->show();
-    exit;
+
+    $usuario = Session::get('usuario');
+
+    if ($usuario && isset($usuario['id_usuario'])) {
+        $id_usuario = $usuario['id_usuario'];
+    } else {
+        $id_usuario = null; // o manejar error si no existe
+    }
+
+
+    $usuario['puntaje'] = $this->model->obtenerPuntaje($id_usuario);
+    Session::set('usuario', $usuario);
+
+    $dataLobby = new DataLobbys();
+    $data = $dataLobby->getLobbyJugData($usuario);
+    $this->view->render('headerGrande', 'lobbyJug', $data);
 }
 
 

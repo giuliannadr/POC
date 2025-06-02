@@ -1,9 +1,9 @@
 {{#modo_edicion}}
-    <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+    <main class="d-flex flex-column justify-content-center align-items-center " style="height: 100vh; margin-top:80px ">
         <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
             <article class="contenedor-perfil text-center" style="">
 
-                <form action="index.php?controller=Perfil&method=guardar" method="POST" enctype="multipart/form-data"
+                <form action="/POC/perfil/guardar" method="POST" enctype="multipart/form-data"
                       class="text-start">
 
                     <div class="text-center mb-4">
@@ -83,8 +83,9 @@
 
                     <!-- Botones -->
                     <div class="mt-4 d-flex justify-content-between">
-                        <a href="index.php?controller=Perfil&method=mostrar"
-                           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Cancelar</a>
+                        <a href="/POC/perfil/mostrar"
+                           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado"
+                           onclick="return confirm('¿Estás seguro de que querés cancelar los cambios?')">Cancelar</a>
                         <button type="submit"
                                 class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Guardar cambios
                         </button>
@@ -97,7 +98,7 @@
 
 
 {{^modo_edicion}}
-    <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+    <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; margin-top: 80px">
         <div class="d-flex flex-column flex-xl-row gap-5 w-100 justify-content-center p-5">
             <article class="contenedor-perfil text-center">
 
@@ -161,9 +162,9 @@
                 </section>
 
                 <div class="mt-4 d-flex justify-content-between">
-                    <a href="index.php?controller=LobbyJug&method=show"
+                    <a href="/POC/LobbyJug/show"
                        class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Volver</a>
-                    <a href="index.php?controller=Perfil&method=editar"
+                    <a href="/POC/perfil/editar"
                        class="btn boton-verde btn-lg fw-bold rounded-pill px-4 boton-animado">Editar perfil</a>
                 </div>
             </article>

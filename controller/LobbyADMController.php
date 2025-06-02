@@ -18,20 +18,9 @@ class LobbyADMController
             exit;
         }
 
-        $usuario = $_SESSION['usuario'];
+        $dataLobby = new DataLobbys();
+        $data = $dataLobby->getLobbyAdminData();
 
-        // Botones para el nav rol admin
-        // Hay que ver como se haria lo de los filtros
-        $botones = [
-            ['texto' => 'Dia', 'link' => '#'],
-            ['texto' => 'Semana', 'link' => '#'],
-            ['texto' => 'Mes', 'link' => '#']
-        ];
-
-        // Se pasa a mustachol los botones
-        $this->view->render('headerAdminEditor', 'lobbyADM', [
-            'usuario' => $usuario,
-            'botones' => $botones
-        ]);
+        $this->view->render('headerAdminEditor', 'lobbyADM', $data);
     }
 }

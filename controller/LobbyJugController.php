@@ -1,12 +1,15 @@
 <?php
 require_once("core/Session.php");
+require_once("core/DataLobbys.php");
 class LobbyJugController
 {
     private $view;
+    private $model;
 
-    public function __construct($view)
+    public function __construct($model,$view)
     {
         $this->view = $view;
+        $this->model = $model;
     }
 
     public function show()
@@ -19,30 +22,12 @@ class LobbyJugController
             exit;
         }
 
-        $usuario = $_SESSION['usuario'];
+        $usuario = Session::get('usuario');
 
-        $usuario['tiene_foto'] = !empty($usuario['foto_perfil']);
+        $dataLobby = new DataLobbys();
+        $data = $dataLobby->getLobbyJugData($usuario);
 
-        $puntaje = isset($usuario['puntaje']) && $usuario['puntaje'] !== null ? $usuario['puntaje'] : 0;
-        $usuario['puntaje_mostrar'] = $puntaje . "pts";
-
-
-
-
-
-        $botones = [
-            ['texto' => 'Ver ranking', 'link' => '#'],
-            ['texto' => 'Historial de partidas', 'link' => '#'],
-            ['texto' => 'Crear preguntas', 'link' => '#']
-        ];
-
-
-
-        // Se pasa a mustachol los botones
-        $this->view->render('headerGrande', 'lobbyJug', [
-            'usuario' => $usuario,
-            'botones' => $botones
-        ]);
+        $this->view->render('headerGrande', 'lobbyJug', $data);
     }
 
 }
