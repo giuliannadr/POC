@@ -3,15 +3,14 @@
     <div class="text-center text-light" style="margin-top: 180px">
         <h1 style="font-size: 60px; text-align:center;">
             <div id="typewriter" class="typewriter-wrapper">
-                <span id="line1" class="typewriter-line1"></span><br />
+                <span id="line1" class="typewriter-line1"></span><br/>
                 <span id="line2" class="typewriter-line2"></span>
             </div>
         </h1>
 
 
-
         <p class="ease" style="font-size: 30px; margin-top: 30px">
-            Respondé, aprendé y ganá... <br />¡la competencia recién empieza!
+            Respondé, aprendé y ganá... <br/>¡la competencia recién empieza!
         </p>
     </div>
     <div class="text-center text-light" style="margin-top: 140px">
@@ -31,13 +30,13 @@
             Ya estás adentro, ¿no?
         </h2>
         <p style="font-size: 35px">
-            Entonces no te achiques… <br />
+            Entonces no te achiques… <br/>
             ¡seguí jugando!
         </p>
     </div>
 
 
-    <div >
+    <div>
         <div id="login-card"
              class="flex-row justify-content-center align-items-center"
              style="
@@ -69,7 +68,7 @@
                 </div>
             {{/error}}
 
-             <form action="/POC/login/validar" method="post" style="margin-left: 50px; margin-right: 50px">
+            <form action="/POC/login/validar" method="post" style="margin-left: 50px; margin-right: 50px">
                 <div class="mt-4">
                     <label
                             for="email"
@@ -112,17 +111,18 @@
 </main>
 <div id="message-data" data-error="{{error}}" data-success="{{success}}" style="display:none;"></div>
 
-<div id="popup">
-    <div id="popup-content">
-        <span id="popup-message"></span>
-        <button onclick="document.getElementById('popup').style.display='none'">Cerrar</button>
+<div id="popup-overlay">
+    <div id="popup">
+        <div id="popup-content">
+            <span id="popup-message"></span>
+            <button class="btn btn-lg boton-verde" onclick="document.getElementById('popup-overlay').style.display='none'">Cerrar</button>
+        </div>
     </div>
 </div>
 
 <script src="/POC/public/js/home.js"></script>
 
 <!-- Div oculto para pasar mensajes desde Mustache a JS -->
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -32,6 +32,7 @@ loop(); // iniciar primera vez
 
 setInterval(loop, 9000);
 window.onload = function() {
+    const popupOverlay = document.getElementById('popup-overlay');
     const popup = document.getElementById('popup');
     const msg = document.getElementById('popup-message');
     const messageData = document.getElementById('message-data');
@@ -39,14 +40,14 @@ window.onload = function() {
     const success = messageData.dataset.success;
 
     // Ocultar popup por defecto
-    popup.style.display = 'none';
+    popupOverlay.style.display = 'none';
 
     if (error && error.trim().length > 0) {
         msg.textContent = error.trim();
         popup.style.borderColor = "red";
         msg.style.color = "white";
         popup.style.borderRadius = "15px";
-        popup.style.display = "flex";
+        popupOverlay.style.display = "flex";
     } else if (success && success.trim().length > 0) {
         msg.textContent = success.trim();
         popup.style.borderColor = "green";
