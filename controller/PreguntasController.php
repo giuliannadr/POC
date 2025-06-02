@@ -2,6 +2,7 @@
 
 require_once("core/Session.php");
 require_once("core/DataLobbys.php");
+
 class PreguntasController
 {
     private $view;
@@ -18,7 +19,7 @@ class PreguntasController
     {
 
 
-        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador')  {
+        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador') {
             $this->view->render('headerChico', 'homeLogin');
             exit;
         }
@@ -32,7 +33,8 @@ class PreguntasController
 
     }
 
-    public function obtenerPreguntaNoRepetida($partida){
+    public function obtenerPreguntaNoRepetida($partida)
+    {
         $pregunta = $this->model->obtenerPreguntaNoRepetidaParaPartida($partida);
 
         if ($pregunta) {
@@ -45,7 +47,8 @@ class PreguntasController
         }
     }
 
-    public function jugar($pregunta, $partida) {
+    public function jugar($pregunta, $partida)
+    {
 
 // Categoría
         $categoria = $pregunta['categoria']; // asumimos que hacés JOIN con Categoria
@@ -106,44 +109,27 @@ class PreguntasController
 
     }
 
-public function validarRespuesta()
-{
+    public function validarRespuesta()
+    {
+        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador') {
+            $this->view->render('headerChico', 'homeLogin');
+            exit;
+        }
 
-    if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador')  {
-        $this->view->render('headerChico', 'homeLogin');
-        exit;
+        $usuario = Session::get('usuario');
+
+        $idPartida = isset($_POST['id_partida']) ? $_POST['id_partida'] : null;
+        $idRespuesta = isset($_POST['respuesta']) ? $_POST['respuesta'] : null;
+        $id_jugador = $usuario['id_usuario'];
+        $esCorrecta = false;
+
+        if ($this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador)) {
+            $esCorrecta = true;
+            $this->obtenerPreguntaNoRepetida($idPartida);
+        } else {
+            $puntajeFinal = $this->model->getPuntajePartida($idPartida);
+
+            $this->view->render('headerGrandeSinBotones', 'puntajePartida', ['puntaje' => $puntajeFinal]);
+        }
     }
-
-    $usuario = Session::get('usuario');
-
-    $idPartida = isset($_POST['id_partida']) ? $_POST['id_partida'] : null;
-    $idRespuesta = isset($_POST['respuesta']) ? $_POST['respuesta'] : null;
-    $id_jugador = $usuario['id_usuario'];
-$esCorrecta = false;
-
-if($this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador)) {
-   $esCorrecta = true;
-   $this->obtenerPreguntaNoRepetida($idPartida);
-}else{
-
-    $usuario = Session::get('usuario');
-
-    if ($usuario && isset($usuario['id_usuario'])) {
-        $id_usuario = $usuario['id_usuario'];
-    } else {
-        $id_usuario = null; // o manejar error si no existe
-    }
-
-
-    $usuario['puntaje'] = $this->model->obtenerPuntaje($id_usuario);
-    Session::set('usuario', $usuario);
-
-    $dataLobby = new DataLobbys();
-    $data = $dataLobby->getLobbyJugData($usuario);
-    $this->view->render('headerGrande', 'lobbyJug', $data);
-}
-
-
-}
-
 }

@@ -36,6 +36,13 @@ body {
     border: solid 3px var(--color-violeta-claro);
 }
 
+.nav-grande{
+    position: fixed;
+    top: -10px; /* un poco arriba para ocultar los bordes superiores */
+    left: 0;
+    padding: 20px 40px;
+}
+
 /* ------------------ REGISTRO ------------------ */
 
 .registro {

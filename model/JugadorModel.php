@@ -214,5 +214,25 @@ class JugadorModel
         return $datos;
     }
 
+    public function obtenerPuntaje($id_usuario) {
+        $sql = "SELECT 
+                j.puntaje
+            FROM usuario u
+            JOIN jugador j ON u.id_usuario = j.id_usuario
+            WHERE u.id_usuario = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $datos = $result->fetch_assoc();
+        $stmt->close();
+
+        if ($datos && isset($datos['puntaje'])) {
+            return (int)$datos['puntaje']; // devolvés solo el puntaje como int
+        }
+
+        return 0;
+    }
 }
 ?>
