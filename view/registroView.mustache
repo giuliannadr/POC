@@ -127,19 +127,11 @@
 
 <!-- MODAL DE REGISTRO EXITOSO -->
 {{#mostrarPopupActivacion}}
-    <div class="modal fade" id="registroExitosoModal" tabindex="-1" aria-labelledby="registroExitosoLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registroExitosoLabel">Registro exitoso</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <p>¡Registro exitoso! Por favor revisá tu casilla de correo para activar tu cuenta.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+    <div id="popup-overlay">
+        <div id="popup">
+            <div id="popup-content">
+                <span id="popup-message">¡Registro exitoso! Por favor revisá tu casilla de correo para activar tu cuenta.</span>
+                <button class="btn btn-lg boton-verde" onclick="document.getElementById('popup-overlay').style.display='none'">Cerrar</button>
             </div>
         </div>
     </div>
