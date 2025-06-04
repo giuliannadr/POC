@@ -11,10 +11,12 @@
 .contenedor-redondeado {
     border-radius: 0 0 20px 20px;
 }
+
 .fondo-azul {
     background-color: var(--color-azul);
 }
-body{
+
+body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -22,52 +24,59 @@ body{
     background-attachment: fixed;
 }
 
-.deporte{
+.deporte {
     background: linear-gradient(to bottom, #ffffff, #ff7100);
 }
 
-.historia{
+.historia {
     background: linear-gradient(to bottom, #ffffff, #ffd83c);
 }
 
-.geografia{
+.geografia {
     background: linear-gradient(to bottom, #ffffff, #0c32c5);
 }
 
-.arte{
+.arte {
     background: linear-gradient(to bottom, #ffffff, #d8000e);
 }
 
-.entretenimiento{
+.entretenimiento {
     background: linear-gradient(to bottom, #ffffff, #d906e4);
 }
-.ciencia{
+
+.ciencia {
     background: linear-gradient(to bottom, #ffffff, #3bae32);
 }
-main{
+
+main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.p-deporte{
-    background-color: #ff7100 ;
+.p-deporte {
+    background-color: #ff7100;
 }
-.p-historia{
-    background-color: #ffd83c ;
+
+.p-historia {
+    background-color: #ffd83c;
 }
-.p-ciencia{
-    background-color: #3bae32 ;
+
+.p-ciencia {
+    background-color: #3bae32;
 }
-.p-arte{
-    background-color: #d8000e ;
+
+.p-arte {
+    background-color: #d8000e;
 }
-.p-entretenimiento{
-    background-color: #d906e4 ;
+
+.p-entretenimiento {
+    background-color: #d906e4;
 }
-.p-geografia{
-    background-color: #0c32c5 ;
+
+.p-geografia {
+    background-color: #0c32c5;
 }
 
 .pregunta {
@@ -117,22 +126,26 @@ main{
     pointer-events: none;
     width: 100%;
     font-size: 23px;
+    margin: 0px 4px;
 }
+
 .respuestas {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    width: 650px;  /* O el ancho que querés que tenga el contenedor */
+    width: 650px; /* O el ancho que querés que tenga el contenedor */
     gap: 20px; /* espacio entre respuestas */
-    margin-top: 30px;
+    margin: 30px 10px;
 }
 
 .r {
     background-color: white;
     border-radius: 40px;
     margin: 0;
-    padding: 10px 0;  /* algo de padding para mejor visual */
-    width: 100%; /* ocupa todo el ancho del contenedor */
+    padding: 10px 0; /* algo de padding para mejor visual */
+    width: 98%; /* ocupa todo el ancho del contenedor */
     text-align: center;
     display: flex;
     justify-content: center;
@@ -147,12 +160,13 @@ main{
     background-color: #d5d2d2; /* efecto hover */
 }
 
-.r p{
+.r p {
     margin: 0;
     color: var(--color-azul);
-    font-weight:600;
+    font-weight: 600;
     font-size: 23px;
 }
+
 .r input[type="radio"] {
     display: none;
 }
@@ -168,11 +182,51 @@ main{
 }
 
 
-.abandonar{
+.abandonar {
     border-radius: 40px;
-    padding: 10px;
+    padding: 10px 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    background-color: #dc3545;
+    border: none;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    text-decoration: none;
 }
-.puntos{
+
+.abandonar:hover {
+    background-color: #b52a3a;
+}
+
+@media (max-width: 1200px) {
+    .abandonar {
+        font-size: 20px;
+        padding: 8px 20px;
+    }
+}
+
+@media (max-width: 1000px){
+    .abandonar {
+        font-size: 18px;
+        padding: 6px 15px;
+        white-space: normal;
+        width: 150px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .abandonar {
+        font-size: 16px;
+        padding: 6px 10px;
+        white-space: normal;
+        width: 130px;
+        text-align: center;
+    }
+}
+
+.puntos {
 
     color: white;
     padding: 10px;
@@ -186,7 +240,7 @@ main{
     color: white;
     border-radius: 40px;
     margin: 0;
-    padding: 10px 0;  /* algo de padding para mejor visual */
+    padding: 10px 0; /* algo de padding para mejor visual */
     width: 100%; /* ocupa todo el ancho del contenedor */
     text-align: center;
     display: flex;
@@ -195,12 +249,13 @@ main{
     height: 73px;
 
 }
+
 .incorrecta {
     background-color: red;
     color: white;
     border-radius: 40px;
     margin: 0;
-    padding: 10px 0;  /* algo de padding para mejor visual */
+    padding: 10px 0; /* algo de padding para mejor visual */
     width: 100%; /* ocupa todo el ancho del contenedor */
     text-align: center;
     display: flex;
@@ -209,11 +264,12 @@ main{
     height: 73px;
 
 }
+
 .normal {
     background-color: white;
     border-radius: 40px;
     margin: 0;
-    padding: 10px 0;  /* algo de padding para mejor visual */
+    padding: 10px 0; /* algo de padding para mejor visual */
     width: 100%; /* ocupa todo el ancho del contenedor */
     text-align: center;
     display: flex;
@@ -221,6 +277,7 @@ main{
     align-items: center;
     height: 73px;
 }
+
 .siguiente {
     background-color: #87ff5f;
     text-decoration: none;
@@ -239,7 +296,7 @@ main{
     text-decoration: none;
     color: white;
     transition: all 0.3s ease; /* para una transición suave */
-    margin-right:40px ;
+    margin-right: 40px;
 }
 
 .reportar:hover {
@@ -247,25 +304,28 @@ main{
     color: white;
     font-weight: bold;
 }
-.correcta p{
+
+.correcta p {
     margin: 0;
 
-    font-weight:600;
+    font-weight: 600;
     font-size: 23px;
 }
-.incorrecta p{
+
+.incorrecta p {
     margin: 0;
-    font-weight:600;
+    font-weight: 600;
     font-size: 23px;
 }
-.normal p{
+
+.normal p {
     margin: 0;
     color: var(--color-azul);
-    font-weight:600;
+    font-weight: 600;
     font-size: 23px;
 }
 
-.botones-preguntas{
+.botones-preguntas {
 
     display: flex;
     flex-direction: row;
@@ -275,14 +335,16 @@ main{
 
 
 }
-.btn{
+
+.btn {
     width: 300px;
     height: 60px;
     border-radius: 40px;
     padding: 10px;
     font-size: 25px;
-font-weight: bold;
+    font-weight: bold;
 }
+
 .pop {
     display: none;
     background-color: var(--color-azul);
@@ -303,6 +365,14 @@ font-weight: bold;
     text-align: center;
 }
 
+#formRespuestas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 /* Animación de desvanecido */
 @keyframes fadeIn {
     from {
@@ -312,5 +382,66 @@ font-weight: bold;
     to {
         opacity: 1;
         transform: translate(-50%, -50%);
+    }
+}
+
+
+@media (max-width: 1200px) {
+    .pregunta {
+        width: 90% !important;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .pregunta .preg {
+        position: static;
+        transform: none;
+        font-size: 20px;
+    }
+
+    .pregunta .segs {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .r p {
+        font-size: 18px;
+    }
+
+    .r {
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .pregunta {
+        width: 90% !important;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .pregunta .preg {
+        position: static;
+        transform: none;
+        font-size: 18px;
+    }
+
+    .pregunta .segs {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .r p {
+        font-size: 18px;
+    }
+
+    .r {
+        width: 80%;
+    }
+
+    .respuestas{
+        width: 90%;
     }
 }
