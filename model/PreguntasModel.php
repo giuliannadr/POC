@@ -27,38 +27,89 @@ class PreguntasModel
         return $idPartida;
     }
 
-//    public function preguntaNoRepetida($id_pregunta, $id_partida){
-//        $stmt = $this->database->prepare("SELECT p.id_pregunta, p.id_partida
-//                FROM PreguntaPartida p
-//                WHERE p.id_pregunta = ? and p.id_partida = ?");
-//        $stmt->bind_param("ii", $id_pregunta, $id_partida);
-//        $stmt->execute();
-//
-//        $res = $stmt->get_result();
-//        $stmt->close();
-//
-//        return $res->num_rows === 0;
-//    }
 
-    public function obtenerPreguntaNoRepetidaParaPartida($id_partida) {
-        $sql = "SELECT p.id_pregunta, p.enunciado, c.nombre AS categoria
-            FROM Pregunta p
-            JOIN Categoria c ON p.id_categoria = c.id_categoria
-            WHERE p.estado_pregunta = 'activa'
-              AND p.id_pregunta NOT IN (
-                  SELECT id_pregunta
-                  FROM PreguntaPartida
-                  WHERE id_partida = ?
-              )
-            ORDER BY RAND()
-            LIMIT 1";
+    public function obtenerPreguntaNoRepetidaPorDificultad($id_jugador) {
+        // 1. Obtener dificultad actual del jugador
+        $sqlDificultad = "SELECT dificultad FROM jugador WHERE id_usuario = ?";
+        $stmtDif = $this->database->prepare($sqlDificultad);
+        $stmtDif->bind_param("i", $id_jugador);
+        $stmtDif->execute();
+        $resDif = $stmtDif->get_result();
+        $filaDif = $resDif->fetch_assoc();
+        $dificultadJugador = $filaDif ? (int)$filaDif['dificultad'] : 0;
+        $stmtDif->close();
 
-        $stmt = $this->database->prepare($sql);
-        $stmt->bind_param("i", $id_partida);
-        $stmt->execute();
+        // Definir rango ±5%
+        $minDificultad = max(0, $dificultadJugador - 5);
+        $maxDificultad = min(100, $dificultadJugador + 5);
 
-        $res = $stmt->get_result();
-        return $res->fetch_assoc();
+        // 2. Contar total de preguntas activas
+        $sqlTotalPreguntas = "SELECT COUNT(*) AS total FROM Pregunta WHERE estado_pregunta = 'activa'";
+        $resTotal = $this->database->query($sqlTotalPreguntas);
+        $filaTotal = !empty($resTotal) ? $resTotal[0] : null;
+        $totalPreguntas = (int)$filaTotal['total'];
+
+        // 3. Contar preguntas respondidas por el jugador
+        $sqlRespondidas = "SELECT COUNT(DISTINCT id_pregunta) AS respondidas FROM jugadorRespondePregunta WHERE id_jugador = ?";
+        $stmtResp = $this->database->prepare($sqlRespondidas);
+        $stmtResp->bind_param("i", $id_jugador);
+        $stmtResp->execute();
+        $resResp = $stmtResp->get_result();
+        $filaResp = $resResp->fetch_assoc();
+        $respondidas = (int)$filaResp['respondidas'];
+        $stmtResp->close();
+
+        // 4. Si ya respondió todas las preguntas, borrar registros para resetear
+        if ($respondidas >= $totalPreguntas) {
+            $sqlBorrar = "DELETE FROM jugadorRespondePregunta WHERE id_jugador = ?";
+            $stmtBorrar = $this->database->prepare($sqlBorrar);
+            $stmtBorrar->bind_param("i", $id_jugador);
+            $stmtBorrar->execute();
+            $stmtBorrar->close();
+            // Reset respondidas para la consulta siguiente
+            $respondidas = 0;
+        }
+
+        // 5. Obtener una pregunta no respondida en el rango de dificultad ±5%
+        $sqlPregunta = "SELECT p.id_pregunta, p.enunciado, c.nombre AS categoria, p.dificultad
+                    FROM Pregunta p
+                    JOIN Categoria c ON p.id_categoria = c.id_categoria
+                    WHERE p.estado_pregunta = 'activa'
+                      AND p.dificultad BETWEEN ? AND ?
+                      AND p.id_pregunta NOT IN (
+                          SELECT id_pregunta FROM jugadorRespondePregunta WHERE id_jugador = ?
+                      )
+                    ORDER BY RAND()
+                    LIMIT 1";
+
+        $stmtPregunta = $this->database->prepare($sqlPregunta);
+        $stmtPregunta->bind_param("iii", $minDificultad, $maxDificultad, $id_jugador);
+        $stmtPregunta->execute();
+        $resPregunta = $stmtPregunta->get_result();
+        $pregunta = $resPregunta->fetch_assoc();
+        $stmtPregunta->close();
+
+        // 6. Si no encontró ninguna pregunta en ese rango, buscar sin filtrar dificultad (para evitar bloqueo)
+        if (!$pregunta) {
+            $sqlPreguntaFallback = "SELECT p.id_pregunta, p.enunciado, c.nombre AS categoria, p.dificultad
+                                FROM Pregunta p
+                                JOIN Categoria c ON p.id_categoria = c.id_categoria
+                                WHERE p.estado_pregunta = 'activa'
+                                  AND p.id_pregunta NOT IN (
+                                      SELECT id_pregunta FROM jugadorRespondePregunta WHERE id_jugador = ?
+                                  )
+                                ORDER BY RAND()
+                                LIMIT 1";
+
+            $stmtFallback = $this->database->prepare($sqlPreguntaFallback);
+            $stmtFallback->bind_param("i", $id_jugador);
+            $stmtFallback->execute();
+            $resFallback = $stmtFallback->get_result();
+            $pregunta = $resFallback->fetch_assoc();
+            $stmtFallback->close();
+        }
+
+        return $pregunta;
     }
 
 
@@ -69,11 +120,16 @@ class PreguntasModel
         $stmt->bind_param("i", $idPregunta);
         $stmt->execute();
         $res = $stmt->get_result();
-        return $res->fetch_all(MYSQLI_ASSOC);
+        $resultados = $res->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $resultados;
     }
 
-    public function validarRespuesta($idRespuesta, $idPartida, $id_jugador) {
+    public function validarRespuesta($idRespuesta, $idPartida, $id_jugador, $idPregunta) {
         // Obtener la pregunta asociada a la respuesta
+
+
+
         $stmt = $this->database->prepare("SELECT r.esCorrecta, r.id_pregunta FROM Respuesta r WHERE r.id_respuesta = ?");
         $stmt->bind_param("i", $idRespuesta);
         $stmt->execute();
@@ -101,6 +157,15 @@ class PreguntasModel
         $puntaje = $esCorrecta ? 100 : 0;
         $correctaInt = $esCorrecta ? 1 : 0;
 
+        $sql = "INSERT INTO jugadorRespondePregunta (id_pregunta, id_jugador) VALUES (?, ?)";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt === false) {
+            die("Error al preparar consulta jugadorRespondePregunta: " . $this->database->error);
+        }
+        $stmt->bind_param("ii", $idPregunta, $id_jugador);
+        $stmt->execute();
+        $stmt->close();
+
         // Insertar respuesta
         $sql = "INSERT INTO RespuestaJugador (id_partida, id_jugador, id_pregunta, id_respuesta_elegida, correcta, puntaje) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->database->prepare($sql);
@@ -117,10 +182,37 @@ class PreguntasModel
         $stmt->execute();
         $stmt->close();
 
-        $stmt = $this->database->prepare("UPDATE Jugador SET puntaje = puntaje + ? WHERE id_usuario = ?");
+        $stmt = $this->database->prepare("UPDATE Jugador SET puntaje = puntaje + ?,
+                      cantPreguntas = cantPreguntas + 1
+                    WHERE id_usuario = ?");
         $stmt->bind_param("ii", $puntaje, $id_jugador);
         $stmt->execute();
         $stmt->close();
+
+        $stmt = $this->database->prepare("UPDATE Pregunta 
+                      SET cantJugadores = cantJugadores + 1 
+                     WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $stmt->close();
+        if ($esCorrecta){
+            $stmt = $this->database->prepare("UPDATE Pregunta 
+                      SET cantRespuestasCorrectas = cantRespuestasCorrectas + 1 
+                     WHERE id_pregunta = ?");
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $stmt->close();
+
+        }
+        if ($esCorrecta){
+            $stmt = $this->database->prepare("UPDATE Jugador 
+                      SET cantRespuestasCorrectas = cantRespuestasCorrectas + 1 
+                     WHERE id_usuario = ?");
+            $stmt->bind_param("i", $id_jugador);
+            $stmt->execute();
+            $stmt->close();
+
+        }
 
         return $esCorrecta;
     }
@@ -175,6 +267,58 @@ class PreguntasModel
         return null; // o podés manejarlo como error si no existe
     }
 
+    public function obtenerDificultadJugador($id_jugador) {
+        // Paso 2: Obtener historial previo guardado
+        $sql = "SELECT cantPreguntas, cantRespuestasCorrectas FROM jugador WHERE id_usuario = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id_jugador);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $resultado = $res->fetch_assoc();
+
+        $total = (int) $resultado['cantPreguntas'];
+        $correctas = (int) $resultado['cantRespuestasCorrectas'];
+
+        // Evitar división por 0
+        $porcentaje = $total > 0 ? round(100 * $correctas / $total) : 0;
+
+        // Paso 3: Actualizar tabla jugador
+        $updateSql = "UPDATE jugador 
+                  SET dificultad = ? 
+                  WHERE id_usuario = ?";
+        $updateStmt = $this->database->prepare($updateSql);
+        $updateStmt->bind_param("ii", $porcentaje, $id_jugador);
+        $updateStmt->execute();
+
+        return $porcentaje;
+    }
+
+
+    public function obtenerDificultadPregunta($id_pregunta) {
+
+        $sql = "SELECT cantJugadores, cantRespuestasCorrectas FROM pregunta WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id_pregunta);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $resultado = $res->fetch_assoc();
+
+        $total = (int) $resultado['cantJugadores'];
+        $correctas = (int) $resultado['cantRespuestasCorrectas'];
+
+        // Evitar división por 0
+        $porcentaje = $total > 0 ? round(100 * $correctas / $total) : 0;
+
+        // Paso 3: Actualizar tabla pregunta
+        $updateSql = "UPDATE pregunta 
+                  SET dificultad = ?, 
+                  WHERE id_pregunta = ?";
+        $updateStmt = $this->database->prepare($updateSql);
+        $updateStmt->bind_param("ii", $porcentaje, $id_pregunta);
+        $updateStmt->execute();
+
+        return $porcentaje;
+    }
 
 
 
