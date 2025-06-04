@@ -181,3 +181,136 @@ main{
 
 }
 
+.correcta {
+    background-color: #1ca61c;
+    color: white;
+    border-radius: 40px;
+    margin: 0;
+    padding: 10px 0;  /* algo de padding para mejor visual */
+    width: 100%; /* ocupa todo el ancho del contenedor */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 73px;
+
+}
+.incorrecta {
+    background-color: red;
+    color: white;
+    border-radius: 40px;
+    margin: 0;
+    padding: 10px 0;  /* algo de padding para mejor visual */
+    width: 100%; /* ocupa todo el ancho del contenedor */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 73px;
+
+}
+.normal {
+    background-color: white;
+    border-radius: 40px;
+    margin: 0;
+    padding: 10px 0;  /* algo de padding para mejor visual */
+    width: 100%; /* ocupa todo el ancho del contenedor */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 73px;
+}
+.siguiente {
+    background-color: #87ff5f;
+    text-decoration: none;
+    color: #7e00d9;
+    transition: all 0.3s ease; /* para una transición suave */
+}
+
+.siguiente:hover {
+    background-color: var(--color-violeta-claro);
+    color: #87ff5f;
+    font-weight: bold;
+}
+
+.reportar {
+    background-color: red;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease; /* para una transición suave */
+    margin-right:40px ;
+}
+
+.reportar:hover {
+    background-color: #b50000;
+    color: white;
+    font-weight: bold;
+}
+.correcta p{
+    margin: 0;
+
+    font-weight:600;
+    font-size: 23px;
+}
+.incorrecta p{
+    margin: 0;
+    font-weight:600;
+    font-size: 23px;
+}
+.normal p{
+    margin: 0;
+    color: var(--color-azul);
+    font-weight:600;
+    font-size: 23px;
+}
+
+.botones-preguntas{
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    width: 100vh;
+    justify-content: center;
+
+
+}
+.btn{
+    width: 300px;
+    height: 60px;
+    border-radius: 40px;
+    padding: 10px;
+    font-size: 25px;
+font-weight: bold;
+}
+.pop {
+    display: none;
+    background-color: var(--color-azul);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    animation: fadeIn 0.5s ease forwards;
+    max-width: 90%;
+    width: 500px;
+    box-shadow: 0 0 10px 2px white;
+    border: solid 2px white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Animación de desvanecido */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
