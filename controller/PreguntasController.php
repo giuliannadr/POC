@@ -36,7 +36,15 @@ class PreguntasController
 
     public function obtenerPreguntaNoRepetida($partida)
     {
-        $pregunta = $this->model->obtenerPreguntaNoRepetidaParaPartida($partida);
+
+        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador') {
+            $this->view->render('headerChico', 'homeLogin');
+            exit;
+        }
+
+        $usuario = Session::get('usuario');
+
+        $pregunta = $this->model->obtenerPreguntaNoRepetidaPorDificultad($usuario['id_usuario']);
 
         if ($pregunta) {
             $this->jugar($pregunta, $partida);
@@ -97,7 +105,7 @@ class PreguntasController
         $id_jugador = $usuario['id_usuario'];
 
         // Validar si la respuesta es correcta
-        $esCorrecta = $this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador);
+        $esCorrecta = $this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador, $idPregunta);
 
         // Obtener la pregunta y sus respuestas
         $pregunta = $this->model->getPreguntaPorId($idPregunta);
