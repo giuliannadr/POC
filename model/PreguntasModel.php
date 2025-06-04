@@ -139,5 +139,44 @@ class PreguntasModel
         }
     }
 
+    public function obtenerRespuestaCorrecta($idPregunta) {
+        $sql = "SELECT r.id_respuesta 
+            FROM Respuesta r 
+            JOIN Pregunta p ON r.id_pregunta = p.id_pregunta 
+            WHERE r.esCorrecta = 1 AND p.id_pregunta = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        if ($fila = $res->fetch_assoc()) {
+            return (int)$fila['id_respuesta'];
+        }
+
+        return null;
+    }
+
+    public function getPreguntaPorId($idPregunta)
+    {
+        $sql = "SELECT p.id_pregunta, p.enunciado, c.nombre AS categoria 
+                FROM Pregunta p 
+                    join Categoria c on p.id_categoria = c.id_categoria
+                WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+        if ($fila = $resultado->fetch_assoc()) {
+            return $fila;
+        }
+
+        return null; // o podés manejarlo como error si no existe
+    }
+
+
+
+
 }
 

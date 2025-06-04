@@ -1,0 +1,67 @@
+
+<main>
+    <div class="pregunta {{clasePregunta}}">
+        <div class="svg">
+            {{{svgCategoria}}}
+        </div>
+
+        <p class="preg">{{pregunta.enunciado}}</p>
+    </div>
+        <div class="respuestas">
+            {{#respuestas}}
+                <div class="{{clase}}">
+<!--                    <input  type="radio" name="respuesta" value="{{id_respuesta}}" style="display:none" />-->
+                    <p>{{texto}}</p>
+                </div>
+            {{/respuestas}}
+        </div>
+    <div class="botones-preguntas">
+        {{#botones}}
+            {{#isSubmit}}
+                <form action="/POC/preguntas/siguientePregunta" method="POST" style="display:inline">
+                    <input type="hidden" name="id_partida" value="{{partida}}">
+                    <button type="submit" class="{{clase}} btn">{{texto}}</button>
+                </form>
+            {{/isSubmit}}
+            {{^isSubmit}}
+                <a class="{{clase}} btn" href="{{link}}">{{texto}}</a>
+            {{/isSubmit}}
+        {{/botones}}
+    </div>
+
+    <!-- POPUP DE PARTIDA FINALIZADA -->
+    <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1040;"></div>
+
+    <div id="popupIncorrecto"
+         class="text-white fondo-violeta p-5 rounded-5 my-5 shadow pop"
+         style="display: none;">
+
+        <h1 class="m-0">¡Partida finalizada!</h1>
+
+        <h3 class="mt-5 my-0">Puntaje Obtenido:</h3>
+        <div class="text-center fondo-violetaoscuro rounded-5 mt-3">
+            <h1 class="texto-verde fw-bolder mx-0 p-2">{{puntaje}}</h1>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/POC/LobbyJug/show"
+               class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+                Volver
+            </a>
+        </div>
+    </div>
+
+</main>
+<script>
+    const esCorrecta = ({{#esCorrecta}}true{{/esCorrecta}}{{^esCorrecta}}false{{/esCorrecta}});
+
+    if (!esCorrecta) {
+        setTimeout(() => {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('popupIncorrecto').style.display = 'block';
+        }, 2000);
+    }
+
+</script>
+</body>
+</html>

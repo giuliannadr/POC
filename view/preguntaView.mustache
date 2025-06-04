@@ -6,9 +6,10 @@
         </div>
 
         <p class="preg">{{pregunta.enunciado}}</p>
-
+        <p class="segs">10</p>
     </div>
     <form id="formRespuestas" action="/POC/preguntas/validarRespuesta" method="POST">
+        <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
         <input type="hidden" name="id_partida" value="{{partida}}">
           <div class="respuestas">
             {{#respuestas}}
@@ -19,11 +20,53 @@
             {{/respuestas}}
         </div>
     </form>
+
+    <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1040;"></div>
+    <!-- POPUP DE TIEMPO AGOTADO -->
+    <div id="popupTiempo"
+         class="text-white fondo-rojo p-5 rounded-5 my-5 shadow pop"
+         style="display: none;">
+
+        <h1 class="m-0">¡Se acabó el tiempo!</h1>
+
+        <h3 class="mt-5 my-0">Perdiste por no responder a tiempo.</h3>
+
+        <div class="text-center mt-4">
+            <a href="/POC/LobbyJug/show"
+               class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+                Volver
+            </a>
+        </div>
+    </div>
+
 </main>
 
 <script>
+    // Timer de 10 segundos
+    let tiempoRestante = 10;
+    const contadorElement = document.querySelector('.segs');
+    let formEnviado = false;
+
+    const timer = setInterval(() => {
+        tiempoRestante--;
+        if (contadorElement) {
+            contadorElement.textContent = tiempoRestante;
+        }
+
+        if (tiempoRestante <= 0) {
+            clearInterval(timer);
+            if (!formEnviado) {
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('popupTiempo').style.display = 'block';
+            }
+        }
+    }, 1000);
+
+
+
     document.querySelectorAll('#formRespuestas input[type="radio"]').forEach(input => {
         input.addEventListener('change', () => {
+            formEnviado = true;
             document.getElementById('formRespuestas').submit();
         });
     });
