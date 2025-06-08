@@ -15,7 +15,7 @@ class DataLobbys{
 
 
         $botones = [
-            ['texto' => 'Ver ranking', 'link' => '#'],
+            ['texto' => 'Ver ranking', 'link' => 'index.php?controller=ranking&action=show'],
             ['texto' => 'Historial de partidas', 'link' => '#'],
             ['texto' => 'Crear preguntas', 'link' => '#']
         ];

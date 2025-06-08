@@ -551,6 +551,53 @@ body {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
+.ranking-contenedor{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    margin-top: 2em;
+
+}
+
+#ranking{
+    width:20em;
+}
+
+
+
+.fila-ranking{
+    display: flex;
+    flex-direction: row;
+    background-color: var(--color-verde);
+    padding: 1em;
+    gap: 1em;
+    width: 60%;
+    border-radius: 1em;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fila-posicion{
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.fila-textos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+}
+
+
+
+
+
 
 
 

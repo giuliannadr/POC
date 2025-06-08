@@ -1,0 +1,20 @@
+<div class="ranking-contenedor">
+<h1 class="text-white fw-bold">Ranking de Jugadores</h1>
+
+
+    <div class="fila-textos text-white">
+        <h4>Posicion</h4>
+        <h4>Puntaje</h4>
+    </div>
+    {{#jugadores}}
+    <div class="fila-ranking">
+        <div class="fila-posicion">
+        <div class="posicion">{{posicion}}</div>
+        <div>{{nombre_usuario}}</div>
+        </div>
+        <div>{{puntaje}}</div>
+    </div>
+     {{/jugadores}}
+</div>
+</body>
+</html>
