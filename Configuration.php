@@ -106,5 +106,8 @@ class Configuration
         return new PreguntasController(new PreguntasModel($this->db),$this->getViewer());
     }
 
+    public function getRankingController(){
+        return new RankingController(new RankingModel($this->db),$this->getViewer());
+    }
 
 }

@@ -234,5 +234,7 @@ class JugadorModel
 
         return 0;
     }
+
+
 }
 ?>
