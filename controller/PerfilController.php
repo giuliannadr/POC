@@ -15,13 +15,6 @@ class PerfilController
     public function mostrar()
     {
 
-
-
-        // Si no hay sesión activa, redirigir al login
-        if (!Session::exists('usuario') ) {
-            $this->view->render('headerChico', 'homeLogin');
-        }
-
         $usuario = Session::get('usuario'); // Esto devuelve el array completo (o null si no existe)
 
 
@@ -53,10 +46,6 @@ class PerfilController
 
     public function editar()
     {
-        if (!Session::exists('usuario') ) {
-            $this->view->render('headerChico', 'homeLogin');
-        }
-
         $usuario = Session::get('usuario');
 
         if ($usuario && isset($usuario['id_usuario'])) {
@@ -81,9 +70,6 @@ class PerfilController
 
     public function guardar()
     {
-        if (!Session::exists('usuario') ) {
-            $this->view->render('headerChico', 'homeLogin');
-        }
 
         $usuario = Session::get('usuario');
 

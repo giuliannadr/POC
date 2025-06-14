@@ -60,6 +60,50 @@
     <a href="/POC/preguntas/crearPartida" class="btn-jugar">JUGAR</a>
 </div>
 
+<!-- Fondo oscuro -->
+<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1040;"></div>
+
+<!-- POPUP TIEMPO AGOTADO -->
+<div id="popupTiempo"
+     class="text-white fondo-rojo p-5 rounded-5 my-5 shadow pop"
+     style="display: none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:1050; max-width: 90vw; background-color: #010a7e; border: solid 2px white;
+
+    flex-direction: column;
+    align-items: center;
+    text-align: center;">
+
+    <h1 class="m-0">¡Se acabó el tiempo!</h1>
+
+    <h3 class="mt-5 my-0">Perdiste por no responder a tiempo.</h3>
+
+    <h3 class="mt-5 my-0">Puntaje Obtenido:</h3>
+    <div class="text-center  rounded-5 mt-3">
+        <h1 class="texto-verde fw-bolder mx-0 p-2">{{puntaje}}</h1>
+    </div>
+    <div class="text-center mt-4">
+        <button onclick="cerrarPopup()" class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+            Cerrar
+        </button>
+    </div>
+</div>
+
+<script>
+    function mostrarPopup() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('popupTiempo').style.display = 'block';
+    }
+
+    function cerrarPopup() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('popupTiempo').style.display = 'none';
+    }
+
+    // Mostrar automáticamente si se pasó la variable
+        {{#tiempoAgotado}}
+        mostrarPopup();
+        {{/tiempoAgotado}}
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>

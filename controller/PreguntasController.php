@@ -19,12 +19,6 @@ class PreguntasController
     public function crearPartida()
     {
 
-
-        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador') {
-            $this->view->render('headerChico', 'homeLogin');
-            exit;
-        }
-
         $usuario = Session::get('usuario');
 
         $partida = $this->model->crearPartida($usuario['id_usuario']);
@@ -36,11 +30,6 @@ class PreguntasController
 
     public function obtenerPreguntaNoRepetida($partida)
     {
-
-        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador') {
-            $this->view->render('headerChico', 'homeLogin');
-            exit;
-        }
 
         $usuario = Session::get('usuario');
 
@@ -59,6 +48,9 @@ class PreguntasController
     public function jugar($pregunta, $partida)
     {
 
+        $usuario = Session::get('usuario');
+        $usuario['inicio_pregunta'][$partida] = time();
+        Session::set('usuario', $usuario);
 // Categoría
         $categoria = $pregunta['categoria']; // asumimos que hacés JOIN con Categoria
 
@@ -92,17 +84,32 @@ class PreguntasController
 
 
     public function validarRespuesta() {
-        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador') {
-            $this->view->render('headerChico', 'homeLogin');
-            exit;
-        }
 
         $usuario = Session::get('usuario');
+
 
         $idPartida = $_POST['id_partida'] ?? null;
         $idRespuesta = $_POST['respuesta'] ?? null;
         $idPregunta = $_POST['id_pregunta'] ?? null;
         $id_jugador = $usuario['id_usuario'];
+        $puntajeActual = $this->model->getPuntajePartida($idPartida);
+
+        $inicio = $usuario['inicio_pregunta'][$_POST['id_partida']] ?? null;
+
+        if ($inicio === null || (time() - $inicio > 10)) {
+            $usuario = Session::get('usuario'); // Esto no se pierde si tenés bien session_start()
+            $usuario['puntaje'] = $puntajeActual;
+            Session::set('usuario', $usuario);
+
+            $dataLobby = new DataLobbys();
+            $data = $dataLobby->getLobbyJugData($usuario);
+
+            $data['tiempoAgotado'] = true; // Lo usás en Mustache para mostrar el popup
+
+            $this->view->render('headerGrande', 'lobbyJug', $data);
+            return;
+        }
+
 
         // Validar si la respuesta es correcta
         $esCorrecta = $this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador, $idPregunta);
@@ -116,6 +123,7 @@ class PreguntasController
         $idRespuestaCorrecta = null;
         if (!$esCorrecta) {
             $idRespuestaCorrecta = $this->model->obtenerRespuestaCorrecta($idPregunta);
+
         }
 
         $ordenGuardado = $_SESSION['orden_respuestas'][$idPartida] ?? [];
@@ -171,7 +179,7 @@ class PreguntasController
         // Datos para la vista
         $categoria = $pregunta['categoria'];
 
-        $puntajeActual = $this->model->getPuntajePartida($idPartida);
+
 
         $this->view->render('headerGrandePreguntas', 'resultadoRespuesta', [
             'pregunta' => $pregunta,

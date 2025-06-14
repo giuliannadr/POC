@@ -12,12 +12,6 @@ class LobbyADMController
     public function show()
     {
 
-
-        if (!Session::exists('usuario') || Session::get('tipo') !== 'admin')  {
-            $this->view->render('headerChico', 'homeLogin');
-            exit;
-        }
-
         $dataLobby = new DataLobbys();
         $data = $dataLobby->getLobbyAdminData();
 

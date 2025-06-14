@@ -14,10 +14,7 @@ class LobbyEDITORController
 
 
         // Redirige si no hay usuario o si el tipo no es 'editor'
-        if (!Session::exists('usuario') || Session::get('tipo') !== 'editor')  {
-            $this->view->render('headerChico', 'homeLogin');
-            exit;
-        }
+
 
         $dataLobby = new DataLobbys();
         $data = $dataLobby->getLobbyEditorData();

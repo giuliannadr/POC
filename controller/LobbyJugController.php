@@ -15,10 +15,7 @@ class LobbyJugController
 
     public function show()
     {
-        if (!Session::exists('usuario') || Session::get('tipo') !== 'jugador') {
-            $this->view->render('headerChico', 'homeLogin');
-            exit;
-        }
+
         $usuario = Session::get('usuario');
 
         if ($usuario && isset($usuario['id_usuario'])) {
