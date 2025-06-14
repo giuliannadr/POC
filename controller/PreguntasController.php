@@ -18,20 +18,44 @@ class PreguntasController
 
     public function crearPartida()
     {
-
         $usuario = Session::get('usuario');
 
-        $partida = $this->model->crearPartida($usuario['id_usuario']);
+        if (isset($usuario['partida_activa'])) {
+            $partida = $usuario['partida_activa'];
+        } else {
+            $partida = $this->model->crearPartida($usuario['id_usuario']);
+            $usuario['partida_activa'] = $partida;
+            Session::set('usuario', $usuario);
+        }
+
+        // 🔥 LIMPIEZA si ya pasó el tiempo pero el usuario recargó
+        if (
+            isset($usuario['inicio_pregunta'][$partida]) &&
+            (time() - $usuario['inicio_pregunta'][$partida] > 10)
+        ) {
+            unset($usuario['inicio_pregunta'][$partida]);
+            unset($usuario['idPreguntaEntregada'][$partida]);
+            Session::set('usuario', $usuario);
+        }
 
         $this->obtenerPreguntaNoRepetida($partida);
-
-
     }
+
 
     public function obtenerPreguntaNoRepetida($partida)
     {
 
         $usuario = Session::get('usuario');
+        if (isset($usuario['idPreguntaEntregada'][$partida])) {
+            $idPregunta = $usuario['idPreguntaEntregada'][$partida];
+            $pregunta = $this->model->getPreguntaPorId($idPregunta);
+
+            if ($pregunta) {
+                // Mostrar la misma pregunta
+                $this->jugar($pregunta, $partida);
+                return;
+            }
+        }
 
         $pregunta = $this->model->obtenerPreguntaNoRepetidaPorDificultad($usuario['id_usuario']);
 
@@ -44,20 +68,33 @@ class PreguntasController
             ]);
         }
     }
-
     public function jugar($pregunta, $partida)
     {
-
         $usuario = Session::get('usuario');
-        $usuario['inicio_pregunta'][$partida] = time();
-        Session::set('usuario', $usuario);
-// Categoría
-        $categoria = $pregunta['categoria']; // asumimos que hacés JOIN con Categoria
+        $tiempoLimite = 10;
+        $idPregunta = $pregunta['id_pregunta'];
+        $tiempoRestante = $tiempoLimite;
 
+        // Verificar si la misma pregunta ya fue entregada
+        if (isset($usuario['idPreguntaEntregada'][$partida]) && $usuario['idPreguntaEntregada'][$partida] == $idPregunta) {
+            // Ya fue entregada -> usar tiempo restante
+            if (isset($usuario['inicio_pregunta'][$partida])) {
+                $inicio = $usuario['inicio_pregunta'][$partida];
+                $segundosPasados = time() - $inicio;
+                $tiempoRestante = max(0, $tiempoLimite - $segundosPasados);
+            }
+        } else {
+            // Es una nueva pregunta -> reiniciar timer
+            $usuario['inicio_pregunta'][$partida] = time();
+            $usuario['idPreguntaEntregada'][$partida] = $idPregunta;
+            Session::set('usuario', $usuario);
+            $tiempoRestante = 10;
+        }
+
+        // --- resto del código igual ---
+        $categoria = $pregunta['categoria'];
         $puntaje = $this->model->getPuntajePartida($partida);
-
-        $respuestas = $this->model->obtenerRespuestas($pregunta['id_pregunta']);
-
+        $respuestas = $this->model->obtenerRespuestas($idPregunta);
         shuffle($respuestas);
 
         $_SESSION['orden_respuestas'][$partida] = array_map(function($r) {
@@ -71,22 +108,21 @@ class PreguntasController
             'svgCategoria' => $this->getSVGPorCategoria($categoria, $pregunta),
             'respuestas' => array_map(function ($r) {
                 return [
-                    'id_respuesta' => $r['id_respuesta'],       // id de la respuesta
-                    'texto' => $r['texto']  // texto para mostrar
+                    'id_respuesta' => $r['id_respuesta'],
+                    'texto' => $r['texto']
                 ];
             }, $respuestas),
             'partida' => $partida,
             'puntaje' => $puntaje,
+            'tiempoRestante' => $tiempoRestante
         ]);
-
-
     }
+
 
 
     public function validarRespuesta() {
 
         $usuario = Session::get('usuario');
-
 
         $idPartida = $_POST['id_partida'] ?? null;
         $idRespuesta = $_POST['respuesta'] ?? null;
@@ -94,50 +130,59 @@ class PreguntasController
         $id_jugador = $usuario['id_usuario'];
         $puntajeActual = $this->model->getPuntajePartida($idPartida);
 
-        $inicio = $usuario['inicio_pregunta'][$_POST['id_partida']] ?? null;
+        $inicio = $usuario['inicio_pregunta'][$idPartida] ?? null;
 
         if ($inicio === null || (time() - $inicio > 10)) {
-            $usuario = Session::get('usuario'); // Esto no se pierde si tenés bien session_start()
             $usuario['puntaje'] = $puntajeActual;
+
+            unset($usuario['partida_activa']);
+            unset($usuario['inicio_pregunta'][$idPartida]);
+            unset($usuario['idPreguntaEntregada'][$idPartida]);
+            unset($_SESSION['orden_respuestas'][$idPartida]);
             Session::set('usuario', $usuario);
 
             $dataLobby = new DataLobbys();
             $data = $dataLobby->getLobbyJugData($usuario);
-
-            $data['tiempoAgotado'] = true; // Lo usás en Mustache para mostrar el popup
+            $data['tiempoAgotado'] = true;
 
             $this->view->render('headerGrande', 'lobbyJug', $data);
             return;
         }
 
-
-        // Validar si la respuesta es correcta
+        // Validar respuesta
         $esCorrecta = $this->model->validarRespuesta($idRespuesta, $idPartida, $id_jugador, $idPregunta);
 
-        // Obtener la pregunta y sus respuestas
+        // Obtener pregunta y respuestas
         $pregunta = $this->model->getPreguntaPorId($idPregunta);
-
         $respuestas = $this->model->obtenerRespuestas($idPregunta);
 
-        // Si la respuesta no es correcta, obtener cuál es la correcta para marcarla después
+        // Si la respuesta no es correcta, obtener la correcta y eliminar partida activa
         $idRespuestaCorrecta = null;
         if (!$esCorrecta) {
             $idRespuestaCorrecta = $this->model->obtenerRespuestaCorrecta($idPregunta);
-
+            unset($usuario['partida_activa']);
+            Session::set('usuario', $usuario);
         }
 
+        // Reordenar respuestas según el orden guardado en sesión
         $ordenGuardado = $_SESSION['orden_respuestas'][$idPartida] ?? [];
-
-        // Reordenar las respuestas si hay orden guardado
         if (!empty($ordenGuardado)) {
             usort($respuestas, function($a, $b) use ($ordenGuardado) {
-                $posA = array_search($a['id_respuesta'], $ordenGuardado);
-                $posB = array_search($b['id_respuesta'], $ordenGuardado);
-                return $posA - $posB;
+                return array_search($a['id_respuesta'], $ordenGuardado) - array_search($b['id_respuesta'], $ordenGuardado);
             });
         }
+
+        // Solo ahora borrar el orden de respuestas guardado
+        unset($_SESSION['orden_respuestas'][$idPartida]);
+
+        // Limpiar datos de la pregunta actual en sesión
+        unset($usuario['idPreguntaEntregada'][$idPartida]);
+        unset($usuario['inicio_pregunta'][$idPartida]);
+        Session::set('usuario', $usuario);
+
+        // Preparar botones
         $botones = [];
-        if($esCorrecta){
+        if ($esCorrecta) {
             $botones = [
                 [
                     'tipo' => 'a',
@@ -149,37 +194,27 @@ class PreguntasController
                     'isSubmit' => true,
                     'texto' => 'Siguiente pregunta',
                     'clase' => 'siguiente',
-                    'link' => '', // opcional para submit
+                    'link' => '',
                 ]
             ];
-
         }
 
-
-
-        // Preparar arreglo para renderizar
+        // Preparar respuestas para render
         $respuestasRender = [];
         foreach ($respuestas as $respuesta) {
             $clase = 'normal';
-
             if ($respuesta['id_respuesta'] == $idRespuesta) {
                 $clase = $esCorrecta ? 'correcta' : 'incorrecta';
             } elseif (!$esCorrecta && $respuesta['id_respuesta'] == $idRespuestaCorrecta) {
                 $clase = 'correcta';
             }
-
             $respuestasRender[] = [
                 'texto' => $respuesta['texto'],
                 'clase' => $clase
             ];
         }
 
-
-
-        // Datos para la vista
         $categoria = $pregunta['categoria'];
-
-
 
         $this->view->render('headerGrandePreguntas', 'resultadoRespuesta', [
             'pregunta' => $pregunta,
@@ -193,6 +228,7 @@ class PreguntasController
             'esCorrecta' => $esCorrecta,
         ]);
     }
+
 
     public function getFondoPorCategoria($categoria, $pregunta){
         $mapaFondos = [

@@ -6,7 +6,7 @@
         </div>
 
         <p class="preg">{{pregunta.enunciado}}</p>
-        <p class="segs">10</p>
+        <p class="segs">{{tiempoRestante}}</p>
     </div>
     <form id="formRespuestas" action="/POC/preguntas/validarRespuesta" method="POST">
         <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
@@ -48,7 +48,7 @@
 
 <script>
     // Timer de 10 segundos
-    let tiempoRestante = 10;
+    let tiempoRestante = {{tiempoRestante}};
     const contadorElement = document.querySelector('.segs');
     let formEnviado = false;
 
