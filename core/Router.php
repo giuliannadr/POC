@@ -41,6 +41,16 @@ class Router
     private function executeMethodFromController($controller, $method)
     {
         $validMethod = method_exists($controller, $method) ? $method : $this->defaultMethod;
-        call_user_func(array($controller, $validMethod));
+
+        // Check if the method accepts parameters
+        $reflection = new ReflectionMethod($controller, $validMethod);
+
+        if ($reflection->getNumberOfParameters() > 0) {
+            // Pass $_GET as parameter if the method accepts parameters
+            call_user_func(array($controller, $validMethod), $_GET);
+        } else {
+            // Call method without parameters
+            call_user_func(array($controller, $validMethod));
+        }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 require_once("core/Session.php");
 require_once("core/DataLobbys.php");
+
 class PerfilController
 {
     private $model;
@@ -36,7 +37,7 @@ class PerfilController
             'sexo' => $datos['sexo'],
             'fecha_nacimiento' => $datos['fecha_nacimiento'],
             'email' => $datos['email'],
-            'usuario' => $datos['usuario'],
+            'nombre_usuario' => $datos['nombre_usuario'],
             'foto_perfil' => $datos['foto_perfil'],
             'ciudad' => $datos['ciudad'],
             'pais' => isset($datos['pais']) ? $datos['pais'] : ''
@@ -101,7 +102,7 @@ class PerfilController
 
         // ACTUALIZAR DATOS EN SESIÓN
         $usuario_actual = Session::get('usuario');
-        $usuario_actual = array_merge($usuario_actual, $datos_actualizados);
+        $usuario_actual = array_merge($usuario_actual, $datos_actualizados ?? []);
         Session::set('usuario', $usuario_actual);
 
         // redirige al perfil con los datos actualizados

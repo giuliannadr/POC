@@ -191,7 +191,7 @@ class JugadorModel
     /* -------------------------------- OBTENER DATOS -------------------------------- */
     public function obtenerDatosPerfil($id_usuario) {
         $sql = "SELECT 
-                u.nombre_usuario AS usuario,
+                u.nombre_usuario,
                 u.mail AS email,
                 j.nombre,
                 j.apellido,
@@ -235,6 +235,51 @@ class JugadorModel
         return 0;
     }
 
+    public function obtenerDatosPerfilPorUsuario($nombre_usuario) {
+        $sql = "SELECT 
+                u.nombre_usuario,
+                u.mail AS email,
+                j.nombre,
+                j.apellido,
+                j.sexo,
+                j.fecha_nac AS fecha_nacimiento,
+                j.foto_perfil,
+                j.ciudad AS ciudad,
+                j.pais AS pais,
+                j.puntaje
+            FROM usuario u
+            JOIN jugador j ON u.id_usuario = j.id_usuario
+            WHERE u.nombre_usuario = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("s", $nombre_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $datos = $result->fetch_assoc();
+        $stmt->close();
+
+        return $datos;
+    }
+
+    public function obtenerPartidasJugadas($nombre_usuario) {
+        $sql = "SELECT COUNT(*) as partidas_jugadas
+                FROM partida p
+                JOIN usuario u ON p.id_jugador = u.id_usuario
+                WHERE u.nombre_usuario = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("s", $nombre_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $datos = $result->fetch_assoc();
+        $stmt->close();
+
+        if ($datos && isset($datos['partidas_jugadas'])) {
+            return (int)$datos['partidas_jugadas'];
+        }
+
+        return 0;
+    }
 
 }
 ?>
