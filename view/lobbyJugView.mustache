@@ -1,67 +1,65 @@
-<div class="main-jugadores">
-    <div class="card-usuario">
-        <div class="icono">
-            {{#usuario.tiene_foto}}
-                <img src="{{{usuario.foto_perfil}}}"
-                     alt="Foto de perfil"
-                     class="foto-perfil"
-                     style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #00eaff; top: 0; left: 0;">
-            {{/usuario.tiene_foto}}
+<main class="d-flex flex-column justify-content-center w-100">
+    <div class="d-flex div-lobby flex-row align-items-center my-5 gap-4" style="min-height: 330px;">
+        <!-- Perfil -->
+        <div class="d-flex flex-row justify-content-center contenedor-perfil-lobby rounded-5 p-3 text-center gap-3"
+             style="width: 60%; max-width: 1000px; min-height: 300px;">
+            <div class="icono-perfil d-flex flex-column align-items-center justify-content-center rounded-circle">
+                <div class="icono">
+                    {{#usuario.tiene_foto}}
+                        <img src="{{{usuario.foto_perfil}}}"
+                             alt="Foto de perfil"
+                             class="foto-perfil"
+                             style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #00eaff; top: 0; left: 0;">
+                    {{/usuario.tiene_foto}}
 
-            {{^usuario.tiene_foto}}
-                <!-- Mostrar SVG por defecto -->
-                <svg xmlns="http://www.w3.org/2000/svg" id="icon" width="130" height="130" fill="currentColor"
-                     class="bi bi-person-circle" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                    <path fill-rule="evenodd"
-                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                </svg>
-            {{/usuario.tiene_foto}}
-            <div class="usuarioPerfil">
-                <h2 class="text-light">{{usuario.nombre_usuario}}</h2>
-               <div class="puntos">
-                   <h4 class="text-light " style="font-size: 20px">{{usuario.puntaje_mostrar}}</h4>
-               </div>
-                  </div>
-        </div>
-
-            <div class="botones">
-                <a class="btn btn-lg boton-verde fw-bold" href="/POC/perfil/mostrar">
-                    Ver Perfil
-                </a>
-                <a class="btn btn-lg mt-3 btn-blue fw-bold" href="/POC/login/cerrarSesion">
-                    Cerrar Sesión
-                </a>
-            </div>
-
-    </div>
-
-    <div class="ranking">
-        <div>
-            <h2>Ranking</h2>
-        </div>
-        <div class="d-flex flex-column gap-4 align-items-center text-white mx-4">
-
-            <div class="fila-usuario">
-                <div class="usuario">
-                    <div class="posicion">
-                        <p>10</p>
-                    </div>
-
-                    <p class="m-0 fs-4 fw-medium ">{{usuario.nombre_usuario}}</p>
+                    {{^usuario.tiene_foto}}
+                        <!-- Mostrar SVG por defecto -->
+                        <svg xmlns="http://www.w3.org/2000/svg" id="icon" width="130" height="130" fill="currentColor"
+                             class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    {{/usuario.tiene_foto}}
+                </div>
+                <div class="contenedor-puntos px-4 py-2 rounded-pill">
+                    <p class="m-0 mx-2 fw-bold fs-4">{{usuario.puntaje_mostrar}}</p>
                 </div>
             </div>
+            <div class="d-flex flex-column justify-content-center align-items-center mx-5 w-100"
+                 style="max-width: 300px">
+                <p class="text-white fw-bold fs-3 m-0">{{usuario.nombre_usuario}}</p>
+                <a class="btn btn-lg btn-verde fw-semibold w-100 my-3 rounded-5" href="/POC/perfil/mostrar">Ver perfil</a>
+                <a class="btn btn-lg btn-blue fw-semibold w-100 rounded-5" href="/POC/login/cerrarSesion">Cerrar sesión</a>
+            </div>
+        </div>
 
+        <!-- RANKING -->
+        <div class="d-flex flex-column justify-content-center contenedor-ranking-lobby rounded-5 p-3 text-center gap-3"
+             style="width: 60%; max-width: 1000px; min-height: 300px">
+            <h1 class="texto-verde fw-bold m-0 mb-3">RANKING</h1>
+            <div class="d-flex flex-column gap-4 align-items-center text-white mx-4">
+                <div class="fila-usuario">
+                    <div class="usuario">
+                        <div class="posicion">
+                            <p>10</p>
+                        </div>
+                        <p class="m-0 fs-4 fw-medium ">{{usuario.nombre_usuario}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="jugar">
-    <a href="/POC/preguntas/crearPartida" class="btn-jugar">JUGAR</a>
-</div>
 
+    <!-- Botón jugar -->
+    <div class="d-flex justify-content-center">
+        <a class="btn-jugar btn btn-lg btn-verde fw-bold px-5 mx-3 rounded-5 w-100" href="/POC/preguntas/crearPartida">JUGAR</a>
+    </div>
+</main>
 <!-- Fondo oscuro -->
-<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1040;"></div>
+<div id="overlay"
+     style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1040;"></div>
 
 <!-- POPUP TIEMPO AGOTADO -->
 <div id="popupTiempo"
@@ -81,7 +79,8 @@
         <h1 class="texto-verde fw-bolder mx-0 p-2">{{puntaje}}</h1>
     </div>
     <div class="text-center mt-4">
-        <a href="/POC/LobbyJug/show" onclick="cerrarPopup()" class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+        <a href="/POC/LobbyJug/show" onclick="cerrarPopup()"
+           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
             Cerrar
         </a>
     </div>
@@ -107,5 +106,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
+
 </body>
 </html>
