@@ -13,6 +13,7 @@ class LobbyJugController
         $this->model = $model;
     }
 
+    /*
     public function show()
     {
 
@@ -32,5 +33,32 @@ class LobbyJugController
         $data = $dataLobby->getLobbyJugData($usuario);
         $this->view->render('headerGrande', 'lobbyJug', $data);
     }
+*/
+
+
+    public function show()
+    {
+
+        $usuario = Session::get('usuario');
+
+        if ($usuario && isset($usuario['id_usuario'])) {
+            $id_usuario = $usuario['id_usuario'];
+        } else {
+            $id_usuario = null; // o manejar error si no existe
+        }
+
+        $usuarioActualizado = $this->model->obtenerDatosPerfil($id_usuario);
+
+        $usuarioActualizado['id_usuario'] = $id_usuario;
+
+        $usuarioActualizado['puntaje'] = $this->model->obtenerPuntaje($id_usuario);
+
+        Session::set('usuario', $usuarioActualizado);
+
+        $dataLobby = new DataLobbys();
+        $data = $dataLobby->getLobbyJugData($usuarioActualizado);
+        $this->view->render('headerGrande', 'lobbyJug', $data);
+    }
+
 
 }

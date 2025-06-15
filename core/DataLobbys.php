@@ -14,8 +14,10 @@ class DataLobbys{
         $usuario['puntaje_mostrar'] = $puntaje . "pts";
 
 
+        define("BASE_URL", "/POC/");
+
         $botones = [
-            ['texto' => 'Ver ranking', 'link' => 'index.php?controller=ranking&action=show'],
+            ['texto' => 'Ver ranking', 'link' => BASE_URL . 'ranking/show'],
             ['texto' => 'Historial de partidas', 'link' => '#'],
             ['texto' => 'Crear preguntas', 'link' => '#']
         ];

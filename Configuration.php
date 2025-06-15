@@ -107,7 +107,11 @@ class Configuration
     }
 
     public function getRankingController(){
-        return new RankingController(new RankingModel($this->db),$this->getViewer());
+        return new RankingController(
+            new RankingModel($this->db),
+            $this->getViewer(),
+            new JugadorModel($this->db, $this->email)
+        );
     }
 
 }
