@@ -281,5 +281,9 @@ class JugadorModel
         return 0;
     }
 
+    public function getDatabase() {
+        return $this->database;
+    }
+
 }
 ?>
