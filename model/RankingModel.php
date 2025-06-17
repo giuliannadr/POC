@@ -12,17 +12,20 @@ class RankingModel
 
     public function obtenerRanking()
     {
-        $sql = "SELECT u.nombre_usuario, j.puntaje FROM jugador j 
-                INNER JOIN usuario u ON u.id_usuario = j.id_usuario
-                GROUP BY u.nombre_usuario, j.puntaje 
-                ORDER BY j.puntaje desc LIMIT 10";
+        $sql = "SELECT u.nombre_usuario, j.puntaje 
+            FROM jugador j 
+            INNER JOIN usuario u ON u.id_usuario = j.id_usuario
+            WHERE j.activado = 1
+            ORDER BY j.puntaje DESC 
+            LIMIT 10";
+
         $stmt = $this->database->prepare($sql);
         $stmt->execute();
 
-        $result=$stmt->get_result();
+        $result = $stmt->get_result();
 
         $jugadores = [];
-        $posicion=1;
+        $posicion = 1;
 
         while ($fila = $result->fetch_assoc()) {
             $fila["posicion"] = $posicion++;
