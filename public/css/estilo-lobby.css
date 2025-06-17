@@ -179,14 +179,6 @@ body {
     position: relative;
 }
 
-
-.icono svg {
-    width: 250px;
-    height: 250px;
-    color: var(--color-verde);
-    /* cambia el color del SVG */
-}
-
 .btn-jugar {
     font-size: 30px;
     border-radius: 50px;
@@ -384,8 +376,8 @@ body {
 }
 
 .icono svg {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     color: var(--color-verde);
 }
 
