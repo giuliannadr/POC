@@ -45,7 +45,7 @@ class LoginController
             } elseif ($tipo === 'jugador') {
 
                 $usuario = Session::get('usuario');
-                $data = $dataLobby->getLobbyJugData($usuario);
+                $data = $dataLobby->getLobbyJugData();
                 $this->view->render('headerGrande', 'lobbyJug', $data);
             }
         }

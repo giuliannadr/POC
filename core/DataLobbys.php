@@ -2,10 +2,13 @@
 require_once("Session.php");
 class DataLobbys{
 
-    public function getLobbyJugData($usuario) {
+    public function getLobbyJugData() {
         $usuario = Session::get('usuario');
 
-        $usuario['tiene_foto'] = !empty($usuario['foto_perfil']);
+        $usuario['tiene_foto'] =
+            isset($usuario['foto_perfil']) &&
+            $usuario['foto_perfil'] !== '' &&
+            $usuario['foto_perfil'] !== 'img/sinperfil.png';
 
         $puntaje = 0;
         if (isset($usuario['puntaje']) && !is_array($usuario['puntaje']) && $usuario['puntaje'] !== null) {
