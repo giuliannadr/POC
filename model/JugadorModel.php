@@ -18,7 +18,7 @@ class JugadorModel
     // Verifica si existe un usuario con ese email o nombre_usuario
     public function existeUsuarioOEmail($email, $usuario)
     {
-        $sql = "SELECT id_usuario FROM Usuario WHERE mail = ? OR nombre_usuario = ?";
+        $sql = "SELECT id_usuario FROM usuario WHERE mail = ? OR nombre_usuario = ?";
         $stmt = $this->database->prepare($sql);
         $stmt->bind_param("ss", $email, $usuario);
         $stmt->execute();
@@ -44,7 +44,7 @@ class JugadorModel
         $hashContrasena = password_hash($contrasena, PASSWORD_DEFAULT);
 
         // Insertar en Usuario
-        $sql = "INSERT INTO Usuario (mail, contraseña, nombre_usuario) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO usuario (mail, contraseña, nombre_usuario) VALUES (?, ?, ?)";
         $stmt = $this->database->prepare($sql);
         if ($stmt === false) {
             die("Error al preparar consulta Usuario: " . $this->database->error);
@@ -55,7 +55,7 @@ class JugadorModel
         $stmt->close();
 
         // Insertar en Jugador
-        $sql = "INSERT INTO Jugador (id_usuario, nombre, apellido, fecha_nac, sexo, foto_perfil, activado, token_activacion, pais, ciudad) 
+        $sql = "INSERT INTO jugador (id_usuario, nombre, apellido, fecha_nac, sexo, foto_perfil, activado, token_activacion, pais, ciudad) 
                 VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?)";
         $stmt = $this->database->prepare($sql);
         if ($stmt === false) {
@@ -114,14 +114,14 @@ class JugadorModel
     // Activa cuenta si el token es válido
     public function activarCuenta($token)
     {
-        $sql = "SELECT id_usuario FROM Jugador WHERE token_activacion = ?";
+        $sql = "SELECT id_usuario FROM jugador WHERE token_activacion = ?";
         $stmt = $this->database->prepare($sql);
         $stmt->bind_param("s", $token);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            $sqlUpdate = "UPDATE Jugador SET activado = 1, token_activacion = NULL WHERE token_activacion = ?";
+            $sqlUpdate = "UPDATE jugador SET activado = 1, token_activacion = NULL WHERE token_activacion = ?";
             $stmtUpdate = $this->database->prepare($sqlUpdate);
             $stmtUpdate->bind_param("s", $token);
             $stmtUpdate->execute();
