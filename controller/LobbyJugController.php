@@ -1,6 +1,7 @@
 <?php
 require_once("core/Session.php");
 require_once("core/DataLobbys.php");
+require_once("model/RankingModel.php");
 
 class LobbyJugController
 {
@@ -50,6 +51,10 @@ class LobbyJugController
         $usuarioActualizado = $this->model->obtenerDatosPerfil($id_usuario);
 
         $usuarioActualizado['id_usuario'] = $id_usuario;
+
+        // obtiene la posición real del usuario en el ranking
+        $rankingModel = new RankingModel($this->model->getDatabase());
+        $usuarioActualizado['posicion_ranking'] = $rankingModel->obtenerPosicionUsuario($usuarioActualizado['nombre_usuario']);
 
         $usuarioActualizado['puntaje'] = $this->model->obtenerPuntaje($id_usuario);
 
