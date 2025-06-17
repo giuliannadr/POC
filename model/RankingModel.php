@@ -32,4 +32,27 @@ class RankingModel
         return $jugadores;
     }
 
+    public function obtenerPosicionUsuario($nombre_usuario)
+    {
+        $sql = "SELECT u.nombre_usuario, j.puntaje, 
+                (SELECT COUNT(*) + 1 FROM jugador j2 
+                 INNER JOIN usuario u2 ON u2.id_usuario = j2.id_usuario 
+                 WHERE j2.puntaje > j.puntaje) as posicion
+                FROM jugador j 
+                INNER JOIN usuario u ON u.id_usuario = j.id_usuario
+                WHERE u.nombre_usuario = ?";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("s", $nombre_usuario);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($fila = $result->fetch_assoc()) {
+            return $fila["posicion"];
+        }
+
+        return 0; // Si no se encuentra el usuario
+    }
+
 }
