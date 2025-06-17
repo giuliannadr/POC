@@ -1,26 +1,29 @@
-<div class="text-left mt-4" style="margin-left: 20em">
-    <a href="/POC/LobbyJug/show"
-       class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
-        Volver
-    </a>
-</div>
-<div class="ranking-contenedor">
-<h1 class="text-white fw-bold">Ranking de Jugadores</h1>
-
-
-    <div class="fila-textos text-white">
-        <h4>Posicion</h4>
-        <h4>Puntaje</h4>
+<main class="d-flex flex-column align-items-center p-5">
+    <div class="text-left mt-4">
+        <a href="/POC/LobbyJug/show"
+           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+            Volver
+        </a>
     </div>
-    {{#jugadores}}
-    <div class="fila-ranking">
-        <div class="fila-posicion">
-        <div class="posicion">{{posicion}}</div>
-        <div>{{nombre_usuario}}</div>
+
+    <div class="ranking-contenedor p-5 rounded-5">
+        <h1 class="text-white fw-bold">Ranking de Jugadores</h1>
+
+
+        <div class="fila-textos text-white">
+            <h4>Posicion</h4>
+            <h4>Puntaje</h4>
         </div>
-        <div>{{puntaje}}</div>
+        {{#jugadores}}
+            <div class="fila-ranking fw-bold" style="color: var(--color-violeta)">
+                <div class="fila-posicion">
+                    <div class="posicion">{{posicion}}</div>
+                    <a href="/POC/Ranking/verPerfil?nombre_usuario={{nombre_usuario}}">{{nombre_usuario}}</a>
+                </div>
+                <div>{{puntaje}}</div>
+            </div>
+        {{/jugadores}}
     </div>
-     {{/jugadores}}
-</div>
+</main>
 </body>
 </html>
