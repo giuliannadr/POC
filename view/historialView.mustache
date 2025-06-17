@@ -1,0 +1,28 @@
+<main class="d-flex flex-column align-items-center p-5">
+    <div class="text-left mt-4">
+        <a href="/POC/LobbyJug/show"
+           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+            Volver
+        </a>
+    </div>
+
+    <div class="ranking-contenedor p-5 rounded-5">
+        <h1 class="text-white fw-bold">Historial de partidas</h1>
+        <div class="fila-textos text-white">
+            <h4>Fecha de inicio</h4>
+            <h4>Fecha de fin</h4>
+            <h4>Puntaje</h4>
+        </div>
+
+        {{#historial}}
+            <div class="fila-ranking fw-bold" style="color: var(--color-violeta)">
+
+                <div class="fechaInicio">{{fecha_inicio}}</div>
+                <div class="fechaFin">{{fecha_fin}}</div>
+                <div>{{puntaje}}</div>
+            </div>
+        {{/historial}}
+    </div>
+</main>
+</body>
+</html>

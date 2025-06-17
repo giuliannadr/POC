@@ -135,6 +135,7 @@ class PreguntasController
         if ($inicio === null || (time() - $inicio > 10)) {
             $usuario['puntaje'] = $puntajeActual;
 
+            $this->model->finalizarPartida($idPartida);
             unset($usuario['partida_activa']);
             unset($usuario['inicio_pregunta'][$idPartida]);
             unset($usuario['idPreguntaEntregada'][$idPartida]);
@@ -160,6 +161,7 @@ class PreguntasController
         $idRespuestaCorrecta = null;
         if (!$esCorrecta) {
             $idRespuestaCorrecta = $this->model->obtenerRespuestaCorrecta($idPregunta);
+            $this->model->finalizarPartida($idPartida);
             unset($usuario['partida_activa']);
             Session::set('usuario', $usuario);
         }
@@ -286,5 +288,8 @@ class PreguntasController
 
 
     }
+
+
+
 }
 

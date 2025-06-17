@@ -349,6 +349,57 @@ class PreguntasModel
         return $porcentaje;
     }
 
+public function finalizarPartida($id_partida){
+        $sql = "UPDATE partida
+        SET fecha_fin = NOW(), estado_partida = 'finalizada'
+        where id_partida = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $id_partida);
+        $stmt->execute();
+        $stmt->close();
+}
+
+    public function mandarPreguntaARevision($enunciado, $categoria, $respuestas, $indiceCorrecto, $idJugador)
+    {
+        // Validar categoría
+        $sql = "SELECT id_categoria FROM Categoria WHERE nombre = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $categoria);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $categoriaData = $res->fetch_assoc();
+        $stmt->close();
+
+
+
+        // Insertar pregunta
+        $sql = "INSERT INTO pregunta (enunciado, id_categoria, estado_pregunta, estado) VALUES (?, ?, 'enRevision', 'noPublicada')";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("si", $enunciado, $categoriaData);
+        $stmt->execute();
+        $idPregunta = $this->database->getInsertId();
+        $stmt->close();
+
+        // Insertar respuestas
+        $sql = "INSERT INTO Respuesta (id_pregunta, texto, esCorrecta) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($sql);
+
+        foreach ($respuestas as $i => $textoRespuesta) {
+            $esCorrecta = ($i == $indiceCorrecto) ? 1 : 0;
+            $stmt->bind_param("isi", $idPregunta, $textoRespuesta, $esCorrecta);
+            $stmt->execute();
+        }
+
+        $stmt->close();
+
+        $sql = "INSERT INTO sugerenciapregunta(id_jugador_sugiere, id_pregunta_sugerida) VALUES (?, ?)";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("ii", $idJugador, $idPregunta);
+        $stmt->execute();
+        $stmt->close();
+
+    }
+
 
 
 }

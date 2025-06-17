@@ -285,5 +285,24 @@ class JugadorModel
         return $this->database;
     }
 
+    public function getHistorial($idJugador){
+        $sql = "SELECT p.fecha_inicio, p.fecha_fin, p.puntaje
+            FROM partida p
+            WHERE p.id_jugador = ? and p.estado_partida = 'finalizada'
+            ORDER BY p.fecha_inicio DESC";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $idJugador);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $datos = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $datos;
+    }
+
 }
+
+
+
 ?>

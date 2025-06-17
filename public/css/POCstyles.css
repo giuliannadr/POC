@@ -584,6 +584,8 @@ body {
     max-width: 1300px;
 }
 
+
+
 #ranking {
     width: 20em;
 }
@@ -600,6 +602,107 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+.fila-crear {
+    display: flex;
+    flex-direction: column; /* Antes era row */
+    background-color: var(--color-violeta-claro);
+    border: solid 2px var(--color-verde);
+    padding: 1em;
+    gap: 1.5em;
+    width: 60%;
+    border-radius: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 0.5em;
+}
+
+.respuestas-crear {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.respuesta-opcion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.respuesta-opcion input[type="text"] {
+    flex-grow: 1;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--color-verde);
+}
+
+.respuesta-opcion input[type="radio"] {
+    accent-color: var(--color-verde);
+    cursor: pointer;
+}
+
+.radios-crear {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 500px;
+}
+
+.radio-opcion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+
+.radio-opcion input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    border: 2px solid var(--color-verde);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+.radio-opcion input[type="radio"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-verde);
+    border-radius: 50%;
+}
+.crear-contenedor {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    background-color: var(--color-azul);
+    margin-top: 2em;
+    width: 100%;
+    max-width: 1300px;
+}
+
+
 
 .fila-posicion {
     display: flex;

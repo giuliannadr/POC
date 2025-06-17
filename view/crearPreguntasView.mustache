@@ -1,0 +1,93 @@
+<main class="d-flex flex-column align-items-center p-5">
+    <div class="text-left mt-4">
+        <a href="/POC/LobbyJug/show"
+           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+            Volver
+        </a>
+    </div>
+    <div class="crear-contenedor p-5 rounded-5">
+        <h1 class="text-white fw-bold">Crear Pregunta</h1>
+
+        <div class="fila-crear fw-bold" style="color: var(--color-verde)">
+            <form method="post" action="/POC/crearPregunta/crear"
+                  style="display: flex; flex-direction: column; gap: 1.5em; align-items: center; width: 100%;">
+
+                <!-- Enunciado -->
+                <div class="form-group">
+                    <label for="enunciado">Enunciado:</label>
+                    <input type="text" name="enunciado" id="enunciado" required style="width: 70%; border-radius: 30px">
+                </div>
+
+                <!-- Categorías -->
+                <div class="form-group">
+                    <label>Categoría:</label>
+                    <div class="radios-crear" style="color: white">
+                        <div class="radio-opcion">
+                            <input type="radio" id="historia" name="categoria" value="HISTORIA" required>
+                            <label for="historia">Historia</label>
+                        </div>
+                        <div class="radio-opcion">
+                            <input type="radio" id="ciencia" name="categoria" value="CIENCIA">
+                            <label for="ciencia">Ciencia</label>
+                        </div>
+                        <div class="radio-opcion">
+                            <input type="radio" id="deportes" name="categoria" value="DEPORTE">
+                            <label for="deportes">Deportes</label>
+                        </div>
+                        <div class="radio-opcion">
+                            <input type="radio" id="arte" name="categoria" value="ARTE">
+                            <label for="arte">Arte</label>
+                        </div>
+                        <div class="radio-opcion">
+                            <input type="radio" id="entretenimiento" name="categoria" value="ENTRETENIMIENTO">
+                            <label for="entretenimiento">Entretenimiento</label>
+                        </div>
+                        <div class="radio-opcion">
+                            <input type="radio" id="geografia" name="categoria" value="GEOGRAFIA">
+                            <label for="geografia">Geografía</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Respuestas -->
+                <div class="form-group">
+                    <label>Respuestas:</label>
+                    <div class="respuestas-crear">
+                        <div class="respuesta-opcion">
+                            <input type="radio" name="respuestaCorrecta" value="A" id="correctaA" required>
+                            <label for="respuestaA">A)</label>
+                            <input type="text" name="respuesta[]" id="respuestaA" required>
+                        </div>
+                        <div class="respuesta-opcion">
+                            <input type="radio" name="respuestaCorrecta" value="B" id="correctaB">
+                            <label for="respuestaB">B)</label>
+                            <input type="text" name="respuesta[]" id="respuestaB" required>
+                        </div>
+                        <div class="respuesta-opcion">
+                            <input type="radio" name="respuestaCorrecta" value="C" id="correctaC">
+                            <label for="respuestaC">C)</label>
+                            <input type="text" name="respuesta[]" id="respuestaC" required>
+                        </div>
+                        <div class="respuesta-opcion">
+                            <input type="radio" name="respuestaCorrecta" value="D" id="correctaD">
+                            <label for="respuestaD">D)</label>
+                            <input type="text" name="respuesta[]" id="respuestaD" required>
+                        </div>
+                    </div>
+                    <small style="color: var(--color-verde)">Seleccioná cuál es la correcta</small>
+                </div>
+
+                <!-- Botón enviar -->
+                <button type="submit" class="btn btn-success fw-bold">Mandar a revisión</button>
+
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+</main>
+</body>
+</html>

@@ -114,4 +114,10 @@ class Configuration
         );
     }
 
+    public function getCrearPreguntaController(){
+        return new CrearPreguntaController(new PreguntasModel($this->db),$this->getViewer());
+    }
+    public function getHistorialController(){
+        return new HistorialController(new JugadorModel($this->db, $this->email),$this->getViewer());
+    }
 }
