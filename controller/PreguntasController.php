@@ -187,10 +187,9 @@ class PreguntasController
         if ($esCorrecta) {
             $botones = [
                 [
-                    'tipo' => 'a',
+                    'isSubmit' => false,
                     'texto' => 'Reportar pregunta',
                     'clase' => 'reportar',
-                    'link' => '/POC/reporte/reporte'
                 ],
                 [
                     'isSubmit' => true,
@@ -220,6 +219,7 @@ class PreguntasController
 
         $this->view->render('headerGrandePreguntas', 'resultadoRespuesta', [
             'pregunta' => $pregunta,
+            'id_pregunta' => $idPregunta,
             'fondoPregunta' => $this->getFondoPorCategoria($categoria, $pregunta),
             'clasePregunta' => $this->getClasePorCategoria($categoria, $pregunta),
             'svgCategoria' => $this->getSVGPorCategoria($categoria, $pregunta),
@@ -287,6 +287,22 @@ class PreguntasController
         }
 
 
+    }
+
+
+
+    public function guardarReporte()
+    {
+        $usuario = Session::get('usuario');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $idPregunta = $_POST['id_pregunta'] ?? null;
+            $razon = $_POST['razon'] ?? null;
+
+            if ($idPregunta && $razon) {
+                $this->model->guardarReporte($idPregunta, $razon, $usuario['id_usuario']);
+
+            }
+        }
     }
 
 

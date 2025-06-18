@@ -400,7 +400,14 @@ public function finalizarPartida($id_partida){
 
     }
 
+    public function guardarReporte($idPregunta, $razon, $idJugador)
+    {
+        $sql = 'INSERT INTO reportepregunta (id_pregunta_reportada, texto, id_jugador_reporta) VALUES (?, ?, ?)';
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("isi", $idPregunta, $razon, $idJugador);
+        $stmt->execute();
+        $stmt->close();
 
-
+    }
 }
 

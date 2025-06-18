@@ -1,20 +1,20 @@
-
 <main>
+    <!-- Tu contenido original... -->
     <div class="pregunta {{clasePregunta}}">
         <div class="svg">
             {{{svgCategoria}}}
         </div>
-
         <p class="preg">{{pregunta.enunciado}}</p>
     </div>
-        <div class="respuestas">
-            {{#respuestas}}
-                <div class="{{clase}}">
-<!--                    <input  type="radio" name="respuesta" value="{{id_respuesta}}" style="display:none" />-->
-                    <p>{{texto}}</p>
-                </div>
-            {{/respuestas}}
-        </div>
+
+    <div class="respuestas">
+        {{#respuestas}}
+            <div class="{{clase}}">
+                <p>{{texto}}</p>
+            </div>
+        {{/respuestas}}
+    </div>
+
     <div class="botones-preguntas">
         {{#botones}}
             {{#isSubmit}}
@@ -24,34 +24,52 @@
                 </form>
             {{/isSubmit}}
             {{^isSubmit}}
-                <a class="{{clase}} btn" href="{{link}}">{{texto}}</a>
+                <button id="btnReportar" class="{{clase}} btn">{{texto}}</button>
             {{/isSubmit}}
         {{/botones}}
     </div>
 
-    <!-- POPUP DE PARTIDA FINALIZADA -->
+    <!-- OVERLAYS -->
     <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1040;"></div>
+    <div id="overlayReporte" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1040;"></div>
 
-    <div id="popupIncorrecto"
-         class="text-white fondo-violeta p-5 rounded-5 my-5 shadow pop"
-         style="display: none;">
-
+    <!-- POPUP PARTIDA FINALIZADA -->
+    <div id="popupIncorrecto" class="text-white fondo-violeta p-5 rounded-5 my-5 shadow pop" style="display: none;">
         <h1 class="m-0">¡Partida finalizada!</h1>
-
         <h3 class="mt-5 my-0">Puntaje Obtenido:</h3>
         <div class="text-center fondo-violetaoscuro rounded-5 mt-3">
             <h1 class="texto-verde fw-bolder mx-0 p-2">{{puntaje}}</h1>
         </div>
-
         <div class="text-center mt-4">
-            <a href="/POC/LobbyJug/show"
-               class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
-                Volver
-            </a>
+            <a href="/POC/LobbyJug/show" class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">Volver</a>
         </div>
     </div>
 
+    <!-- POPUP REPORTE -->
+    <div id="popupReporte" class="pop" style="display: none; border-radius:30px ">
+        <form id="formReporte" class="fondo-violeta p-4 rounded-5 shadow">
+            <h2 class="text-white">¿Por qué estás reportando esta pregunta?</h2>
+            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+            <textarea name="razon" required class="form-control my-3" rows="4" placeholder="Escribí la razón del reporte..."></textarea>
+            <div class="text-center botones-container">
+                <button type="submit" class="btn btn-danger rounded-pill px-4 mb-3 boton-alineado">
+                    Enviar
+                </button>
+                <button type="button" class="btn btn-secondary rounded-pill px-4 boton-alineado" id="cancelarReporte">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- TOAST EXITO -->
+    <div id="mensajeExito"
+         class="position-fixed top-1 start-50 translate-middle-x mt-4 p-3 bg-success text-white rounded shadow"
+         style="display:none; z-index: 2000;">
+        ¡Reporte enviado con éxito!
+    </div>
 </main>
+
 <script>
     const esCorrecta = ({{#esCorrecta}}true{{/esCorrecta}}{{^esCorrecta}}false{{/esCorrecta}});
 
@@ -62,6 +80,43 @@
         }, 2000);
     }
 
+    document.getElementById('btnReportar')?.addEventListener('click', function() {
+        document.getElementById('popupReporte').style.display = 'block';
+        document.getElementById('overlayReporte').style.display = 'block';
+    });
+
+    document.getElementById('cancelarReporte')?.addEventListener('click', function() {
+        document.getElementById('popupReporte').style.display = 'none';
+        document.getElementById('overlayReporte').style.display = 'none';
+    });
+
+    document.getElementById('formReporte')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch('/POC/preguntas/guardarReporte', {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                document.getElementById('popupReporte').style.display = 'none';
+                document.getElementById('overlayReporte').style.display = 'none';
+                document.getElementById('btnReportar').disabled = true;
+
+                const mensaje = document.getElementById('mensajeExito');
+                mensaje.style.display = 'block';
+                setTimeout(() => {
+                    mensaje.style.display = 'none';
+                }, 3000); // Se oculta después de 3 segundos
+            } else {
+                alert('Error al enviar el reporte');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('Error de red al enviar reporte');
+        });
+    });
 </script>
 </body>
 </html>
