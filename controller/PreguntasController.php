@@ -143,7 +143,7 @@ class PreguntasController
             Session::set('usuario', $usuario);
 
             $dataLobby = new DataLobbys();
-            $data = $dataLobby->getLobbyJugData($usuario);
+            $data = $dataLobby->getLobbyJugData();
             $data['tiempoAgotado'] = true;
 
             $this->view->render('headerGrande', 'lobbyJug', $data);

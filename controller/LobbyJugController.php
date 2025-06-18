@@ -39,7 +39,6 @@ class LobbyJugController
 
     public function show()
     {
-
         $usuario = Session::get('usuario');
 
         if ($usuario && isset($usuario['id_usuario'])) {
@@ -61,7 +60,7 @@ class LobbyJugController
         Session::set('usuario', $usuarioActualizado);
 
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyJugData($usuarioActualizado);
+        $data = $dataLobby->getLobbyJugData();
         $this->view->render('headerGrande', 'lobbyJug', $data);
     }
 
