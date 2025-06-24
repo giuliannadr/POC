@@ -1,0 +1,36 @@
+
+<form>
+    <input type="search" name="buscarPregunta" id="buscarPregunta">
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Enunciado</th>
+            <th>Categoria</th>
+            <th>Dificultad</th>
+            <th>Respuesta</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#preguntas}}
+        <tr>{{idpregunta}}</tr>
+        <tr>{{enunciado}}</tr>
+        <tr>{{categoria}}</tr>
+        <tr>{{dificultad}}</tr>
+        <tr>{{respuesta}}</tr>
+        <tr>
+            <button>Editar</button>
+            <button>Eliminar</button>
+        </tr>
+    {{/preguntas}}
+    {{^preguntas}}
+        <tr>
+            <td colspan="6">No se encontraron resultados.</td>
+        </tr>
+    {{/preguntas}}
+
+    </tbody>
+</table>

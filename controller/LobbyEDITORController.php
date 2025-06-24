@@ -3,10 +3,12 @@ require_once("core/Session.php");
 class LobbyEDITORController
 {
     private $view;
+    private $db;
 
-    public function __construct($view)
+    public function __construct($view,$db)
     {
         $this->view = $view;
+        $this->db = $db;
     }
 
     public function show()
@@ -17,7 +19,7 @@ class LobbyEDITORController
 
 
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyEditorData();
+        $data = $dataLobby->getLobbyEditorData($this->db);
 
         $this->view->render('headerAdminEditor', 'lobbyEDITOR', $data);
     }

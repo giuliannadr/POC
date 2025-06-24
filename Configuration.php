@@ -120,4 +120,8 @@ class Configuration
     public function getHistorialController(){
         return new HistorialController(new JugadorModel($this->db, $this->email),$this->getViewer());
     }
+
+    public function getGestionarPreguntaEDITORController(){
+        return new gestionarPreguntasController($this->getViewer(),new PreguntasModel($this->db));
+    }
 }

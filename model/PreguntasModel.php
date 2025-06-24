@@ -409,5 +409,55 @@ public function finalizarPartida($id_partida){
         $stmt->close();
 
     }
+
+    public function contarActivas(){
+        $stmt= $this->database->prepare("SELECT COUNT(*) as fila FROM pregunta WHERE estado_pregunta = 'activa'");
+        $stmt->execute();
+        $result= $stmt->get_result();
+
+        if($fila = $result->fetch_assoc()){
+            return $fila["fila"];
+        }
+        return 0;
+    }
+
+    public function contarSugerenciasPendientes(){
+        $stmt= $this->database->prepare("SELECT COUNT(*) as fila FROM sugerenciapregunta WHERE estado_sugerencia = 'pendiente'");
+        $stmt->execute();
+        $result= $stmt->get_result();
+
+        if($fila = $result->fetch_assoc()){
+            return $fila["fila"];
+        }
+        return 0;
+    }
+
+    public function contarReportesPendientes()
+    {
+        $stmt= $this->database->prepare("SELECT COUNT(*) as fila FROM reportepregunta WHERE estado_reporte = 'pendiente'");
+        $stmt->execute();
+        $result= $stmt->get_result();
+
+        if($fila = $result->fetch_assoc()){
+            return $fila["fila"];
+        }
+        return 0;
+    }
+    public function obtenerTodasPreguntas(){
+        $stmt= $this->database->prepare("SELECT p.id_pregunta,p.enunciado,c.nombre,p.dificultad,r.texto 
+                                        FROM pregunta p
+                                        JOIN categoria c ON c.id_categoria = p.id_categoria
+                                        JOIN respuesta r ON r.id_pregunta = p.id_pregunta");
+
+        $stmt->execute();
+        $result= $stmt->get_result();
+
+        $preguntas=[];
+        while($row = $result->fetch_assoc()){
+            $preguntas[]=$row;
+        }
+
+        return $preguntas;
+    }
 }
 
