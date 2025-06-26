@@ -8,10 +8,23 @@ class AdminModel
         $this->db = $db;
     }
 
-    public function obtenerEstadisticas(){
+   /* public function obtenerEstadisticas(){
         $sql="SELECT (SELECT COUNT(*) FROM jugador WHERE activado = 1) as totalJugadores,
             (SELECT COUNT(*) FROM partida) as totalPartidas";
         $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }*/
+
+    public function obtenerEstadisticas($periodo = 'mes') {
+        $fechaInicio = $this->calcularFechaInicio($periodo);
+
+        $sql = "SELECT 
+        (SELECT COUNT(*) FROM jugador WHERE activado = 1 AND fecha_registro >= ?) AS totalJugadores,
+        (SELECT COUNT(*) FROM partida WHERE fecha_inicio >= ?) AS totalPartidas";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('ss', $fechaInicio, $fechaInicio);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
@@ -69,7 +82,24 @@ class AdminModel
         return $stmt->get_result()->fetch_assoc();
     }
 
+    private function calcularFechaInicio($periodo) {
+        $hoy = new DateTime();
 
+        switch ($periodo) {
+            case 'dia':
+                $hoy->setTime(0, 0);
+                break;
+            case 'semana':
+                $hoy->modify('-6 days')->setTime(0, 0);
+                break;
+            case 'mes':
+            default:
+                $hoy->modify('-29 days')->setTime(0, 0);
+                break;
+        }
+
+        return $hoy->format('Y-m-d H:i:s');
+    }
 
    /* private function obtenerFiltroPorPeriodo(string $periodo, string $columnaFecha = 'fecha_registro'): string {
         switch ($periodo) {

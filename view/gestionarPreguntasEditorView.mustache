@@ -1,10 +1,19 @@
-
-<form>
-    <input type="search" name="buscarPregunta" id="buscarPregunta">
+<div style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;margin-bottom: 1em">
+<div class="text-left mt-4">
+    <a href="/POC/LobbyEDITOR/show"
+       class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+        Volver
+    </a>
+</div>
+<form method="post">
+    <input class="p-2 rounded-pill" type="search" name="buscarPregunta" id="buscarPregunta" placeholder="Buscar por ID, enunciado o categoria"  value="{{buscarPregunta}}" style="background-color: var(--color-violeta-oscuro) ">
+    <button class="btn btn-violeta" type="submit">Buscar</button>
 </form>
-
-<table class="table table-striped">
-    <thead>
+</div>
+<div style="display:flex; align-items: center; justify-content: center;">
+<div style="width: 80%; height: 400px; overflow-y: auto; overflow-x: auto;">
+<table class="table table-striped table-sm" style="width: 100%; table-layout: fixed;">
+    <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
         <tr>
             <th>ID</th>
             <th>Enunciado</th>
@@ -16,16 +25,19 @@
     </thead>
     <tbody>
     {{#preguntas}}
-        <tr>{{idpregunta}}</tr>
-        <tr>{{enunciado}}</tr>
-        <tr>{{categoria}}</tr>
-        <tr>{{dificultad}}</tr>
-        <tr>{{respuesta}}</tr>
         <tr>
-            <button>Editar</button>
-            <button>Eliminar</button>
+            <td>{{idpregunta}}</td>
+            <td>{{enunciado}}</td>
+            <td>{{categoria}}</td>
+            <td>{{dificultad}}</td>
+            <td>{{respuesta}}</td>
+            <td>
+                <button class="btn btn-violeta">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>
+            </td>
         </tr>
     {{/preguntas}}
+
     {{^preguntas}}
         <tr>
             <td colspan="6">No se encontraron resultados.</td>
@@ -34,3 +46,7 @@
 
     </tbody>
 </table>
+</div>
+</div>
+</body>
+</html>

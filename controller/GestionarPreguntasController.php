@@ -1,6 +1,6 @@
 <?php
 
-class gestionarPreguntasController
+class GestionarPreguntasController
 {
     private $view;
     private $model;
@@ -13,6 +13,6 @@ class gestionarPreguntasController
     public function show(){
 
         $preguntas=$this->model->obtenerTodasPreguntas();
-        $this->view->render("headerGrande","gestionarPreguntasEditor",['preguntas'=>$preguntas]);
+        $this->view->render("headerAdminEditor","gestionarPreguntasEditor",['preguntas'=>$preguntas]);
     }
 }

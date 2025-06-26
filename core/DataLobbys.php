@@ -36,13 +36,15 @@ class DataLobbys{
         ];
     }
 
-    public function getLobbyEditorData()
+    public function getLobbyEditorData($seccionActiva = null)
     {
         $usuario = Session::get('usuario');
+        $seccionActiva = $data['seccionActiva'] ?? null;
+
 
         // Botones en el nav segun el rol
         $botones = [
-            ['texto' => 'Gestionar Preguntas', 'link' => '/editor/gestionarPreguntas'],
+            ['texto' => 'Gestionar Preguntas', 'link' => '/POC/LobbyEDITOR/gestionarPreguntas','activo' => $seccionActiva === 'gestionarPreguntas'],
             ['texto' => 'Preguntas Reportadas', 'link' => '/editor/preguntasReportadas'],
             ['texto' => 'Preguntas Sugeridas', 'link' => '/editor/preguntasSugeridas'],
         ];
@@ -69,13 +71,13 @@ class DataLobbys{
         // Botones para el nav rol admin
         // Hay que ver como se haria lo de los filtros
         $botones = [
-            ['texto' => 'Dia', 'link' => '/admin/dashboard?periodo=dia'],
-            ['texto' => 'Semana', 'link' => '#'],
-            ['texto' => 'Mes', 'link' => '#']
+            ['texto' => 'Dia', 'link' => '/POC/admin/dashboard?periodo=dia'],
+            ['texto' => 'Semana', 'link' => '/POC/admin/dashboard?periodo=semana'],
+            ['texto' => 'Mes', 'link' => '/POC/admin/dashboard?periodo=mes']
         ];
 
         $adminModel=new AdminModel($this->db);
-        $datos=$adminModel->obtenerEstadisticas();
+        $datos=$adminModel->obtenerEstadisticas($periodo);
         $estadisticasPorEdad=$adminModel->obtenerEstadisticasPorEdad();
         $usuariosPorPais=$adminModel->obtenerEstadisticasPorPais();
         $total = $estadisticasPorEdad['menores'] + $estadisticasPorEdad['adultos'] + $estadisticasPorEdad['jubilados'];

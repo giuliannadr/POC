@@ -444,10 +444,10 @@ public function finalizarPartida($id_partida){
         return 0;
     }
     public function obtenerTodasPreguntas(){
-        $stmt= $this->database->prepare("SELECT p.id_pregunta,p.enunciado,c.nombre,p.dificultad,r.texto 
+        $stmt= $this->database->prepare("SELECT p.id_pregunta as idpregunta,p.enunciado as enunciado,c.nombre as categoria,p.dificultad as dificultad,r.texto as respuesta 
                                         FROM pregunta p
                                         JOIN categoria c ON c.id_categoria = p.id_categoria
-                                        JOIN respuesta r ON r.id_pregunta = p.id_pregunta");
+                                        JOIN respuesta r ON r.id_pregunta = p.id_pregunta WHERE esCorrecta = 1");
 
         $stmt->execute();
         $result= $stmt->get_result();
@@ -455,6 +455,39 @@ public function finalizarPartida($id_partida){
         $preguntas=[];
         while($row = $result->fetch_assoc()){
             $preguntas[]=$row;
+        }
+
+        return $preguntas;
+    }
+
+    public function buscarPreguntas($query) {
+        $stmt = $this->database->prepare("
+        SELECT p.id_pregunta AS idpregunta,
+               p.enunciado AS enunciado,
+               c.nombre AS categoria,
+               p.dificultad AS dificultad,
+               r.texto AS respuesta
+        FROM pregunta p
+        JOIN categoria c ON c.id_categoria = p.id_categoria
+        JOIN respuesta r ON r.id_pregunta = p.id_pregunta
+        WHERE esCorrecta = 1
+          AND (
+              p.id_pregunta = ? 
+              OR p.enunciado LIKE ? 
+              OR c.nombre LIKE ?
+          )
+    ");
+
+        $busquedaParcial = '%' . $query . '%';
+        $idExacto = ctype_digit($query) ? (int)$query : 0;
+
+        $stmt->bind_param("iss", $idExacto, $busquedaParcial, $busquedaParcial);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $preguntas = [];
+        while ($row = $result->fetch_assoc()) {
+            $preguntas[] = $row;
         }
 
         return $preguntas;
