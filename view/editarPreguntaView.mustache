@@ -1,0 +1,30 @@
+<div class="crear-contenedor p-5 rounded-5">
+    <h2>MODIFICANDO</h2>
+    <h3>Pregunta ID: {{id}}</h3>
+    <label for="enunciado">Enunciado:</label>
+    <input type="text" id="enunciado" value="{{enunciado}}">
+
+    <div class="form-group">
+        <label><input type="radio" name="categoria" value="Deporte" {{#categoriaDeporte}}checked{{/categoriaDeporte}}> Deporte</label>
+        <label><input type="radio" name="categoria" value="Historia" {{#categoriaHistoria}}checked{{/categoriaHistoria}}> Historia</label>
+        <label><input type="radio" name="categoria" value="Geografía" {{#categoriaGeografia}}checked{{/categoriaGeografia}}> Geografía</label>
+    </div>
+
+    <div class="respuestas-crear">
+        {{#respuestas}}
+            <label>{{letra}}) <input type="text" value="{{texto}}"></label>
+        {{/respuestas}}
+    </div>
+
+    <p>Respuesta Correcta:</p>
+    {{#opciones}}
+        <label><input type="radio" name="correcta" value="{{letra}}" {{#seleccionada}}checked{{/seleccionada}}> {{letra}}</label>
+    {{/opciones}}
+
+    <div class="botones">
+        <button>Volver</button>
+        <button>Guardar Pregunta</button>
+    </div>
+</div>
+</body>
+</html>

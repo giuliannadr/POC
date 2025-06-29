@@ -364,7 +364,7 @@ public function finalizarPartida($id_partida){
         // Validar categoría
         $sql = "SELECT id_categoria FROM Categoria WHERE nombre = ?";
         $stmt = $this->database->prepare($sql);
-        $stmt->bind_param("i", $categoria);
+        $stmt->bind_param("s", $categoria);
         $stmt->execute();
         $res = $stmt->get_result();
         $categoriaData = $res->fetch_assoc();
@@ -375,7 +375,9 @@ public function finalizarPartida($id_partida){
         // Insertar pregunta
         $sql = "INSERT INTO pregunta (enunciado, id_categoria, estado_pregunta, estado) VALUES (?, ?, 'enRevision', 'noPublicada')";
         $stmt = $this->database->prepare($sql);
-        $stmt->bind_param("si", $enunciado, $categoriaData);
+        $idCategoria = $categoriaData['id_categoria'];
+        $stmt->bind_param("si", $enunciado, $idCategoria); // ✅
+       // $stmt->bind_param("si", $enunciado, $categoriaData);
         $stmt->execute();
         $idPregunta = $this->database->getInsertId();
         $stmt->close();
@@ -447,7 +449,12 @@ public function finalizarPartida($id_partida){
         $stmt= $this->database->prepare("SELECT p.id_pregunta as idpregunta,p.enunciado as enunciado,c.nombre as categoria,p.dificultad as dificultad,r.texto as respuesta 
                                         FROM pregunta p
                                         JOIN categoria c ON c.id_categoria = p.id_categoria
+<<<<<<< HEAD
                                         JOIN respuesta r ON r.id_pregunta = p.id_pregunta WHERE esCorrecta = 1 AND estado_pregunta = 'activa'");
+=======
+                                        JOIN respuesta r ON r.id_pregunta = p.id_pregunta WHERE esCorrecta = 1 AND estado_pregunta = 'activa'
+                                        ORDER BY p.id_pregunta ASC ");
+>>>>>>> mateo
 
         $stmt->execute();
         $result= $stmt->get_result();
@@ -475,7 +482,11 @@ public function finalizarPartida($id_partida){
               p.id_pregunta = ? 
               OR p.enunciado LIKE ? 
               OR c.nombre LIKE ?
+<<<<<<< HEAD
           ) AND estado_pregunta = 'activa'
+=======
+          ) and estado_pregunta = 'activa'
+>>>>>>> mateo
     ");
 
         $busquedaParcial = '%' . $query . '%';
@@ -492,5 +503,184 @@ public function finalizarPartida($id_partida){
 
         return $preguntas;
     }
+
+    public function buscarSugerencia($query) {
+
+        $stmt = $this->database->prepare("
+        SELECT p.id_pregunta AS idpregunta, 
+               p.enunciado AS enunciado, 
+               c.nombre AS categoria
+        FROM sugerenciapregunta s
+        JOIN pregunta p ON p.id_pregunta = s.id_pregunta_sugerida
+        JOIN categoria c ON c.id_categoria = p.id_categoria
+        WHERE s.estado_sugerencia = 'pendiente'
+          AND (
+              p.id_pregunta = ? 
+              OR p.enunciado LIKE ?
+              OR c.nombre LIKE ?
+          )
+    ");
+
+            $busquedaParcial = '%' . $query . '%';
+            $idExacto = ctype_digit($query) ? (int)$query : 0;
+
+            $stmt->bind_param("iss", $idExacto, $busquedaParcial, $busquedaParcial);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $preguntas = [];
+            while ($row = $result->fetch_assoc()) {
+                $preguntas[] = $row;
+            }
+
+            return $preguntas;
+        }
+
+
+    public function buscarPorId($idPregunta){
+        $stmt = $this->database->prepare("
+        SELECT p.id_pregunta AS idpregunta,
+               p.enunciado AS enunciado,
+               c.nombre AS categoria,
+               r.texto AS respuesta
+        FROM pregunta p
+        JOIN categoria c ON c.id_categoria = p.id_categoria
+        JOIN respuesta r ON r.id_pregunta = p.id_pregunta
+        WHERE esCorrecta = 1
+          AND p.id_pregunta = ?
+          AND estado_pregunta = 'activa'
+    ");
+
+        $id = (int) $idPregunta; // Aseguramos conversión a entero
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $preguntas = [];
+        while ($row = $result->fetch_assoc()) {
+            $preguntas[] = $row;
+        }
+
+        return $preguntas;
+    }
+
+    public function obtenerPreguntaCompleta($idPregunta){
+        $stmt = $this->database->prepare("
+    SELECT p.id_pregunta AS idpregunta,
+           p.enunciado AS enunciado,
+           c.nombre AS categoria,
+           r.texto AS respuesta,
+           r.esCorrecta
+    FROM pregunta p
+    JOIN categoria c ON c.id_categoria = p.id_categoria
+    JOIN respuesta r ON r.id_pregunta = p.id_pregunta
+    WHERE p.id_pregunta = ?
+      AND estado_pregunta = 'activa'
+    
+");
+        $id = (int) $idPregunta; // Aseguramos conversión a entero
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $preguntas = [];
+        while ($row = $result->fetch_assoc()) {
+            $preguntas[] = $row;
+        }
+
+        return $preguntas;
+    }
+
+    public function obtenerSugeridas(){
+        $stmt = $this->database->prepare("SELECT p.id_pregunta as idpregunta, p.enunciado as enunciado, c.nombre as categoria
+                                        FROM pregunta p JOIN categoria c JOIN sugerenciapregunta s
+                                          ON  c.id_categoria = p.id_categoria AND p.id_pregunta = s.id_pregunta_sugerida AND s.estado_sugerencia = 'pendiente'");
+
+        $stmt->execute();
+        $result= $stmt->get_result();
+
+        $preguntas=[];
+        while($row = $result->fetch_assoc()){
+            $preguntas[]=$row;
+        }
+
+        return $preguntas;
+    }
+
+    public function aprobar($idPregunta) {
+        $stmt = $this->database->prepare("UPDATE pregunta SET estado_pregunta = 'activa', estado = 'publicada' WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $this->database->prepare("UPDATE sugerenciapregunta SET estado_sugerencia = 'aprobada' WHERE id_pregunta_sugerida = ?");
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function eliminar($idPregunta) {
+        $stmt = $this->database->prepare("DELETE FROM pregunta WHERE id_pregunta = ?");
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function eliminarSugerencia($idPregunta) {
+
+            // Eliminar primero las sugerencias que dependen de la pregunta
+            $stmt = $this->database->prepare("DELETE FROM sugerenciapregunta WHERE id_pregunta_sugerida = ?");
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $stmt->close();
+
+            // Luego eliminar la pregunta
+            $stmt = $this->database->prepare("DELETE FROM pregunta WHERE id_pregunta = ?");
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $stmt->close();
+
+
+    }
+
+    public function crearPreguntaDesdeEditor($enunciado, $categoria, $respuestas, $indiceCorrecto)
+    {
+        // Buscar la categoría por nombre
+        $sql = "SELECT id_categoria FROM categoria WHERE nombre = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("s", $categoria);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $categoriaData = $res->fetch_assoc();
+        $stmt->close();
+
+        if (!$categoriaData) {
+            throw new Exception("Categoría no encontrada.");
+        }
+
+        $idCategoria = $categoriaData['id_categoria'];
+
+        // Insertar la pregunta directamente como activa y publicada
+        $sql = "INSERT INTO pregunta (enunciado, id_categoria, estado_pregunta, estado) 
+            VALUES (?, ?, 'activa', 'publicada')";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("si", $enunciado, $idCategoria);
+        $stmt->execute();
+        $idPregunta = $this->database->getInsertId(); // Asumimos que tenés un método para esto
+        $stmt->close();
+
+        // Insertar respuestas
+        $sql = "INSERT INTO respuesta (id_pregunta, texto, esCorrecta) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($sql);
+
+        foreach ($respuestas as $i => $textoRespuesta) {
+            $esCorrecta = ($i == $indiceCorrecto) ? 1 : 0;
+            $stmt->bind_param("isi", $idPregunta, $textoRespuesta, $esCorrecta);
+            $stmt->execute();
+        }
+
+        $stmt->close();
+    }
+
 }
 

@@ -32,8 +32,15 @@
             <td>{{dificultad}}</td>
             <td>{{respuesta}}</td>
             <td>
-                <button class="btn btn-violeta">Editar</button>
-                <button class="btn btn-danger">Eliminar</button>
+               <!-- <button class="btn btn-violeta">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>-->
+                <a href="/POC/LobbyEDITOR/editarPregunta?id={{idpregunta}}" class="btn btn-violeta">Editar</a>
+                <form action="/POC/LobbyEDITOR/eliminarPregunta?id={{idpregunta}}" method="post" style="display:inline">
+                    <input type="hidden" name="id" value="{{idpregunta}}">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+
+
             </td>
         </tr>
     {{/preguntas}}

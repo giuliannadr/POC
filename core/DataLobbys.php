@@ -46,7 +46,7 @@ class DataLobbys{
         $botones = [
             ['texto' => 'Gestionar Preguntas', 'link' => '/POC/LobbyEDITOR/gestionarPreguntas','activo' => $seccionActiva === 'gestionarPreguntas'],
             ['texto' => 'Preguntas Reportadas', 'link' => '/editor/preguntasReportadas'],
-            ['texto' => 'Preguntas Sugeridas', 'link' => '/editor/preguntasSugeridas'],
+            ['texto' => 'Preguntas Sugeridas', 'link' => '/POC/LobbyEDITOR/preguntasSugeridas'],
         ];
 
         $preguntaModel=new PreguntasModel($this->db);
