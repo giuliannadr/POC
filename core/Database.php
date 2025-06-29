@@ -11,7 +11,7 @@ class Database
         $username = "root";
         $password = "";
         $dbname = "postaochamuyo"; // <-- cambialo por el nombre real
-        $port = 3308;
+        $port = 3306;
 
         $this->conn = new Mysqli($servername, $username, $password, $dbname, $port) or die("Error de conexion " . mysqli_connect_error());
     }

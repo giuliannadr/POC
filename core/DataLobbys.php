@@ -3,7 +3,7 @@ require_once("Session.php");
 class DataLobbys{
     private $db;
     public function __construct(){
-        $this->db= new mysqli("localhost", "root", "", "postaochamuyo", 3308);
+        $this->db= new mysqli("localhost", "root", "", "postaochamuyo", 3306);
 
     }
 
