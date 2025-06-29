@@ -449,12 +449,12 @@ public function finalizarPartida($id_partida){
         $stmt= $this->database->prepare("SELECT p.id_pregunta as idpregunta,p.enunciado as enunciado,c.nombre as categoria,p.dificultad as dificultad,r.texto as respuesta 
                                         FROM pregunta p
                                         JOIN categoria c ON c.id_categoria = p.id_categoria
-<<<<<<< HEAD
-                                        JOIN respuesta r ON r.id_pregunta = p.id_pregunta WHERE esCorrecta = 1 AND estado_pregunta = 'activa'");
-=======
+
                                         JOIN respuesta r ON r.id_pregunta = p.id_pregunta WHERE esCorrecta = 1 AND estado_pregunta = 'activa'
                                         ORDER BY p.id_pregunta ASC ");
->>>>>>> mateo
+
+
+
 
         $stmt->execute();
         $result= $stmt->get_result();
@@ -482,11 +482,11 @@ public function finalizarPartida($id_partida){
               p.id_pregunta = ? 
               OR p.enunciado LIKE ? 
               OR c.nombre LIKE ?
-<<<<<<< HEAD
+
           ) AND estado_pregunta = 'activa'
-=======
+
           ) and estado_pregunta = 'activa'
->>>>>>> mateo
+
     ");
 
         $busquedaParcial = '%' . $query . '%';
