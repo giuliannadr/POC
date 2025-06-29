@@ -496,6 +496,39 @@ public function finalizarPartida($id_partida){
         return $preguntas;
     }
 
+    public function buscarSugerencia($query) {
+
+        $stmt = $this->database->prepare("
+        SELECT p.id_pregunta AS idpregunta, 
+               p.enunciado AS enunciado, 
+               c.nombre AS categoria
+        FROM sugerenciapregunta s
+        JOIN pregunta p ON p.id_pregunta = s.id_pregunta_sugerida
+        JOIN categoria c ON c.id_categoria = p.id_categoria
+        WHERE s.estado_sugerencia = 'pendiente'
+          AND (
+              p.id_pregunta = ? 
+              OR p.enunciado LIKE ?
+              OR c.nombre LIKE ?
+          )
+    ");
+
+            $busquedaParcial = '%' . $query . '%';
+            $idExacto = ctype_digit($query) ? (int)$query : 0;
+
+            $stmt->bind_param("iss", $idExacto, $busquedaParcial, $busquedaParcial);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $preguntas = [];
+            while ($row = $result->fetch_assoc()) {
+                $preguntas[] = $row;
+            }
+
+            return $preguntas;
+        }
+
+
     public function buscarPorId($idPregunta){
         $stmt = $this->database->prepare("
         SELECT p.id_pregunta AS idpregunta,
@@ -584,5 +617,62 @@ public function finalizarPartida($id_partida){
         $stmt->execute();
         $stmt->close();
     }
+
+    public function eliminarSugerencia($idPregunta) {
+
+            // Eliminar primero las sugerencias que dependen de la pregunta
+            $stmt = $this->database->prepare("DELETE FROM sugerenciapregunta WHERE id_pregunta_sugerida = ?");
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $stmt->close();
+
+            // Luego eliminar la pregunta
+            $stmt = $this->database->prepare("DELETE FROM pregunta WHERE id_pregunta = ?");
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $stmt->close();
+
+
+    }
+
+    public function crearPreguntaDesdeEditor($enunciado, $categoria, $respuestas, $indiceCorrecto)
+    {
+        // Buscar la categoría por nombre
+        $sql = "SELECT id_categoria FROM categoria WHERE nombre = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("s", $categoria);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $categoriaData = $res->fetch_assoc();
+        $stmt->close();
+
+        if (!$categoriaData) {
+            throw new Exception("Categoría no encontrada.");
+        }
+
+        $idCategoria = $categoriaData['id_categoria'];
+
+        // Insertar la pregunta directamente como activa y publicada
+        $sql = "INSERT INTO pregunta (enunciado, id_categoria, estado_pregunta, estado) 
+            VALUES (?, ?, 'activa', 'publicada')";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("si", $enunciado, $idCategoria);
+        $stmt->execute();
+        $idPregunta = $this->database->getInsertId(); // Asumimos que tenés un método para esto
+        $stmt->close();
+
+        // Insertar respuestas
+        $sql = "INSERT INTO respuesta (id_pregunta, texto, esCorrecta) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($sql);
+
+        foreach ($respuestas as $i => $textoRespuesta) {
+            $esCorrecta = ($i == $indiceCorrecto) ? 1 : 0;
+            $stmt->bind_param("isi", $idPregunta, $textoRespuesta, $esCorrecta);
+            $stmt->execute();
+        }
+
+        $stmt->close();
+    }
+
 }
 

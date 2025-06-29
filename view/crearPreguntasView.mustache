@@ -77,8 +77,14 @@
                     <small style="color: var(--color-verde)">Seleccioná cuál es la correcta</small>
                 </div>
 
+                {{#esEditor}}
+                    <button type="submit" class="btn btn-success fw-bold">Crear pregunta</button>
+                {{/esEditor}}
+                {{^esEditor}}
+                    <button type="submit" class="btn btn-success fw-bold">Mandar a revisión</button>
+                {{/esEditor}}
                 <!-- Botón enviar -->
-                <button type="submit" class="btn btn-success fw-bold">Mandar a revisión</button>
+             <!--   <button type="submit" class="btn btn-success fw-bold">Mandar a revisión</button>-->
 
             </form>
 

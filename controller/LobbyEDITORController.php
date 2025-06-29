@@ -43,10 +43,10 @@ class LobbyEDITORController
         $this->view->render('headerAdminEditor', 'gestionarPreguntasEditor', $data);
     }
 
-    public function editarPregunta($params) {
+    public function editarPregunta() {
         $dataLobby = new DataLobbys();
         $data = $dataLobby->getLobbyEditorData('editarPregunta');
-        $idPregunta= $params['idpregunta'];
+        $idPregunta= $_POST['id'] ?? null;
         $pregunta=$this->model->obtenerPreguntaCompleta($idPregunta);
 
 
@@ -79,10 +79,13 @@ class LobbyEDITORController
         $data = $dataLobby->getLobbyEditorData('preguntasSugeridas'); // Trae lo mismo que usás en el método show()
 
         $data['seccionActiva'] = 'preguntasSugeridas';
+        $buscar= $_POST['buscarPregunta'] ?? null;
 
-
+        if($buscar){
+            $data['preguntas']=$this->model->buscarSugerencia($buscar);
+        }else {
             $data['preguntas'] = $this->model->obtenerSugeridas();
-
+        }
         $this->view->render('headerAdminEditor', 'preguntasSugeridas', $data);
     }
 
@@ -100,6 +103,39 @@ class LobbyEDITORController
             $idPregunta = $_POST["id"];
             $this->model->eliminar($idPregunta);
             $this->gestionarPreguntas();
+        }
+    }
+
+    public function eliminarSugerencia() {
+        if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
+            $idSugerencia = $_POST["id"];
+            $this->model->eliminarSugerencia($idSugerencia);
+            $this->gestionarPreguntas();
+        }
+    }
+
+    public function crearPregunta() {
+        if($_SERVER["REQUEST_METHOD"]) {
+            $usuario = Session::get('usuario');
+            $enunciado = $_POST['enunciado'];
+            $categoria = $_POST['categoria'];
+            $respuestas = $_POST['respuesta'];
+            $correcta = $_POST['respuestaCorrecta'];
+
+            $indexMap = ['A' => 0, 'B' => 1, 'C' => 2, 'D' => 3];
+            $textoRespuestaCorrecta = $respuestas[$indexMap[$correcta]];
+
+            // Pasás todo a la función que guardará la pregunta en revisión
+            $this->model->crearPreguntaDesdeEditor($enunciado, $categoria, $respuestas, $indexMap[$correcta], $usuario['id_usuario'], $textoRespuestaCorrecta);
+
+            $enviada = true;
+
+            $botones = new DataLobbys();
+            $lobbyeditor = $botones->getLobbyEditorData();
+            $data = $lobbyeditor;
+            $data['enviada'] = $enviada;
+
+            $this->view->render('headerAdminEditor', 'gestionarPreguntasEditor', $data);
         }
     }
 }

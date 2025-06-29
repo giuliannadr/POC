@@ -5,18 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/gestionarPreguntasController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/AdminModel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/gestionarPreguntasEditorView.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LobbyADMController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyADMController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/LobbyEDITORController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyEDITORController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/DataLobbys.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/DataLobbys.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/Database.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/PreguntasModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PreguntasModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/lobbyADMView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyADMView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/crearPreguntasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/crearPreguntasView.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/lobbyEDITORView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyEDITORView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,9 +22,14 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="$PROJECT_DIR$/../../../PHP/php.exe">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/mustache/mustache" />
       <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
@@ -45,27 +44,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "mateo",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/xampp/htdocs/POC",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;mateo&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/POC&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PS-243.26053.13" />
-        <option value="bundled-php-predefined-a98d8de5180a-1ec7b7818973-com.jetbrains.php.sharedIndexes-PS-243.26053.13" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-PS-251.23774.466" />
+        <option value="bundled-php-predefined-a98d8de5180a-aaeaa8632555-com.jetbrains.php.sharedIndexes-PS-251.23774.466" />
       </set>
     </attachedChunks>
   </component>
@@ -94,6 +93,7 @@
       <workItem from="1749939417864" duration="6809000" />
       <workItem from="1749948996802" duration="19000" />
       <workItem from="1750200645538" duration="1972000" />
+      <workItem from="1751216240762" duration="4377000" />
     </task>
     <servers />
   </component>
