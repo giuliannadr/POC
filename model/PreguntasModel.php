@@ -484,9 +484,6 @@ public function finalizarPartida($id_partida){
               OR c.nombre LIKE ?
 
           ) AND estado_pregunta = 'activa'
-
-          ) and estado_pregunta = 'activa'
-
     ");
 
         $busquedaParcial = '%' . $query . '%';
