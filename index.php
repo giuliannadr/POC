@@ -32,7 +32,7 @@ $permisos = [
     'perfil' => ['jugador'],
     'lobbyjug' => ['jugador'],
     'preguntas' => ['jugador'],
-    'crearpregunta' => ['jugador'],
+    'crearpregunta' => ['jugador', 'editor'],
 //editor
     'gestionarpreguntas' => ['editor'],
     'editor' => ['editor'],

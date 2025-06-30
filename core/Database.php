@@ -1,28 +1,16 @@
+
+
 <?php
 
 class Database
 {
 
     private $conn;
-    private static $instance = null;
+
     function __construct($servername, $username, $password, $dbname, $port)
     {
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "postaochamuyo"; // <-- cambialo por el nombre real
-        $port = 3308;
-
         $this->conn = new Mysqli($servername, $username, $password, $dbname, $port) or die("Error de conexion " . mysqli_connect_error());
     }
-
-    /*public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new Database();
-        }
-        return self::$instance->getConnection();
-    }*/
 
     public function getConnection()
     {

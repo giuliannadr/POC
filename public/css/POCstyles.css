@@ -718,6 +718,14 @@ body {
     width: 60%;
 }
 
+tbody tr:nth-child(odd) {
+    background-color: var(--color-violeta-masclaro) !important;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--color-violeta-oscuro) !important;
+    color: white !important;
+}
 
 
 

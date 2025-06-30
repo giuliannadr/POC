@@ -1,15 +1,26 @@
 <main class="d-flex flex-column align-items-center p-5">
     <div class="text-left mt-4">
-        <a href="/POC/LobbyJug/show"
-           class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
-            Volver
-        </a>
+
+        {{#esEditor}}
+            <a href="/POC/lobbyEditor/show"
+               class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+                Volver
+            </a>
+        {{/esEditor}}
+        {{^esEditor}}
+            <a href="/POC/LobbyJug/show"
+               class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+                Volver
+            </a>
+        {{/esEditor}}
+
     </div>
     <div class="crear-contenedor p-5 rounded-5">
         <h1 class="text-white fw-bold">Crear Pregunta</h1>
 
         <div class="fila-crear fw-bold" style="color: var(--color-verde)">
-            <form method="post" action="/POC/crearPregunta/crear"
+
+            <form method="post" action="{{action}}"
                   style="display: flex; flex-direction: column; gap: 1.5em; align-items: center; width: 100%;">
 
                 <!-- Enunciado -->

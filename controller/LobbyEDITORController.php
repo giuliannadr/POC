@@ -18,17 +18,26 @@ class LobbyEDITORController
 
         // Redirige si no hay usuario o si el tipo no es 'editor'
 
-
+        $preguntasActivas = $this->model->contarActivas();
+        $preguntasReportadas = $this->model->contarReportesPendientes();
+        $preguntasSugeridas = $this->model->contarSugerenciasPendientes();
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyEditorData();
-
+        $data = array_merge(
+            $dataLobby->getLobbyEditorData(),
+            [
+                'preguntasActivas' => $preguntasActivas,
+                'reportes' => $preguntasReportadas,
+                'sugerenciasPendientes' => $preguntasSugeridas
+            ]
+        );
         $this->view->render('headerAdminEditor', 'lobbyEDITOR', $data);
     }
 
     public function gestionarPreguntas() {
 
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyEditorData('gestionarPreguntas'); // Trae lo mismo que usás en el método show()
+        $data = $dataLobby->getLobbyEditorData(); // Trae lo mismo que usás en el método show()
+
 
         $data['seccionActiva'] = 'gestionarPreguntas';
         $busqueda = $_POST['buscarPregunta'] ?? null;
@@ -45,33 +54,79 @@ class LobbyEDITORController
 
     public function editarPregunta() {
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyEditorData('editarPregunta');
-        $idPregunta= $_POST['id'] ?? null;
-        $pregunta=$this->model->obtenerPreguntaCompleta($idPregunta);
+        $dataLobbyArray = $dataLobby->getLobbyEditorData('editarPregunta');
 
+        $idPregunta = $_POST['id'] ?? null;
 
-        $data = [
-            'id' => $pregunta['idpregunta'],
-            'enunciado' => $pregunta['enunciado'],
-            'categoriaDeporte' => $pregunta['categoria'] === 'Deporte',
-            'categoriaHistoria' => $pregunta['categoria'] === 'Historia',
-            'categoriaGeografia' => $pregunta['categoria'] === 'Geografía',
+        if (!$idPregunta) {
+            die("ID de pregunta no enviado");
+        }
+
+        $filas = $this->model->obtenerPreguntaCompleta($idPregunta);
+
+        if (empty($filas)) {
+            die("Pregunta no encontrada");
+        }
+
+        // Tomamos los datos generales de la primera fila
+        $primeraFila = $filas[0];
+        $id = $primeraFila['idpregunta'] ?? null;
+        $enunciado = $primeraFila['enunciado'] ?? '';
+        $categoria = $primeraFila['categoria'] ?? '';
+
+        // Obtenemos respuestas (hasta 4) y detectamos cuál es la correcta
+        $respuestas = [];
+        $respuestaCorrecta = '';
+
+        $letras = ['A', 'B', 'C', 'D'];
+        foreach ($filas as $i => $fila) {
+            $texto = $fila['respuesta'] ?? '';
+            $respuestas[] = $texto;
+
+            if ($fila['esCorrecta']) {
+                $respuestaCorrecta = $letras[$i] ?? '';
+            }
+        }
+
+        // Rellenar hasta 4 respuestas si faltan
+        for ($i = count($respuestas); $i < 4; $i++) {
+            $respuestas[] = '';
+        }
+
+        $datosPregunta = [
+            'id' => $id,
+            'enunciado' => $enunciado,
+            // Comparar con mayúsculas exactas para que coincida con los values del template
+            'categoriaHistoria' => strtoupper($categoria) === 'HISTORIA',
+            'categoriaCiencia' => strtoupper($categoria) === 'CIENCIA',
+            'categoriaDeporte' => strtoupper($categoria) === 'DEPORTE',
+            'categoriaArte' => strtoupper($categoria) === 'ARTE',
+            'categoriaEntretenimiento' => strtoupper($categoria) === 'ENTRETENIMIENTO',
+            'categoriaGeografia' => strtoupper($categoria) === 'GEOGRAFIA',
+
             'respuestas' => [
-                ['letra' => 'A', 'texto' => $pregunta->respuestas[0]],
-                ['letra' => 'B', 'texto' => $pregunta->respuestas[1]],
-                ['letra' => 'C', 'texto' => $pregunta->respuestas[2]],
-                ['letra' => 'D', 'texto' => $pregunta->respuestas[3]]
+                ['letra' => 'A', 'texto' => $respuestas[0]],
+                ['letra' => 'B', 'texto' => $respuestas[1]],
+                ['letra' => 'C', 'texto' => $respuestas[2]],
+                ['letra' => 'D', 'texto' => $respuestas[3]],
             ],
             'opciones' => [
-                ['letra' => 'A', 'seleccionada' => $pregunta['respuesta'] === 'A'],
-                ['letra' => 'B', 'seleccionada' => $pregunta['respuesta'] === 'B'],
-                ['letra' => 'C', 'seleccionada' => $pregunta['respuesta'] === 'C'],
-                ['letra' => 'D', 'seleccionada' => $pregunta['respuesta'] === 'D']
-            ]
+                ['letra' => 'A', 'seleccionada' => $respuestaCorrecta === 'A'],
+                ['letra' => 'B', 'seleccionada' => $respuestaCorrecta === 'B'],
+                ['letra' => 'C', 'seleccionada' => $respuestaCorrecta === 'C'],
+                ['letra' => 'D', 'seleccionada' => $respuestaCorrecta === 'D'],
+            ],
         ];
+
+
+        // Combinar con datos del lobby
+        $data = array_merge($dataLobbyArray, $datosPregunta);
 
         $this->view->render('headerAdminEditor', 'editarPregunta', $data);
     }
+
+
+
 
     public function preguntasSugeridas()
     {
@@ -133,9 +188,15 @@ class LobbyEDITORController
             $botones = new DataLobbys();
             $lobbyeditor = $botones->getLobbyEditorData();
             $data = $lobbyeditor;
-            $data['enviada'] = $enviada;
+            $data['mostrarPopupExito'] = true;  // o false si no quieres mostrar
 
-            $this->view->render('headerAdminEditor', 'gestionarPreguntasEditor', $data);
+
+            $this->view->render('headerAdminEditor', 'lobbyEDITOR', $data);
         }
+    }
+
+    public function preguntasReportadas()
+    {
+
     }
 }
