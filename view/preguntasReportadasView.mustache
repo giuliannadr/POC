@@ -52,13 +52,13 @@
                         <td>{{texto}}</td>
                         <td>
 
-                            <a href="/POC/LobbyEDITOR/editarPregunta?id={{idpregunta}}" class="btn btn-violeta">Editar</a>
-                            <form action="/POC/LobbyEDITOR/aprobarPregunta" method="post" style="display:inline">
+                            <form action="/POC/LobbyEDITOR/editarPregunta" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="{{idpregunta}}">
+                                <button type="submit" style="border-radius: 20px" class="btn btn-violeta">Editar</button>
                             </form>
-                            <form action="/POC/LobbyEditor/eliminarSugerencia" method="post" style="display:inline">
-                                <input type="hidden" name="id" value="{{idpregunta}}">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <form action="/POC/LobbyEditor/eliminarReporte" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="{{id_reporte}}">
+                                <button type="submit" style="border-radius: 20px" class="btn btn-danger">Eliminar</button>
                             </form>
                         </td>
                     </tr>

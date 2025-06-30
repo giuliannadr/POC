@@ -165,7 +165,8 @@ class LobbyEDITORController
         if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
             $idSugerencia = $_POST["id"];
             $this->model->eliminarSugerencia($idSugerencia);
-            $this->gestionarPreguntas();
+
+            $this->preguntasSugeridas();
         }
     }
 
@@ -211,6 +212,15 @@ class LobbyEDITORController
         }
 
         $this->view->render('headerAdminEditor', 'preguntasReportadas', $data);
+    }
+
+    public function eliminarReporte()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
+            $idReporte = $_POST["id"];
+            $this->model->eliminarReporte($idReporte);  // Aquí llamás a eliminarReporte, no eliminar
+            $this->preguntasReportadas();
+        }
     }
 
 }

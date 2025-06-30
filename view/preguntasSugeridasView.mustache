@@ -6,7 +6,7 @@
         </a>
     </div>
     <form method="post">
-        <input class="p-2 rounded-pill" type="search" name="buscarPregunta" id="buscarPregunta" placeholder="Buscar por ID, enunciado o categoria"  value="{{buscarPregunta}}" style="background-color: var(--color-violeta-oscuro) ">
+        <input class="p-2 rounded-pill texto-verde" type="search" name="buscarPregunta" id="buscarPregunta" placeholder="Buscar por ID, enunciado o categoria"  value="{{buscarPregunta}}" style="background-color: var(--color-violeta-oscuro) ">
         <button class="btn btn-violeta" type="submit">Buscar</button>
     </form>
 </div>
@@ -59,15 +59,15 @@
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>-->
 
-                        <button class="btn btn-violeta">Ver detalles</button>
-                        <a href="/POC/LobbyEDITOR/editarPregunta?id={{idpregunta}}" class="btn btn-violeta">Editar</a>
-                        <form action="/POC/LobbyEDITOR/aprobarPregunta" method="post" style="display:inline">
+                        <button style="border-radius: 20px" class="btn btn-violeta">Ver detalles</button>
+                        <form action="/POC/LobbyEDITOR/editarPregunta" method="post" style="display:inline;">
                             <input type="hidden" name="id" value="{{idpregunta}}">
-                            <button type="submit" class="btn btn-violeta">Aprobar</button>
+                            <button type="submit" style="border-radius: 20px" class="btn btn-violeta">Editar</button>
                         </form>
+
                         <form action="/POC/LobbyEditor/eliminarSugerencia?id={{idpregunta}}" method="post" style="display:inline">
                             <input type="hidden" name="id" value="{{idpregunta}}">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <button type="submit" style="border-radius: 20px" class="btn btn-danger">Eliminar</button>
                         </form>
 
                     </td>

@@ -617,11 +617,30 @@ public function finalizarPartida($id_partida){
     }
 
     public function eliminar($idPregunta) {
-        $stmt = $this->database->prepare("DELETE FROM pregunta WHERE id_pregunta = ?");
+        // 1. Eliminar registros hijos que referencian la pregunta
+        $sqlBorrarRelacionados = "DELETE FROM jugadorrespondepregunta WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($sqlBorrarRelacionados);
         $stmt->bind_param("i", $idPregunta);
         $stmt->execute();
-        $stmt->close();
+
+        // 2. Ahora eliminar la pregunta
+        $sqlBorrarPregunta = "DELETE FROM pregunta WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($sqlBorrarPregunta);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+
+        return true;
     }
+    public function eliminarReporte($idReporte) {
+        $sql = "DELETE FROM reportePregunta WHERE id_reporte = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $idReporte);
+        $stmt->execute();
+
+        return true;
+    }
+
+
 
     public function eliminarSugerencia($idPregunta) {
 
