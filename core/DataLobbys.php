@@ -91,57 +91,5 @@ class DataLobbys{
 //        ];
 //    }
 //
-//    public function getLobbyAdminData(){
-//        $usuario = Session::get('usuario');
-//        $periodo = $_GET['periodo'] ?? 'mes';
-//        // Botones para el nav rol admin
-//        // Hay que ver como se haria lo de los filtros
-//        $botones = [
-//            ['texto' => 'Dia', 'link' => '/POC/admin/dashboard?periodo=dia'],
-//            ['texto' => 'Semana', 'link' => '/POC/admin/dashboard?periodo=semana'],
-//            ['texto' => 'Mes', 'link' => '/POC/admin/dashboard?periodo=mes']
-//        ];
-//
-//        $adminModel=new AdminModel($this->db);
-//        $datos=$adminModel->obtenerEstadisticas($periodo);
-//        $estadisticasPorEdad=$adminModel->obtenerEstadisticasPorEdad();
-//        $usuariosPorPais=$adminModel->obtenerEstadisticasPorPais();
-//        $total = $estadisticasPorEdad['menores'] + $estadisticasPorEdad['adultos'] + $estadisticasPorEdad['jubilados'];
-//
-//        $porcentajesEdad = [
-//            'porcentajeMenores' => $total > 0 ? round(($estadisticasPorEdad['menores'] / $total) * 100, 1) : 0,
-//            'porcentajeAdultos' => $total > 0 ? round(($estadisticasPorEdad['adultos'] / $total) * 100, 1) : 0,
-//            'porcentajeJubilados' => $total > 0 ? round(($estadisticasPorEdad['jubilados'] / $total) * 100, 1) : 0
-//        ];
-//
-//        $datosGenero = $adminModel->obtenerEstadisticasPorGenero();
-//
-//        $totalGenero = $datosGenero['hombres'] + $datosGenero['mujeres'] + $datosGenero['otros'];
-//
-//        $porcentajeHombres = $totalGenero > 0 ? round(($datosGenero['hombres'] / $totalGenero) * 100, 1) : 0;
-//        $porcentajeMujeres = $totalGenero > 0 ? round(($datosGenero['mujeres'] / $totalGenero) * 100, 1) : 0;
-//        $porcentajeOtros   = $totalGenero > 0 ? round(($datosGenero['otros'] / $totalGenero) * 100, 1) : 0;
-//
-//
-//        return [
-//            'usuario' => $usuario,
-//            'botones' => $botones,
-//            'totalJugadores' => $datos['totalJugadores'],
-//            'totalPartidas'=> $datos['totalPartidas'],
-//            'menores'=>$estadisticasPorEdad['menores'],
-//            'adultos'=>$estadisticasPorEdad['adultos'],
-//            'jubilados'=>$estadisticasPorEdad['jubilados'],
-//            'usuariosPorPais'=>$usuariosPorPais,
-//            'porcentajeMenores' => $porcentajesEdad['porcentajeMenores'],
-//            'porcentajeAdultos' => $porcentajesEdad['porcentajeAdultos'],
-//            'porcentajeJubilados' => $porcentajesEdad['porcentajeJubilados'],
-//            'hombres' => $datosGenero['hombres'],
-//            'mujeres' => $datosGenero['mujeres'],
-//            'otros' => $datosGenero['otros'],
-//            'porcentajeHombres' => $porcentajeHombres,
-//            'porcentajeMujeres' => $porcentajeMujeres,
-//            'porcentajeOtros' => $porcentajeOtros
-//
-//        ];
-//    }
+
 }
