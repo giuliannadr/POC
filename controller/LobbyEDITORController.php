@@ -131,7 +131,7 @@ class LobbyEDITORController
     public function preguntasSugeridas()
     {
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyEditorData('preguntasSugeridas'); // Trae lo mismo que usás en el método show()
+        $data = $dataLobby->getLobbyEditorData(); // Trae lo mismo que usás en el método show()
 
         $data['seccionActiva'] = 'preguntasSugeridas';
         $buscar= $_POST['buscarPregunta'] ?? null;
@@ -197,6 +197,20 @@ class LobbyEDITORController
 
     public function preguntasReportadas()
     {
+        $dataLobby = new DataLobbys();
+        $data = $dataLobby->getLobbyEditorData();
 
+        $data['seccionActiva'] = 'preguntasReportadas';
+        $buscar = $_POST['buscarPregunta'] ?? null;
+
+        if ($buscar) {
+            // Si buscás por idpregunta, debe coincidir con el parámetro en buscarReporte
+            $data['preguntas'] = $this->model->buscarReporte($buscar);
+        } else {
+            $data['preguntas'] = $this->model->obtenerReportes();
+        }
+
+        $this->view->render('headerAdminEditor', 'preguntasReportadas', $data);
     }
+
 }

@@ -14,6 +14,7 @@ class LobbyADMController
     public function show()
     {
 
+
         $dataLobby = new DataLobbys();
         $data = $dataLobby->getLobbyAdminData();
 

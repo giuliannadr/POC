@@ -678,6 +678,36 @@ public function finalizarPartida($id_partida){
 
         $stmt->close();
     }
+    public function buscarReporte($idPregunta) {
+        $sql = "SELECT r.id_reporte, r.id_jugador_reporta,  r.id_pregunta_reportada AS idpregunta, r.texto, r.estado_reporte, r.fecha_reporte,
+                   p.enunciado, c.nombre AS categoria
+            FROM reportePregunta r
+            INNER JOIN pregunta p ON r.id_pregunta_reportada = p.id_pregunta
+            INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+            WHERE r.id_pregunta_reportada = ?
+            ORDER BY r.fecha_reporte DESC";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    public function obtenerReportes() {
+        $sql = "SELECT r.id_reporte, r.id_jugador_reporta, r.id_pregunta_reportada AS idpregunta , r.texto, r.estado_reporte, r.fecha_reporte,
+                   p.enunciado, c.nombre AS categoria
+            FROM reportePregunta r
+            INNER JOIN pregunta p ON r.id_pregunta_reportada = p.id_pregunta
+            INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+            ORDER BY r.fecha_reporte DESC";
+
+        return $this->database->query($sql); // ✅ Listo, ya es un array
+
+    }
+
 
 }
 
