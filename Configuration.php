@@ -79,8 +79,9 @@ class Configuration
 
     public function getLobbyADMController()
     {
-        return new LobbyADMController($this->getViewer());
+        return new LobbyADMController($this->getViewer(), $this->db);
     }
+
 
     public function getRouter()
     {

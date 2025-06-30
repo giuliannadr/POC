@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/view/preguntasReportadasView.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/config.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/LobbyADMController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyADMController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LobbyEDITORController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyEDITORController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/PreguntasModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PreguntasModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/editarPreguntaView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/editarPreguntaView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/DataLobbys.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/DataLobbys.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +46,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "leandro",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "C:/xampp/htdocs/Generar qr",
     "node.js.detected.package.eslint": "true",
@@ -101,6 +99,7 @@
       <workItem from="1751167160023" duration="3190000" />
       <workItem from="1751216600052" duration="474000" />
       <workItem from="1751217116827" duration="2225000" />
+      <workItem from="1751301680439" duration="3239000" />
     </task>
     <servers />
   </component>
