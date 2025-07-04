@@ -52,11 +52,9 @@ class LobbyEDITORController
         $this->view->render('headerAdminEditor', 'gestionarPreguntasEditor', $data);
     }
 
-    public function editarPregunta() {
-        $dataLobby = new DataLobbys();
-        $dataLobbyArray = $dataLobby->getLobbyEditorData('editarPregunta');
-
-        $idPregunta = $_POST['id'] ?? null;
+    public function editarPregunta()
+    {
+        $idPregunta = $_POST['id'] ?? null; // o $_GET['id'] si usas GET
 
         if (!$idPregunta) {
             die("ID de pregunta no enviado");
@@ -68,62 +66,166 @@ class LobbyEDITORController
             die("Pregunta no encontrada");
         }
 
-        // Tomamos los datos generales de la primera fila
         $primeraFila = $filas[0];
         $id = $primeraFila['idpregunta'] ?? null;
         $enunciado = $primeraFila['enunciado'] ?? '';
-        $categoria = $primeraFila['categoria'] ?? '';
 
-        // Obtenemos respuestas (hasta 4) y detectamos cuál es la correcta
+
+        $mapaCategorias = [
+            'HISTORIA' => 1,
+            'GEOGRAFIA' => 2,
+            'ARTE' => 3,
+            'DEPORTES' => 4,
+            'ENTRETENIMIENTO' => 5,
+            'CIENCIA' => 6,
+        ];
+
+        $categoriaTexto = strtoupper(trim($primeraFila['categoria']));
+        $categoria = $mapaCategorias[$categoriaTexto] ?? 0;
+
+
+        // Obtener respuestas con sus IDs y cuál es correcta
         $respuestas = [];
         $respuestaCorrecta = '';
 
         $letras = ['A', 'B', 'C', 'D'];
         foreach ($filas as $i => $fila) {
-            $texto = $fila['respuesta'] ?? '';
-            $respuestas[] = $texto;
-
+            $respuestas[] = [
+                'id_respuesta' => $fila['idrespuesta'] ?? null,
+                'texto' => $fila['respuesta'] ?? ''
+            ];
             if ($fila['esCorrecta']) {
                 $respuestaCorrecta = $letras[$i] ?? '';
             }
         }
 
-        // Rellenar hasta 4 respuestas si faltan
+        // Completar hasta 4 respuestas (en caso de que haya menos)
         for ($i = count($respuestas); $i < 4; $i++) {
-            $respuestas[] = '';
+            $respuestas[] = [
+                'id_respuesta' => null,
+                'texto' => ''
+            ];
         }
 
         $datosPregunta = [
             'id' => $id,
             'enunciado' => $enunciado,
-            // Comparar con mayúsculas exactas para que coincida con los values del template
-            'categoriaHistoria' => strtoupper($categoria) === 'HISTORIA',
-            'categoriaCiencia' => strtoupper($categoria) === 'CIENCIA',
-            'categoriaDeporte' => strtoupper($categoria) === 'DEPORTE',
-            'categoriaArte' => strtoupper($categoria) === 'ARTE',
-            'categoriaEntretenimiento' => strtoupper($categoria) === 'ENTRETENIMIENTO',
-            'categoriaGeografia' => strtoupper($categoria) === 'GEOGRAFIA',
+            'categoria' => $categoria,
+            'categoriaHistoria' => $categoria == 1 ? true : false,
+            'categoriaGeografia' => $categoria == 2 ? true : false,
+            'categoriaArte' => $categoria == 3 ? true : false,
+            'categoriaDeporte' => $categoria == 4 ? true : false,
+            'categoriaEntretenimiento' => $categoria == 5 ? true : false,
+            'categoriaCiencia' => $categoria == 6 ? true : false,
 
-            'respuestas' => [
-                ['letra' => 'A', 'texto' => $respuestas[0]],
-                ['letra' => 'B', 'texto' => $respuestas[1]],
-                ['letra' => 'C', 'texto' => $respuestas[2]],
-                ['letra' => 'D', 'texto' => $respuestas[3]],
-            ],
+
+            'respuestas' => $respuestas,
+            'respuestaCorrecta' => $respuestaCorrecta,
             'opciones' => [
                 ['letra' => 'A', 'seleccionada' => $respuestaCorrecta === 'A'],
                 ['letra' => 'B', 'seleccionada' => $respuestaCorrecta === 'B'],
                 ['letra' => 'C', 'seleccionada' => $respuestaCorrecta === 'C'],
                 ['letra' => 'D', 'seleccionada' => $respuestaCorrecta === 'D'],
-            ],
+            ]
         ];
 
+        // Combinar con datos del lobby o contexto general si usás
+        $dataLobby = new DataLobbys();
+        $dataLobbyArray = $dataLobby->getLobbyEditorData();
 
-        // Combinar con datos del lobby
         $data = array_merge($dataLobbyArray, $datosPregunta);
 
         $this->view->render('headerAdminEditor', 'editarPregunta', $data);
     }
+
+    public function guardarEdicionPregunta()
+    {
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            die("Falta el ID de la pregunta.");
+        }
+
+        // === 1. Enunciado ===
+        $enunciado = trim($_POST['enunciado'] ?? '');
+        $enunciadoOriginal = trim($_POST['enunciado_original'] ?? '');
+
+        if ($enunciado === '') {
+            $enunciado = $enunciadoOriginal;
+        }
+
+        // === 2. Categoría ===
+        $categoria = $_POST['categoria'] ?? '';
+        $categoriaOriginal = $_POST['categoria_original'] ?? '';
+
+        if ($categoria === '') {
+            $categoria = $categoriaOriginal;
+        }else {
+            // Asegurar que sea entero (por seguridad)
+            $categoria = (int) $categoria;
+        }
+
+        // === 3. Respuestas ===
+        $respuestas = $_POST['respuesta'] ?? [];
+        $respuestasOriginal = $_POST['respuesta_original'] ?? [];
+
+        $respuestasFinales = [];
+
+        for ($i = 0; $i < 4; $i++) {
+            $r = trim($respuestas[$i] ?? '');
+            $respuestasFinales[] = $r !== '' ? $r : ($respuestasOriginal[$i] ?? '');
+        }
+
+        // === 4. Respuesta correcta ===
+        $respuestaCorrecta = $_POST['respuestaCorrecta'] ?? '';
+        $respuestaCorrectaOriginal = $_POST['respuestaCorrecta_original'] ?? '';
+
+        if (!in_array($respuestaCorrecta, ['A', 'B', 'C', 'D'])) {
+            $respuestaCorrecta = $respuestaCorrectaOriginal;
+        }
+
+        // === 5. Guardar en base de datos ===
+        // Primero actualizás enunciado y categoría
+        $this->model->actualizarPregunta($id, $enunciado, $categoria);
+
+        // Después actualizás las respuestas
+        $idRespuestas = $_POST['id_respuesta'] ?? [];
+
+        $this->model->desmarcarTodasRespuestasComoIncorrectas($id);
+        foreach (['A', 'B', 'C', 'D'] as $i => $letra) {
+            $texto = $respuestasFinales[$i];
+            $esCorrecta = ($respuestaCorrecta === $letra) ? 1 : 0;
+            $idRespuesta = $idRespuestas[$i] ?? null;
+
+            if ($idRespuesta) {
+                $this->model->actualizarRespuesta($id, $idRespuesta, $texto, $esCorrecta);
+            } else {
+                // Si no existe idRespuesta, insertá una nueva respuesta ligada a la pregunta
+                $this->model->insertarRespuesta($id, $texto, $esCorrecta);
+            }
+        }
+
+        $dataLobby = new DataLobbys();
+        $dataLobbyArray = $dataLobby->getLobbyEditorData();
+
+        $busqueda = $_POST['buscarPregunta'] ?? null;
+        $preguntas = $busqueda ? $this->model->buscarPreguntas($busqueda) : $this->model->obtenerTodasPreguntas();
+
+        $data = array_merge(
+            $dataLobbyArray,
+            [
+                'seccionActiva' => 'gestionarPreguntas',
+                'preguntas' => $preguntas,
+                'buscarPregunta' => $busqueda,
+                'editada' => true
+            ]
+        );
+
+
+        // Redirigimos o mostramos mensaje de éxito
+        $this->view->render('headerAdminEditor', 'gestionarPreguntasEditor', $data);
+    }
+
 
 
 

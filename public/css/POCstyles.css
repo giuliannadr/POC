@@ -670,7 +670,7 @@ body {
 .radio-opcion input[type="radio"] {
     appearance: none;
     -webkit-appearance: none;
-    background-color: white;
+    background-color: var(--color-violet-masclaro);
     border: 2px solid var(--color-verde);
     border-radius: 50%;
     width: 20px;

@@ -727,6 +727,35 @@ public function finalizarPartida($id_partida){
 
     }
 
+    public function insertarRespuesta($id, $texto, $esCorrecta)
+    {
+        $sql = "INSERT INTO respuesta (id_pregunta, texto, esCorrecta) VALUES (?, ?, ?)";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("isi", $id, $texto, $esCorrecta);
+        $stmt->execute();
 
+
+
+    }
+    public function actualizarPregunta($id, $enunciado, $categoria)
+    {
+        $sql = "UPDATE pregunta SET enunciado = ?, id_categoria = ? WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->execute([$enunciado, $categoria, $id]);
+    }
+
+    public function actualizarRespuesta($idPregunta, $idRespuesta, $texto, $esCorrecta)
+    {
+        $sql = "UPDATE respuesta SET texto = ?, esCorrecta = ? WHERE id_pregunta = ? AND id_respuesta = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->execute([$texto, $esCorrecta, $idPregunta, $idRespuesta]);
+    }
+    public function desmarcarTodasRespuestasComoIncorrectas($idPregunta)
+    {
+        $sql = "UPDATE respuesta SET esCorrecta = 0 WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+    }
 }
 

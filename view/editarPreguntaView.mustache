@@ -11,7 +11,7 @@
         <h3 class="text-white"> Id: {{id}} </h3>
         <div class="fila-crear fw-bold" style="color: var(--color-verde)">
 
-            <form method="post" action="{{action}}"
+            <form method="post" action="/POC/lobbyEditor/guardarEdicionPregunta"
                   style="display: flex; flex-direction: column; gap: 1.5em; align-items: center; width: 100%;">
 
                 <input type="hidden" name="id" value="{{id}}">  <!-- envía el id en el form -->
@@ -20,81 +20,95 @@
                 <div class="form-group">
                     <label for="enunciado">Enunciado:</label>
                     <input type="text" name="enunciado" id="enunciado" required style="width: 70%; border-radius: 30px"
-                           placeholder="{{enunciado}}">
+                           placeholder="{{enunciado}}"
+                           value="{{enunciado}}"  >
+                    <input type="hidden" name="enunciado_original" value="{{enunciado}}">
                 </div>
 
                 <!-- Categorías -->
+                <!-- Categorías -->
                 <div class="form-group">
+
+                    <input type="hidden" name="categoria_original" value="{{categoria}}">
+
                     <label>Categoría:</label>
                     <div class="radios-crear" style="color: white">
                         <div class="radio-opcion">
-                            <input type="radio" id="historia" name="categoria" value="HISTORIA" required
+                            <input type="radio" id="historia" name="categoria" value="1" required
                                    {{#categoriaHistoria}}checked{{/categoriaHistoria}}>
                             <label for="historia">Historia</label>
                         </div>
                         <div class="radio-opcion">
-                            <input type="radio" id="ciencia" name="categoria" value="CIENCIA"
-                                   {{#categoriaCiencia}}checked{{/categoriaCiencia}}>
-                            <label for="ciencia">Ciencia</label>
+                            <input type="radio" id="geografia" name="categoria" value="2"
+                                   {{#categoriaGeografia}}checked{{/categoriaGeografia}}>
+                            <label for="geografia">Geografía</label>
                         </div>
                         <div class="radio-opcion">
-                            <input type="radio" id="deportes" name="categoria" value="DEPORTE"
-                                   {{#categoriaDeporte}}checked{{/categoriaDeporte}}>
-                            <label for="deportes">Deportes</label>
-                        </div>
-                        <div class="radio-opcion">
-                            <input type="radio" id="arte" name="categoria" value="ARTE"
+                            <input type="radio" id="arte" name="categoria" value="3"
                                    {{#categoriaArte}}checked{{/categoriaArte}}>
                             <label for="arte">Arte</label>
                         </div>
                         <div class="radio-opcion">
-                            <input type="radio" id="entretenimiento" name="categoria" value="ENTRETENIMIENTO"
+                            <input type="radio" id="deportes" name="categoria" value="4"
+                                   {{#categoriaDeporte}}checked{{/categoriaDeporte}}>
+                            <label for="deportes">Deportes</label>
+                        </div>
+                        <div class="radio-opcion">
+                            <input type="radio" id="entretenimiento" name="categoria" value="5"
                                    {{#categoriaEntretenimiento}}checked{{/categoriaEntretenimiento}}>
                             <label for="entretenimiento">Entretenimiento</label>
                         </div>
                         <div class="radio-opcion">
-                            <input type="radio" id="geografia" name="categoria" value="GEOGRAFIA"
-                                   {{#categoriaGeografia}}checked{{/categoriaGeografia}}>
-                            <label for="geografia">Geografía</label>
+                            <input type="radio" id="ciencia" name="categoria" value="6"
+                                   {{#categoriaCiencia}}checked{{/categoriaCiencia}}>
+                            <label for="ciencia">Ciencia</label>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Respuestas -->
                 <div class="form-group">
                     <label>Respuestas:</label>
                     <div class="respuestas-crear">
+                        <input type="hidden" name="respuestaCorrecta_original" value="{{respuestaCorrecta}}">
 
                         <div class="respuesta-opcion">
+                            <input type="hidden" name="id_respuesta[]" value="{{respuestas.0.id_respuesta}}">
+                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.0.texto}}">
+
                             <input type="radio" name="respuestaCorrecta" value="A" id="correctaA" required
                                    {{#opciones.0.seleccionada}}checked{{/opciones.0.seleccionada}}>
                             <label for="respuestaA">A)</label>
                             <input type="text" name="respuesta[]" id="respuestaA" required
-                                   placeholder="{{respuestas.0.texto}}">
+                                   value="{{respuestas.0.texto}}" placeholder="{{respuestas.0.texto}}">
                         </div>
 
                         <div class="respuesta-opcion">
-                            <input type="radio" name="respuestaCorrecta" value="B" id="correctaB"
+                            <input type="hidden" name="id_respuesta[]" value="{{respuestas.1.id_respuesta}}">
+                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.1.texto}}">  <input type="radio" name="respuestaCorrecta" value="B" id="correctaB"
                                    {{#opciones.1.seleccionada}}checked{{/opciones.1.seleccionada}}>
                             <label for="respuestaB">B)</label>
                             <input type="text" name="respuesta[]" id="respuestaB" required
-                                   placeholder="{{respuestas.1.texto}}">
+                                   value="{{respuestas.1.texto}}"  placeholder="{{respuestas.1.texto}}">
                         </div>
 
                         <div class="respuesta-opcion">
-                            <input type="radio" name="respuestaCorrecta" value="C" id="correctaC"
+                            <input type="hidden" name="id_respuesta[]" value="{{respuestas.2.id_respuesta}}">
+                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.2.texto}}"> <input type="radio" name="respuestaCorrecta" value="C" id="correctaC"
                                    {{#opciones.2.seleccionada}}checked{{/opciones.2.seleccionada}}>
                             <label for="respuestaC">C)</label>
                             <input type="text" name="respuesta[]" id="respuestaC" required
-                                   placeholder="{{respuestas.2.texto}}">
+                                   value="{{respuestas.2.texto}}" placeholder="{{respuestas.2.texto}}">
                         </div>
 
                         <div class="respuesta-opcion">
-                            <input type="radio" name="respuestaCorrecta" value="D" id="correctaD"
+                            <input type="hidden" name="id_respuesta[]" value="{{respuestas.3.id_respuesta}}">
+                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.3.texto}}"> <input type="radio" name="respuestaCorrecta" value="D" id="correctaD"
                                    {{#opciones.3.seleccionada}}checked{{/opciones.3.seleccionada}}>
                             <label for="respuestaD">D)</label>
                             <input type="text" name="respuesta[]" id="respuestaD" required
-                                   placeholder="{{respuestas.3.texto}}">
+                                   value="{{respuestas.3.texto}}"  placeholder="{{respuestas.3.texto}}">
                         </div>
 
                     </div>
@@ -102,7 +116,7 @@
                 </div>
 
 
-                    <button type="submit" class="btn btn-success fw-bold">Crear pregunta</button>
+                    <button type="submit" class="btn btn-success fw-bold">Modificar pregunta</button>
 
 
             </form>
