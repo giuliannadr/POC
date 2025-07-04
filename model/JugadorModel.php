@@ -89,19 +89,19 @@ class JugadorModel
         try {
             // Configuración SMTP (Gmail)
             $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = $this->email->getMail();
-            $mail->Password   = $this->email->getPassword(); // No subir a repos públicos
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->email->getMail();
+            $mail->Password = $this->email->getPassword(); // No subir a repos públicos
             $mail->SMTPSecure = 'tls';
-            $mail->Port       = 587;
+            $mail->Port = 587;
 
             $mail->setFrom($this->email->getMail(), 'Preguntados App');
             $mail->addAddress($destinatario);
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';
             $mail->Subject = $asunto;
-            $mail->Body    = $mensajeHTML;
+            $mail->Body = $mensajeHTML;
 
             $mail->send();
             return true;
@@ -133,7 +133,6 @@ class JugadorModel
         $stmt->close();
         return false; // Token inválido
     }
-
 
 
     public function actualizarPerfil($id_usuario, $datos)
@@ -189,7 +188,8 @@ class JugadorModel
     }
 
     /* -------------------------------- OBTENER DATOS -------------------------------- */
-    public function obtenerDatosPerfil($id_usuario) {
+    public function obtenerDatosPerfil($id_usuario)
+    {
         $sql = "SELECT 
                 u.nombre_usuario,
                 u.mail AS email,
@@ -214,7 +214,8 @@ class JugadorModel
         return $datos;
     }
 
-    public function obtenerPuntaje($id_usuario) {
+    public function obtenerPuntaje($id_usuario)
+    {
         $sql = "SELECT 
                 j.puntaje
             FROM usuario u
@@ -235,7 +236,8 @@ class JugadorModel
         return 0;
     }
 
-    public function obtenerDatosPerfilPorUsuario($nombre_usuario) {
+    public function obtenerDatosPerfilPorUsuario($nombre_usuario)
+    {
         $sql = "SELECT 
                 u.nombre_usuario,
                 u.mail AS email,
@@ -261,7 +263,8 @@ class JugadorModel
         return $datos;
     }
 
-    public function obtenerPartidasJugadas($nombre_usuario) {
+    public function obtenerPartidasJugadas($nombre_usuario)
+    {
         $sql = "SELECT COUNT(*) as partidas_jugadas
                 FROM partida p
                 JOIN usuario u ON p.id_jugador = u.id_usuario
@@ -281,11 +284,13 @@ class JugadorModel
         return 0;
     }
 
-    public function getDatabase() {
+    public function getDatabase()
+    {
         return $this->database;
     }
 
-    public function getHistorial($idJugador){
+    public function getHistorial($idJugador)
+    {
         $sql = "SELECT p.fecha_inicio, p.fecha_fin, p.puntaje
             FROM partida p
             WHERE p.id_jugador = ? and p.estado_partida = 'finalizada'
@@ -301,8 +306,30 @@ class JugadorModel
         return $datos;
     }
 
+
+    public function existeEmail($email)
+    {
+        $sql = "SELECT id_usuario FROM usuario WHERE mail = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $existe = ($result->num_rows > 0);
+        $stmt->close();
+        return $existe;
+    }
+
+    public function existeUsuario($usuario)
+    {
+        $sql = "SELECT id_usuario FROM usuario WHERE nombre_usuario = ?";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bind_param("s", $usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $existe = ($result->num_rows > 0);
+        $stmt->close();
+        return $existe;
+    }
 }
-
-
 
 ?>

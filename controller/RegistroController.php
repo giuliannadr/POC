@@ -71,4 +71,25 @@ class RegistroController
             $this->view->render('headerChico', 'homeLogin', ['error' => 'Token inválido o cuenta ya activada.']);
         }
     }
+
+    public function verificarEmail()
+    {
+        if (isset($_GET['email'])) {
+            $email = $_GET['email'];
+            $yaExiste = $this->model->existeEmail($email);
+            header('Content-Type: application/json');
+            echo json_encode(['existe' => $yaExiste]);
+        }
+    }
+
+    public function verificarUsuario()
+    {
+        if (isset($_GET['usuario'])) {
+            $usuario = $_GET['email'];
+            $yaExiste = $this->model->existeUsuario($usuario);
+            header('Content-Type: application/json');
+            echo json_encode(['existe' => $yaExiste]);
+        }
+    }
+
 }

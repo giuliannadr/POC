@@ -1,16 +1,24 @@
 <main class="d-flex flex-column justify-content-center align-items-center my-5">
     <h1 class="fs-1 texto-verde sombra-texto">Panel de Adminstrador</h1>
     <a class="btn btn-lg mt-3 boton-verde fw-bold" href="/POC/login/cerrarSesion">Cerrar Sesión</a>
-    <form id="formPDF" method="post" action="index.php?controller=lobbyADM&method=exportarPDF" style="margin-top: 10px">
+
+
+    <form id="formPDF" method="post" action="/POC/lobbyADM/exportarPDF" style="margin-top: 10px">
         <input type="hidden" name="imgEdad" id="imgEdadBase64">
         <input type="hidden" name="imgGenero" id="imgGeneroBase64">
+        <input type="hidden" name="htmlEstadisticas" id="htmlEstadisticas">
+
         <input type="hidden" name="imgPais" id="imgPaisBase64">
+        <input type="hidden" name="htmlPaises" id="htmlPaises">
+
         <button type="submit" class="btn btn-success">Descargar PDF</button>
     </form>
+
+
     <div class="d-flex flex-column gap-5 w-100 justify-content-center p-5">
         <article class="contenedor-article">
             <h3 class="texto-verde mb-4">Estadisticas Generales</h3>
-            <section class="d-flex flex-column gap-4 align-items-center mx-4 text-white">
+            <section class="d-flex flex-column gap-4 align-items-center mx-4 text-white"  data-bloque-estadisticas>
                 <div class="fila-estadistica">
                     <p class="m-0 fs-4 fw-medium">Jugadores Totales:</p>
                     <p class="m-0 fs-5 fw-semibold p-2 rounded-5 texto-verde fondo-violetaoscuro w-100px">{{totalJugadores}}</p>
@@ -57,7 +65,7 @@
         </article>
         <article class="contenedor-article">
             <h3 class="texto-verde mb-4">Usuarios por País</h3>
-            <section class="d-flex flex-column gap-4 align-items-center mx-4">
+            <section class="d-flex flex-column gap-4 align-items-center mx-4"  data-bloque-paises>
                 {{#usuariosPorPais}}
                 <div class="fila-estadistica">
                     <p class="m-0 fs-4 fw-medium">{{pais}}</p>
@@ -164,6 +172,16 @@
 
     }
 </script>
+<script>
+    document.getElementById("formPDF").addEventListener("submit", function(e) {
+        const contenedorPaises = document.querySelector('[data-bloque-paises]');
+        document.getElementById("htmlPaises").value = contenedorPaises ? contenedorPaises.innerHTML : '';
+
+        const contenedorEstadisticas = document.querySelector('[data-bloque-estadisticas]');
+        document.getElementById("htmlEstadisticas").value = contenedorEstadisticas ? contenedorEstadisticas.innerHTML : '';
+    });
+</script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

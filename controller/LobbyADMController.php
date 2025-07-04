@@ -71,22 +71,74 @@ class LobbyADMController
 
     public function exportarPDF()
     {
-
         $imgEdad = $_POST['imgEdad'] ?? '';
         $imgGenero = $_POST['imgGenero'] ?? '';
-        $imgPais = $_POST['imgPais'] ?? '';
+        $htmlPaises = $_POST['htmlPaises'] ?? '';
+        $htmlEstadisticas = $_POST['htmlEstadisticas'] ?? '';
 
         $html = "
-        <h1 style='text-align:center;'>Estadísticas del Sistema</h1>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 40px;
+            background-color: #7e00d9;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
 
-        <h2>Distribución por Edad</h2>
-        <img src='$imgEdad' width='400'>
+        .fila-estadistica {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .fila-estadistica p:first-child {
+            margin: 0;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .fila-estadistica p:last-child {
+            margin: 0;
+            background-color: #4c2681;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: center;
+        }
 
-        <h2>Distribución por Género</h2>
-        <img src='$imgGenero' width='400'>
+        /* Contenedor flex para gráficos */
+        .graficos-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .graficos-container img {
+            width: 45%; /* Ajusta tamaño para que quepan los dos */
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            padding: 10px;
+        }
+    </style>
 
-        <h2>Usuarios por País</h2>
-        <img src='$imgPais' width='400'>
+    <h1 style='text-align:center;'>Estadísticas del Sistema</h1>
+
+    <h2>Estadísticas Generales</h2>
+    <div>$htmlEstadisticas</div>
+
+    <h2>Distribución por Edad y Género</h2>
+    <div class='graficos-container'>
+        <img src='$imgEdad' alt='Gráfico por Edad'>
+        <img src='$imgGenero' alt='Gráfico por Género'>
+    </div>
+
+    <h2>Usuarios por País</h2>
+    <div>$htmlPaises</div>
     ";
 
         $pdf = new Dompdf();
