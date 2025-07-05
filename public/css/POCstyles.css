@@ -877,6 +877,27 @@ tbody tr:nth-child(even) {
     }
 }
 
+.contenedor-tabla {
+    width: 80%;
+    border-radius: 20px;
+    border: 2px solid var(--color-violeta-oscuro);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+}
+
+@media (max-width: 980px) {
+    .contenedor-tabla {
+        width: 100% !important;
+    }
+
+    .div-tabla {
+        padding-inline: 15px;
+    }
+}
+
 
 
 

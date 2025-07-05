@@ -1,89 +1,85 @@
-<div style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;margin-bottom: 1em">
-    <div class="text-left mt-4">
+<div class="mt-4 px-4 gap-3"
+     style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;margin-bottom: 1em">
+    <div class="text-left">
         <a href="/POC/LobbyEDITOR/show"
            class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
             Volver
         </a>
     </div>
-    <form method="post">
-        <input class="p-2 rounded-pill texto-verde" type="search" name="buscarPregunta" id="buscarPregunta" placeholder="Buscar por ID, enunciado o categoria"  value="{{buscarPregunta}}" style="background-color: var(--color-violeta-oscuro) ">
-        <button class="btn btn-violeta" type="submit">Buscar</button>
+    <form class="d-flex gap-2" method="post">
+        <input class="p-2 rounded-pill texto-verde" type="search" name="buscarPregunta" id="buscarPregunta"
+               placeholder="Buscar por ID, enunciado o categoria" value="{{buscarPregunta}}"
+               style="background-color: var(--color-violeta-oscuro); width: 100%; max-width: 500px">
+        <button class="btn btn-violeta" style="max-width: 100px" type="submit">Buscar</button>
     </form>
 </div>
-<div style="display:flex; align-items: center; justify-content: center;">
+<div class="px-5" style="display:flex; align-items: center; justify-content: center;">
     <div style="
-        width: 80%;
-        border-radius: 20px;
-        border: 2px solid var(--color-violeta-oscuro);
-        box-shadow: 0 0 10px rgba(0,0,0,0.15);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        max-height: 400px;
-    ">
+      width: 100%;
+      border-radius: 20px;
+      border: 2px solid var(--color-violeta-oscuro);
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 600px;
+  ">
         <div style="
-            flex: 1;
-            overflow-y: auto;
-        ">
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: auto;  /* <== permite scroll horizontal */
+        -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
+    ">
             <table class="table table-striped table-sm"
-                   style="width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0;">
-            <colgroup>
-                <col style="width: 10%;">
-                <col style="width: 35%;">
-                <col style="width: 15%;">
-                <col style="width: 40%;">
-            </colgroup>
-
-            <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
-            <tr>
-                <th>ID</th>
-                <th>Enunciado</th>
-                <th>Categoria</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#preguntas}}
+                   style="width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0; min-width: 700px;">
+                <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
                 <tr>
-                    <td>{{idpregunta}}</td>
-                    <td>{{enunciado}}</td>
-                    <td>{{categoria}}</td>
-                    <td>
-                        <!-- <button class="btn btn-violeta">Editar</button>
-                         <button class="btn btn-danger">Eliminar</button>
-                        <button class="btn btn-violeta">Ver detalles</button>
-                        <a href="/POC/LobbyEDITOR/editarPregunta?id={{idpregunta}}" class="btn btn-violeta">Editar</a>
-                        <button class="btn btn-violeta">Aprobar</button>
-                        <form action="/POC/Pregunta/eliminar" method="post" style="display:inline">
-                            <input type="hidden" name="id" value="{{idpregunta}}">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>-->
-
-                        <button style="border-radius: 20px" class="btn btn-violeta">Ver detalles</button>
-                        <form action="/POC/LobbyEDITOR/editarPregunta" method="post" style="display:inline;">
-                            <input type="hidden" name="id" value="{{idpregunta}}">
-                            <button type="submit" style="border-radius: 20px" class="btn btn-violeta">Editar</button>
-                        </form>
-
-                        <form action="/POC/LobbyEditor/eliminarSugerencia?id={{idpregunta}}" method="post" style="display:inline">
-                            <input type="hidden" name="id" value="{{idpregunta}}">
-                            <button type="submit" style="border-radius: 20px" class="btn btn-danger">Eliminar</button>
-                        </form>
-
-                    </td>
+                    <th style="min-width: 40px;">ID</th>
+                    <th style="min-width: 200px; word-break: break-word;">Enunciado</th>
+                    <th style="min-width: 120px; word-break: break-word;">Categoria</th>
+                    <th style="min-width: 80px;">Dificultad</th>
+                    <th style="min-width: 150px; word-break: break-word;">Respuesta</th>
+                    <th style="min-width: 140px;">Acciones</th>
                 </tr>
-            {{/preguntas}}
-
-            {{^preguntas}}
-                <tr>
-                    <td colspan="6">No se encontraron resultados.</td>
-                </tr>
-            {{/preguntas}}
-
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {{#preguntas}}
+                    <tr>
+                        <td>{{idpregunta}}</td>
+                        <td style="word-break: break-word;">{{enunciado}}</td>
+                        <td>{{categoria}}</td>
+                        <td>{{dificultad}}</td>
+                        <td style="word-break: break-word;">{{respuesta}}</td>
+                        <td>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; width: 100%;">
+                                <form action="/POC/LobbyEDITOR/editarPregunta" method="post">
+                                    <input type="hidden" name="id" value="{{idpregunta}}">
+                                    <button type="submit" class="btn btn-violeta" style="border-radius: 20px;">Editar
+                                    </button>
+                                </form>
+                                <form action="/POC/LobbyEDITOR/eliminarPregunta" method="post">
+                                    <input type="hidden" name="id" value="{{idpregunta}}">
+                                    <button type="submit" class="btn btn-danger" style="border-radius: 20px;">Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {{/preguntas}}
+                {{^preguntas}}
+                    <tr>
+                        <td colspan="6">No se encontraron resultados.</td>
+                    </tr>
+                {{/preguntas}}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
 </body>
 </html>

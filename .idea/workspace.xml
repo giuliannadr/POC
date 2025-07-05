@@ -7,9 +7,9 @@
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/POCstyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/POCstyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/homeLoginView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/homeLoginView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/lobbyADMView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyADMView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/registroView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/registroView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/gestionarPreguntasEditorView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/gestionarPreguntasEditorView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/preguntasReportadasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasReportadasView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
