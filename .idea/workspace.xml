@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/CrearPreguntaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/CrearPreguntaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LobbyJugController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyJugController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PreguntasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PreguntasController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/DataLobbys.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/DataLobbys.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/estilo-lobby.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/estilo-lobby.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/lobbyJugView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyJugView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/LobbyADMController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyADMController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/AdminModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/AdminModel.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +27,14 @@
       <path value="$PROJECT_DIR$/vendor/mustache/mustache" />
       <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
       <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/php-svg-lib" />
+      <path value="$PROJECT_DIR$/vendor/phpqrcode/tools" />
+      <path value="$PROJECT_DIR$/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/vendor/phpqrcode/bindings" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/php-font-lib" />
+      <path value="$PROJECT_DIR$/vendor/phpqrcode/cache" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -48,16 +52,21 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/POC&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/Generar qr&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\POC" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -91,10 +100,29 @@
       <workItem from="1749939417864" duration="6809000" />
       <workItem from="1749948996802" duration="19000" />
       <workItem from="1750200645538" duration="1972000" />
+      <workItem from="1751167160023" duration="3190000" />
+      <workItem from="1751216600052" duration="474000" />
+      <workItem from="1751217116827" duration="2225000" />
+      <workItem from="1751301680439" duration="3239000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
