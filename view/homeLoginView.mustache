@@ -1,84 +1,80 @@
-<main>
+<main class="px-1">
 
-    <div class="text-center text-light" style="margin-top: 180px">
-        <h1 style="font-size: 60px; text-align:center;">
-            <div id="typewriter" class="typewriter-wrapper">
+    <div class="text-center text-light" style="margin-top: 180px; padding: 0 15px;">
+        <h1 style="font-size: clamp(50px, 6vw, 60px); text-align: center;">
+            <div id="typewriter" class="typewriter-wrapper" style="word-break: break-word;">
                 <span id="line1" class="typewriter-line1"></span><br/>
                 <span id="line2" class="typewriter-line2"></span>
             </div>
         </h1>
 
-
-        <p class="ease" style="font-size: 30px; margin-top: 30px">
-            Respondé, aprendé y ganá... <br/>¡la competencia recién empieza!
+        <p class="ease" style="font-size: clamp(20px, 4.5vw, 30px); margin-top: 30px; word-break: break-word;">
+            Respondé, aprendé y ganá... <br/>¡La competencia recién empieza!
         </p>
     </div>
-    <div class="text-center text-light" style="margin-top: 140px">
-        <p
-                style="
-            font-size: 21px;
-            margin-bottom: 20px;
-            font-family: Arial, Helvetica, sans-serif;">
+
+    <div class="text-center text-light" style="margin-top: 140px; padding: 0 15px;">
+        <p style="font-size: clamp(18px, 3.5vw, 21px); margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; word-break: break-word;">
             ¿No tenés cuenta?
         </p>
-        <a href="/POC/registro/show" class="registro">Regístrate</a>
+        <a href="/POC/registro/show" class="registro" style="font-size: clamp(18px, 3.5vw, 21px);">Regístrate</a>
     </div>
 
-
-    <div class="text-center text-light fade-slide-up" style="margin-top: 130px">
-        <h2 style="font-size: 55px; font-weight: bold">
+    <div class="text-center text-light fade-slide-up" style="margin-top: 130px; padding: 0 15px;">
+        <h2 style="font-size: clamp(35px, 6vw, 55px); font-weight: bold; word-break: break-word;">
             Ya estás adentro, ¿no?
         </h2>
-        <p style="font-size: 35px">
+        <p style="font-size: clamp(24px, 5vw, 35px); word-break: break-word;">
             Entonces no te achiques… <br/>
-            ¡seguí jugando!
+            ¡Seguí jugando!
         </p>
     </div>
 
-
-    <div>
+    <div class="d-flex justify-content-center mt-5" style="padding: 0 15px;">
         <div id="login-card"
              class="flex-row justify-content-center align-items-center"
              style="
             background-color: #010a7e;
-            width: 600px;
+            width: 100%;
+            max-width: 600px;
             padding: 30px;
             border-radius: 30px;
             border: solid #dcb2fa 4px;
             margin-top: 50px;
             margin-bottom: 120px;
-          "
+         "
         >
-            <h3 class="text-center" style="color: #dcb2fa; font-size: 35px">
+            <h3 class="text-center" style="color: #dcb2fa; font-size: clamp(26px, 4.5vw, 35px); word-break: break-word;">
                 Iniciar Sesión
             </h3>
             <hr
                     style="
-              margin-top: 0;
-              border-top: 3px solid #dcb2fa;
-              width: 410px;
-              display: flex;
-              justify-self: center;
-            "
+          margin-top: 0;
+          border-top: 3px solid #dcb2fa;
+          width: 100%;
+          max-width: 410px;
+          margin-left: auto;
+          margin-right: auto;
+        "
             />
 
             {{#error}}
-                <div style="color: #ff6666; font-weight: bold; margin-bottom: 15px; text-align:center;">
+                <div style="color: #ff6666; font-weight: bold; margin-bottom: 15px; text-align: center; word-break: break-word;">
                     {{error}}
                 </div>
             {{/error}}
 
-            <form action="/POC/login/validar" method="post" style="margin-left: 50px; margin-right: 50px">
+            <form action="/POC/login/validar" method="post"
+                  style="margin-left: auto; margin-right: auto; max-width: 100%;">
                 <div class="mt-4">
                     <label
                             for="email"
                             class="text-light"
-                            style="margin-left: 10px; font-size: 18px"
-                    >Email</label
-                    >
+                            style="margin-left: 10px; font-size: clamp(14px, 4vw, 18px); word-break: break-word;"
+                    >Email</label>
                     <input
                             class="form-control"
-                            style="border-radius: 30px"
+                            style="border-radius: 30px;"
                             type="email"
                             name="email"
                             id="email"
@@ -88,12 +84,11 @@
                     <label
                             for="pass"
                             class="text-light"
-                            style="margin-left: 10px; font-size: 18px"
-                    >Contraseña</label
-                    >
+                            style="margin-left: 10px; font-size: clamp(14px, 4vw, 18px); word-break: break-word;"
+                    >Contraseña</label>
                     <input
                             class="form-control"
-                            style="border-radius: 30px"
+                            style="border-radius: 30px;"
                             type="password"
                             name="contrasena"
                             id="pass"
@@ -102,20 +97,36 @@
                 <div class="mt-4 d-flex justify-content-center">
                     <input
                             type="submit"
-                            style=" margin-top: 10px; background-color: #87ff5f; border: solid #cbffba 3px; text-decoration: none;color: #010a7e; padding: 5px; border-radius: 30px;  padding-left: 50px; padding-right: 50px; font-size: 20px;"
-                            value="Ingresar"/>
+                            style="
+              margin-top: 10px;
+              background-color: #87ff5f;
+              border: solid #cbffba 3px;
+              text-decoration: none;
+              color: #010a7e;
+              padding: 5px;
+              border-radius: 30px;
+              padding-left: 50px;
+              padding-right: 50px;
+              font-size: clamp(16px, 4.5vw, 20px);
+            "
+                            value="Ingresar"
+                    />
                 </div>
             </form>
         </div>
     </div>
+
 </main>
+
 <div id="message-data" data-error="{{error}}" data-success="{{success}}" style="display:none;"></div>
 
 <div id="popup-overlay">
     <div id="popup">
         <div id="popup-content">
             <span id="popup-message"></span>
-            <button class="btn btn-lg boton-verde" onclick="document.getElementById('popup-overlay').style.display='none'">Cerrar</button>
+            <button class="btn btn-lg boton-verde"
+                    onclick="document.getElementById('popup-overlay').style.display='none'">Cerrar
+            </button>
         </div>
     </div>
 </div>

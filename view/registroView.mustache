@@ -1,5 +1,7 @@
 <main class="contenedorRegistro">
-    <div class="registroTits">
+
+    <!-- Texto para desktop (visible sólo en desktop) -->
+    <div class="registroTits desktop-only">
         <h1 class="registroTit">Registro</h1>
         <p class="registroP">
             Dale! Que ya estás<br/>con un pie adentro...
@@ -11,99 +13,111 @@
     </div>
 
     <div class="registroCard">
+        <div class="registroTits mobile-only">
+            <h1 class="registroTit">Registro</h1>
+            <p class="registroP">
+                Dale! Que ya estás<br/>con un pie adentro...
+            </p>
 
+            {{#error}}
+                <div class="alert alert-danger">{{error}}</div>
+            {{/error}}
+        </div>
+        <div class="d-flex flex-column align-items-center fondo-azul w-100">
+            <form class="form-registro" action="/POC/registro/registro" id="registro" method="post"
+                  enctype="multipart/form-data">
 
-        <!-- FORMULARIO DE REGISTRO -->
-        <form action="/POC/registro/registro" id="registro" method="post" enctype="multipart/form-data">
+                <div class="text-center mb-4">
+                    <div id="profile-container"
+                         style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+                        <!-- SVG visible por defecto -->
+                        <svg xmlns="http://www.w3.org/2000/svg" id="profile-img" width="100" height="100" fill="#87ff5f"
+                             class="bi bi-person-circle" viewBox="0 0 16 16"
+                             style="position: absolute; top: 0; left: 0; border-radius: 50%; border: 2px solid #00eaff; object-fit: cover;">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
 
-            <div class="text-center mb-4">
-                <div id="profile-container" style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
-                    <!-- SVG visible por defecto -->
-                    <svg xmlns="http://www.w3.org/2000/svg" id="profile-img" width="100" height="100" fill="#87ff5f"
-                         class="bi bi-person-circle" viewBox="0 0 16 16"
-                         style="position: absolute; top: 0; left: 0; border-radius: 50%; border: 2px solid #00eaff; object-fit: cover;">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path fill-rule="evenodd"
-                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                    </svg>
+                        <!-- Imagen ocultada por defecto -->
+                        <img id="previewImg" src="" alt="Imagen de perfil"
+                             style="position: absolute; top: 0; left: 0; width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #00eaff; display: none;">
+                    </div>
 
-                    <!-- Imagen ocultada por defecto -->
-                    <img id="previewImg" src="" alt="Imagen de perfil"
-                         style="position: absolute; top: 0; left: 0; width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #00eaff; display: none;">
+                    <input type="file" class="text-center" name="profilePic" accept="image/*" id="profilePic"
+                           style="display:none;"
+                           onchange="previewImage(this)">
+
+                    <div class="mt-2">
+                        <button type="button" class="btn-change"
+                                onclick="document.getElementById('profilePic').click()">Cambiar Foto
+                            de Perfil
+                        </button>
+                    </div>
                 </div>
 
-                <input type="file" class="text-center" name="profilePic" accept="image/*" id="profilePic" style="display:none;" onchange="previewImage(this)">
+                <!-- BOTÓN PARA ABRIR EL POPUP DEL MAPA -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mapModal">
+                    Seleccionar dónde vivo
+                </button>
+                <input type="hidden" id="paisSeleccionado" name="paisSeleccionado" required>
+                <input type="hidden" id="ciudadSeleccionada" name="ciudadSeleccionada" required>
 
-                <div class="mt-2">
-                    <button type="button" class="btn-change" onclick="document.getElementById('profilePic').click()">Cambiar Foto de Perfil</button>
+                <!-- TEXTO CON LA UBICACIÓN SELECCIONADA -->
+                <p class="text-white mx-5 text-center" id="ubicacion" style="margin-top: 10px;"></p>
+
+                <div class="input">
+                    <label for="nombreRegistro" class="form-label">Nombres:</label>
+                    <input name="nombreRegistro" type="text" class="form-control" placeholder="Nombres" required>
                 </div>
-            </div>
-
-
-
-            <!-- BOTÓN PARA ABRIR EL POPUP DEL MAPA -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mapModal">
-                Seleccionar dónde vivo
-            </button>
-            <input type="hidden" id="paisSeleccionado" name="paisSeleccionado" required>
-            <input type="hidden" id="ciudadSeleccionada" name="ciudadSeleccionada" required>
-
-
-            <!-- TEXTO CON LA UBICACIÓN SELECCIONADA -->
-            <p class="text-white mx-5 text-center" id="ubicacion" style="margin-top: 10px;"></p>
-            <div class="input">
-                <label for="nombreRegistro" class="form-label">Nombres:</label>
-                <input name="nombreRegistro" type="text" class="form-control" placeholder="Nombres" required>
-            </div>
-            <div class="input">
-                <label for="apellidoRegistro" class="form-label">Apellidos:</label>
-                <input name="apellidoRegistro" type="text" class="form-control" placeholder="Apellidos" required>
-            </div>
-            <div class="fechaGenero input">
-                <div>
-                    <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
-                    <input name="fechaNacimiento" type="date" class="form-control" style="width: 190px;" required>
+                <div class="input">
+                    <label for="apellidoRegistro" class="form-label">Apellidos:</label>
+                    <input name="apellidoRegistro" type="text" class="form-control" placeholder="Apellidos" required>
                 </div>
-                <div>
-                    <label for="sexo" class="form-label">Sexo:</label>
-                    <select class="form-control" name="sexo" style="width: 190px; border-radius: 30px;">
-                        <option value="" disabled selected>Seleccioná el sexo</option>
-                        <option value="masculino">Masculino</option>
-                        <option value="femenino">Femenino</option>
-                        <option value="prefiero_no_decirlo">Prefiero no decirlo</option>
-                    </select>
+                <div class="fechaGenero input">
+                    <div>
+                        <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
+                        <input name="fechaNacimiento" type="date" class="form-control" style="width: 100%;" required>
+                    </div>
+                    <div>
+                        <label for="sexo" class="form-label">Sexo:</label>
+                        <select class="form-control" name="sexo" style="width: 100%; border-radius: 30px;">
+                            <option value="" disabled selected>Seleccioná el sexo</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="prefiero_no_decirlo">Prefiero no decirlo</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="input">
-                <label for="usuarioRegistro" class="form-label">Usuario:</label>
-                <input name="usuarioRegistro" type="text" class="form-control" placeholder="Usuario" required
-                       autocomplete="off">
-                <span id="mensajeUsuario" style="color: red; font-size: 0.9em;"></span>
-            </div>
-            <div class="input">
-                <label for="emailRegistro" class="form-label">Email:</label>
-                <input name="emailRegistro" type="email" class="form-control" placeholder="Email" required>
-                <span id="mensajeEmail" style="color: red; font-size: 0.9em;"></span>
-            </div>
-            <div class="input">
-                <label for="passRegistro" class="form-label">Contraseña:</label>
-                <input name="passRegistro" type="password" class="form-control" placeholder="Contraseña" required>
-            </div>
-            <div class="input">
-                <label for="passConfirmar" class="form-label">Confirmar contraseña:</label>
-                <input name="passConfirmar" type="password" class="form-control" placeholder="Confirmar contraseña"
-                       required>
+                <div class="input">
+                    <label for="usuarioRegistro" class="form-label">Usuario:</label>
+                    <input name="usuarioRegistro" type="text" class="form-control" placeholder="Usuario" required
+                           autocomplete="off">
+                    <span id="mensajeUsuario" style="color: red; font-size: 0.9em;"></span>
+                </div>
+                <div class="input">
+                    <label for="emailRegistro" class="form-label">Email:</label>
+                    <input name="emailRegistro" type="email" class="form-control" placeholder="Email" required>
+                    <span id="mensajeEmail" style="color: red; font-size: 0.9em;"></span>
+                </div>
+                <div class="input">
+                    <label for="passRegistro" class="form-label">Contraseña:</label>
+                    <input name="passRegistro" type="password" class="form-control" placeholder="Contraseña" required>
+                </div>
+                <div class="input">
+                    <label for="passConfirmar" class="form-label">Confirmar contraseña:</label>
+                    <input name="passConfirmar" type="password" class="form-control" placeholder="Confirmar contraseña"
+                           required>
+                </div>
 
+                <input type="submit" value="Registrarse" id="submitBtn" class="btn-submit mt-3 submit" disabled>
+            </form>
 
+            <div class="login">
+                <p style="color: white;">¿Ya tenés una cuenta?</p>
+                <a href="/POC/" class="loginA">Inicia Sesión</a>
             </div>
-
-            <input type="submit" value="Registrarse" id="submitBtn" class="btn-submit mt-3 submit" disabled>
-        </form>
-
-        <div class="login">
-            <p style="color: white;">¿Ya tenés una cuenta?</p>
-            <a href="/POC/" class="loginA">Inicia Sesión</a>
         </div>
     </div>
 </main>
@@ -121,7 +135,8 @@
                 <div id="map" style="height: 400px;"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="confirmLocationBtn" class="btn btn-success" disabled>Confirmar Ubicación</button>
+                <button type="button" id="confirmLocationBtn" class="btn btn-success" disabled>Confirmar Ubicación
+                </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -135,7 +150,9 @@
         <div id="popup">
             <div id="popup-content">
                 <span id="popup-message">¡Registro exitoso! Por favor revisá tu casilla de correo para activar tu cuenta.</span>
-                <button class="btn btn-lg boton-verde" onclick="document.getElementById('popup-overlay').style.display='none'">Cerrar</button>
+                <button class="btn btn-lg boton-verde"
+                        onclick="document.getElementById('popup-overlay').style.display='none'">Cerrar
+                </button>
             </div>
         </div>
     </div>
@@ -162,7 +179,6 @@
             submitBtn.disabled = !allFilled;
         });
     });
-
 
 
     form.onsubmit = function (e) {
