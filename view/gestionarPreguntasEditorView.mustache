@@ -25,7 +25,9 @@
                    style="width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0; min-width: 700px;">
                 <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
                 <tr>
-                    <th style="min-width: 40px;">ID</th>
+                    <th style="text-align: center; width: 80px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ID
+                    </th>
                     <th style="min-width: 200px; word-break: break-word;">Enunciado</th>
                     <th style="min-width: 120px; word-break: break-word;">Categoria</th>
                     <th style="min-width: 80px;">Dificultad</th>
@@ -36,7 +38,7 @@
                 <tbody>
                 {{#preguntas}}
                     <tr>
-                        <td>{{idpregunta}}</td>
+                        <td style="text-align: center">{{idpregunta}}</td>
                         <td style="word-break: break-word;">{{enunciado}}</td>
                         <td>{{categoria}}</td>
                         <td>{{dificultad}}</td>

@@ -13,17 +13,8 @@
         <button class="btn btn-violeta" style="max-width: 100px" type="submit">Buscar</button>
     </form>
 </div>
-<div class="px-5" style="display:flex; align-items: center; justify-content: center;">
-    <div style="
-      width: 100%;
-      border-radius: 20px;
-      border: 2px solid var(--color-violeta-oscuro);
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      max-height: 600px;
-  ">
+<div class="div-tabla" style="display:flex; align-items: center; justify-content: center;">
+    <div class="contenedor-tabla">
         <div style="
         flex: 1;
         overflow-y: auto;
@@ -34,7 +25,9 @@
                    style="width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0; min-width: 700px;">
                 <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
                 <tr>
-                    <th style="min-width: 40px;">ID</th>
+                    <th style="text-align: center; width: 80px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ID
+                    </th>
                     <th style="min-width: 200px; word-break: break-word;">Enunciado</th>
                     <th style="min-width: 120px; word-break: break-word;">Categoria</th>
                     <th style="min-width: 80px;">Dificultad</th>
@@ -45,7 +38,7 @@
                 <tbody>
                 {{#preguntas}}
                     <tr>
-                        <td>{{idpregunta}}</td>
+                        <td style="text-align: center">{{idpregunta}}</td>
                         <td style="word-break: break-word;">{{enunciado}}</td>
                         <td>{{categoria}}</td>
                         <td>{{dificultad}}</td>
@@ -76,6 +69,7 @@
         </div>
     </div>
 </div>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
