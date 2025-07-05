@@ -2,13 +2,10 @@
 require_once("Session.php");
 class DataLobbys{
 
-    public function getLobbyJugData() {
+    public function getLobbyJugData($usuario) {
         $usuario = Session::get('usuario');
 
-        $usuario['tiene_foto'] =
-            isset($usuario['foto_perfil']) &&
-            $usuario['foto_perfil'] !== '' &&
-            $usuario['foto_perfil'] !== 'img/sinperfil.png';
+        $usuario['tiene_foto'] = !empty($usuario['foto_perfil']);
 
         $puntaje = 0;
         if (isset($usuario['puntaje']) && !is_array($usuario['puntaje']) && $usuario['puntaje'] !== null) {
@@ -37,9 +34,9 @@ class DataLobbys{
 
         // Botones en el nav segun el rol
         $botones = [
-            ['texto' => 'Gestionar Preguntas', 'link' => '/editor/gestionarPreguntas'],
-            ['texto' => 'Preguntas Reportadas', 'link' => '/editor/preguntasReportadas'],
-            ['texto' => 'Preguntas Sugeridas', 'link' => '/editor/preguntasSugeridas'],
+            ['texto' => 'Gestionar Preguntas', 'link' => '/POC/lobbyEditor/gestionarPreguntas'],
+            ['texto' => 'Preguntas Reportadas', 'link' => '/POC/lobbyEditor/preguntasReportadas'],
+            ['texto' => 'Preguntas Sugeridas', 'link' => '/POC/lobbyEditor/preguntasSugeridas'],
         ];
         return [
             'usuario' => $usuario,
@@ -53,13 +50,46 @@ class DataLobbys{
         // Botones para el nav rol admin
         // Hay que ver como se haria lo de los filtros
         $botones = [
-            ['texto' => 'Dia', 'link' => '#'],
-            ['texto' => 'Semana', 'link' => '#'],
-            ['texto' => 'Mes', 'link' => '#']
+            ['texto' => 'Dia', 'link' => '/POC/lobbyAdmin/filtroDia'],
+            ['texto' => 'Semana', 'link' => '/POC/lobbyAdmin/filtroSemana'],
+            ['texto' => 'Mes', 'link' => '/POC/lobbyAdmin/filtroMes']
         ];
         return [
             'usuario' => $usuario,
             'botones' => $botones
         ];
     }
+
+
+
+//    public function getLobbyEditorData($seccionActiva = null)
+//    {
+//        $usuario = Session::get('usuario');
+//        $seccionActiva = $data['seccionActiva'] ?? null;
+//
+//
+//        // Botones en el nav segun el rol
+//        $botones = [
+//            ['texto' => 'Gestionar Preguntas', 'link' => '/POC/LobbyEDITOR/gestionarPreguntas','activo' => $seccionActiva === 'gestionarPreguntas'],
+//            ['texto' => 'Preguntas Reportadas', 'link' => '/editor/preguntasReportadas'],
+//            ['texto' => 'Preguntas Sugeridas', 'link' => '/POC/LobbyEDITOR/preguntasSugeridas'],
+//        ];
+//
+//        $preguntaModel=new PreguntasModel($this->db);
+//
+//        $preguntasActivas = $preguntaModel->contarActivas();
+//        $reportesPendientes = $preguntaModel->contarReportesPendientes();
+//        $sugerenciasPendientes= $preguntaModel->contarSugerenciasPendientes();
+//
+//
+//        return [
+//            'usuario' => $usuario,
+//            'botones' => $botones,
+//            'preguntasActivas' => $preguntasActivas,
+//            'reportes' => $reportesPendientes,
+//            'sugerenciasPendientes' => $sugerenciasPendientes
+//        ];
+//    }
+//
+
 }

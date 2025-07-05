@@ -482,3 +482,13 @@ body {
     }
 
 }
+
+tbody tr:nth-child(odd) {
+    background-color: var(--color-violet-masclaro) !important;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--color-violeta-oscuro) !important;
+    color: white !important;
+}
+

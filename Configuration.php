@@ -74,13 +74,14 @@ class Configuration
 
     public function getLobbyEDITORController()
     {
-        return new LobbyEDITORController($this->getViewer());
+        return new LobbyEDITORController($this->getViewer(), new PreguntasModel($this->db));
     }
 
     public function getLobbyADMController()
     {
-        return new LobbyADMController($this->getViewer());
+        return new LobbyADMController($this->getViewer(), $this->db);
     }
+
 
     public function getRouter()
     {
@@ -119,5 +120,9 @@ class Configuration
     }
     public function getHistorialController(){
         return new HistorialController(new JugadorModel($this->db, $this->email),$this->getViewer());
+    }
+
+    public function getGestionarPreguntasController(){
+        return new GestionarPreguntasController($this->getViewer(),new PreguntasModel($this->db));
     }
 }

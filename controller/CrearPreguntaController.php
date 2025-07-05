@@ -18,7 +18,13 @@ class CrearPreguntaController
 
     public function show()
     {
-        $this->view->render('headerGrandeSinBotones', 'crearPreguntas');
+        $esEditor = Session::get('tipo') === 'editor';
+        $data['esEditor'] = $esEditor;
+
+        // Definir la acción del formulario según el tipo de usuario
+        $data['action'] = $esEditor ? '/POC/lobbyEditor/crearPregunta' : '/POC/crearPregunta/crear';
+
+        $this->view->render('headerGrandeSinBotones', 'crearPreguntas', $data);
     }
 
     public function crear()

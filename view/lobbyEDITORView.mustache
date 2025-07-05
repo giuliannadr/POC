@@ -8,15 +8,15 @@
             <section class="d-flex flex-column gap-4 align-items-center text-white mx-4">
                 <div class="fila-estadistica">
                     <p class="m-0 fs-4 fw-medium">Preguntas activas:</p>
-                    <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-100px texto-verde fondo-violetaoscuro">100</p>
+                    <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-100px texto-verde fondo-violetaoscuro">{{preguntasActivas}}</p>
                 </div>
                 <div class="fila-estadistica">
                     <p class="m-0 fs-4 fw-medium">Reportes sin revisar:</p>
-                    <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-100px texto-verde fondo-violetaoscuro">100</p>
+                    <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-100px texto-verde fondo-violetaoscuro">{{reportes}}</p>
                 </div>
                 <div class="fila-estadistica">
                     <p class="m-0 fs-4 fw-medium">Sugerencias pendientes:</p>
-                    <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-100px texto-verde fondo-violetaoscuro">100</p>
+                    <p class="m-0 fs-5 fw-semibold p-2 rounded-5 w-100px texto-verde fondo-violetaoscuro">{{sugerenciasPendientes}}</p>
                 </div>
             </section>
         </article>
@@ -24,10 +24,10 @@
             <h3 class="texto-verde mb-4">Accesos Rápidos</h3>
             <section class="d-flex flex-column gap-4 align-items-center">
                 <div class="col-sm-8 px-4">
-                    <a class="btn boton-verde btn-lg p-2 w-100 fw-bold shadow rounded-5" href="">Crear Pregunta</a>
+                    <a class="btn boton-verde btn-lg p-2 w-100 fw-bold shadow rounded-5" href="/POC/crearPregunta/show">Crear Pregunta</a>
                 </div>
                 <div class="col-sm-8 px-4">
-                    <a class="btn boton-verde btn-lg p-2 w-100 fw-bold shadow rounded-5" href="">Ver Preguntas
+                    <a class="btn boton-verde btn-lg p-2 w-100 fw-bold shadow rounded-5" href="/POC/LobbyEDITOR/gestionarPreguntas">Ver Preguntas
                         Activas</a>
                 </div>
                 <div class="col-sm-8 px-4">
@@ -41,6 +41,48 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const popup = document.getElementById('popupRevision');
+        if (!popup) {  // Solo redirige si NO hay popup (no estamos mostrando el mensaje)
+            if (window.location.pathname !== '/POC/lobbyEditor/show') {
+                window.location.href = '/POC/lobbyEditor/show';
+            }
+        }
+    });
+</script>
+
+{{#mostrarPopupExito}}
+    <!-- POPUP MENSAJE ÉXITO -->
+    <div id="popupRevision"
+         class="text-white fondo-violeta p-5 rounded-5 my-5 shadow pop"
+         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 1050; max-width: 90vw; background-color: var(--color-violeta-claro); border: solid 2px var(--color-verde);
+            flex-direction: column; align-items: center; text-align: center;">
+        <h1 class="m-0">¡Pregunta creada con éxito!</h1>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const popup = document.getElementById('popupRevision');
+            popup.style.display = 'flex';
+
+            setTimeout(() => {
+                popup.style.display = 'none';
+                if (window.location.pathname !== '/POC/lobbyEditor/show') {
+                    window.location.href = '/POC/lobbyEditor/show';
+                }
+            }, 3000);
+        });
+    </script>
+
+{{/mostrarPopupExito}}
+
+
+
+
+
 </body>
 
 </html>

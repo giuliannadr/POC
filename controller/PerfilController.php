@@ -1,6 +1,8 @@
 <?php
 require_once("core/Session.php");
 require_once("core/DataLobbys.php");
+require_once("vendor/phpqrcode/qrlib.php");
+
 
 class PerfilController
 {
@@ -107,6 +109,31 @@ class PerfilController
 
         // redirige al perfil con los datos actualizados
         $this->mostrar();
+    }
+
+    public function generarQR() {
+
+        $usuario = Session::get('usuario');
+
+
+        $id = $usuario['nombre_usuario'];
+        $url = "http://localhost/POC/perfil/mostrar/" . $id;
+
+        ob_clean(); // limpia buffer de salida previa
+
+        header('Content-Type: image/png');
+        QRcode::png($url);
+    }
+
+    public function generarQRDeOtroUsuario($params)
+    {
+        ob_clean(); // limpia buffer de salida previa
+
+        header('Content-Type: image/png');
+
+        $url = "http://localhost/POC/ranking/verPerfil?nombre_usuario=" . urlencode($params['nombre_usuario']);
+
+        QRcode::png($url);
     }
 
 
