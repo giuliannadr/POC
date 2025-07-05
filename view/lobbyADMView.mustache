@@ -6,19 +6,22 @@
     <form id="formPDF" method="post" action="/POC/lobbyADM/exportarPDF" style="margin-top: 10px">
         <input type="hidden" name="imgEdad" id="imgEdadBase64">
         <input type="hidden" name="imgGenero" id="imgGeneroBase64">
-        <input type="hidden" name="htmlEstadisticas" id="htmlEstadisticas">
-
         <input type="hidden" name="imgPais" id="imgPaisBase64">
+
+        <input type="hidden" name="htmlEstadisticas" id="htmlEstadisticas">
+        <input type="hidden" name="htmlEdad" id="htmlEdad">
+        <input type="hidden" name="htmlGenero" id="htmlGenero">
         <input type="hidden" name="htmlPaises" id="htmlPaises">
 
         <button type="submit" class="btn btn-success">Descargar PDF</button>
     </form>
 
 
+
     <div class="d-flex flex-column gap-5 w-100 justify-content-center p-5">
         <article class="contenedor-article">
             <h3 class="texto-verde mb-4">Estadisticas Generales</h3>
-            <section class="d-flex flex-column gap-4 align-items-center mx-4 text-white"  data-bloque-estadisticas>
+            <section class="d-flex flex-column gap-4 align-items-center mx-4 text-white" data-bloque-estadisticas>
                 <div class="fila-estadistica">
                     <p class="m-0 fs-4 fw-medium">Jugadores Totales:</p>
                     <p class="m-0 fs-5 fw-semibold p-2 rounded-5 texto-verde fondo-violetaoscuro w-100px">{{totalJugadores}}</p>
@@ -36,7 +39,7 @@
         <article class="contenedor-article">
             <h3 class="texto-verde mb-4">Usuarios por Edad</h3>
             <section class="d-flex flex-column flex-xl-row justify-content-center align-items-center">
-                <div class="d-flex flex-column gap-4 align-items-center mx-4 w-100">
+                <div class="d-flex flex-column gap-4 align-items-center mx-4 w-100" data-bloque-edad>
                     <div class="fila-estadistica">
                         <p class="m-0 fs-4 fw-medium">Menores (-18):</p>
                         <p class="m-0 fs-5 fw-semibold p-2 rounded-5 texto-verde fondo-violetaoscuro w-100px">{{menores}}
@@ -56,33 +59,40 @@
                 <div class="d-flex flex-column flex-md-row align-items-center gap-3">
                     <div id="graficoEdad" class="grafico"></div>
                     <div class="text-white rounded-4 p-4 fondo-violetaclaro">
-                        <p>Menores: {{porcentajeMenores}}%</p>
-                        <p>Adultos: {{porcentajeAdultos}}%</p>
-                        <p>Jubilados: {{porcentajeJubilados}}%</p>
+                        <p><strong>Menores:</strong> {{porcentajeMenores}}%</p>
+                        <p><strong>Adultos:</strong> {{porcentajeAdultos}}%</p>
+                        <p><strong>Jubilados:</strong> {{porcentajeJubilados}}%</p>
                     </div>
                 </div>
             </section>
         </article>
         <article class="contenedor-article">
             <h3 class="texto-verde mb-4">Usuarios por País</h3>
-            <section class="d-flex flex-column gap-4 align-items-center mx-4"  data-bloque-paises>
-                {{#usuariosPorPais}}
-                <div class="fila-estadistica">
-                    <p class="m-0 fs-4 fw-medium">{{pais}}</p>
-                    <p class="m-0 fs-5 fw-semibold p-2 rounded-5 texto-verde fondo-violetaoscuro w-100px">{{cantidad}}</p>
+            <section class="d-flex flex-column flex-xl-row justify-content-center align-items-center">
+                <div class="d-flex flex-column gap-4 align-items-center mx-4 w-100" style="min-width: 280px;" data-bloque-pais>
+                    {{#paisesConPorcentaje}}
+                        <div class="fila-estadistica">
+                            <p class="m-0 fs-4 fw-medium text-truncate" style="max-width: 180px;">{{pais}}:</p>
+                            <p class="m-0 fs-5 fw-semibold p-2 rounded-5 texto-verde fondo-violetaoscuro w-100px">{{cantidad}}</p>
+                        </div>
+                    {{/paisesConPorcentaje}}
                 </div>
-                {{/usuariosPorPais}}
 
-                {{^usuariosPorPais}}
-                    <p class="text-white">No hay datos de países registrados.</p>
-                {{/usuariosPorPais}}
-
+                <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+                    <div id="graficoPais" class="grafico" style="width: 300px; height: 300px;"></div>
+                    <div class="text-white rounded-4 p-4 fondo-violetaclaro">
+                        {{#paisesConPorcentaje}}
+                            <p><strong>{{pais}}</strong>: {{porcentaje}}%</p>
+                        {{/paisesConPorcentaje}}
+                    </div>
+                </div>
             </section>
         </article>
+
         <article class="contenedor-article">
             <h3 class="texto-verde mb-4">Usuarios por Genero</h3>
             <section class="d-flex flex-column flex-xl-row justify-content-center align-items-center">
-                <div class="d-flex flex-column gap-4 align-items-center mx-4 w-100">
+                <div class="d-flex flex-column gap-4 align-items-center mx-4 w-100" data-bloque-genero>
                     <div class="fila-estadistica">
                         <p class="m-0 fs-4 fw-medium">Hombres:</p>
                         <p class="m-0 fs-5 fw-semibold p-2 rounded-5 texto-verde fondo-violetaoscuro w-100px">{{hombres}}
@@ -102,9 +112,9 @@
                 <div class="d-flex flex-column flex-md-row align-items-center gap-3">
                     <div id="graficoGenero" class="grafico"></div>
                     <div class="text-white rounded-4 p-4 fondo-violetaclaro">
-                        <p>Hombres: {{porcentajeHombres}}%</p>
-                        <p>Mujeres: {{porcentajeMujeres}}%</p>
-                        <p>Otros: {{porcentajeOtros}}%</p>
+                        <p><strong>Hombres</strong>: {{porcentajeHombres}}%</p>
+                        <p><strong>Mujeres</strong>: {{porcentajeMujeres}}%</p>
+                        <p><strong>Otros</strong>: {{porcentajeOtros}}%</p>
                     </div>
                 </div>
             </section>
@@ -117,7 +127,7 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(dibujarTorta);
 
     function dibujarTorta() {
@@ -129,11 +139,10 @@
         ]);
 
         const options = {
-
             pieHole: 0.4,
             backgroundColor: 'transparent',
-            legend: { position: 'bottom', textStyle: { color: '#ffffff' } }, // opcional: texto blanco
-            pieSliceTextStyle: { color: '#ffffff' }, // opcional: porcentaje en blanco
+            legend: {position: 'bottom', textStyle: {color: '#ffffff'}}, // opcional: texto blanco
+            pieSliceTextStyle: {color: '#ffffff'}, // opcional: porcentaje en blanco
             colors: ['#4bc0c0', '#36a2eb', '#ff6384']
         };
 
@@ -145,7 +154,7 @@
     }
 </script>
 <script>
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(dibujarGraficoGenero);
 
     function dibujarGraficoGenero() {
@@ -157,11 +166,10 @@
         ]);
 
         const options = {
-
             backgroundColor: 'transparent',
             pieHole: 0.4,
-            legend: { position: 'bottom', textStyle: { color: '#ffffff' } },
-            pieSliceTextStyle: { color: '#ffffff' },
+            legend: {position: 'bottom', textStyle: {color: '#ffffff'}},
+            pieSliceTextStyle: {color: '#ffffff'},
             colors: ['#36a2eb', '#ff6384', '#aa66cc']
         };
 
@@ -173,12 +181,38 @@
     }
 </script>
 <script>
-    document.getElementById("formPDF").addEventListener("submit", function(e) {
-        const contenedorPaises = document.querySelector('[data-bloque-paises]');
-        document.getElementById("htmlPaises").value = contenedorPaises ? contenedorPaises.innerHTML : '';
+    const dataPaisesJson = JSON.parse('{{{dataPaisesJson}}}');
 
-        const contenedorEstadisticas = document.querySelector('[data-bloque-estadisticas]');
-        document.getElementById("htmlEstadisticas").value = contenedorEstadisticas ? contenedorEstadisticas.innerHTML : '';
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(dibujarGraficoPais);
+
+    function dibujarGraficoPais() {
+        <!--  los "..." separan los elementos del array para insertarlos uno dentro de otro array  -->
+        const dataArray = [['País', 'Cantidad'], ...dataPaisesJson];
+
+        const data = google.visualization.arrayToDataTable(dataArray);
+
+        const options = {
+            backgroundColor: 'transparent',
+            pieHole: 0.4,
+            legend: {position: 'bottom', textStyle: {color: '#ffffff'}},
+            pieSliceTextStyle: {color: '#ffffff'}
+        };
+
+        const chart = new google.visualization.PieChart(document.getElementById('graficoPais'));
+        chart.draw(data, options);
+
+        const imagenPais = chart.getImageURI();
+        document.getElementById('imgPaisBase64').value = imagenPais;
+    }
+</script>
+
+<script>
+    document.getElementById("formPDF").addEventListener("submit", function (e) {
+        document.getElementById("htmlEstadisticas").value = document.querySelector('[data-bloque-estadisticas]')?.innerHTML || '';
+        document.getElementById("htmlEdad").value = document.querySelector('[data-bloque-edad]')?.innerHTML || '';
+        document.getElementById("htmlGenero").value = document.querySelector('[data-bloque-genero]')?.innerHTML || '';
+        document.getElementById("htmlPaises").value = document.querySelector('[data-bloque-pais]')?.innerHTML || '';
     });
 </script>
 
