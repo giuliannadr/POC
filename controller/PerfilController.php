@@ -31,19 +31,11 @@ class PerfilController
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
         $datos['modo_edicion'] = false;
 
-        // Renderizar la vista con header
+        if (empty($datos['foto_perfil']) || $datos['foto_perfil'] === 'img/sinperfil.png') {
+            $datos['foto_perfil'] = false;
+        }
 
-        $this->view->render('headerPerfil', 'perfil', [
-            'nombre' => $datos['nombre'],
-            'apellido' => $datos['apellido'],
-            'sexo' => $datos['sexo'],
-            'fecha_nacimiento' => $datos['fecha_nacimiento'],
-            'email' => $datos['email'],
-            'nombre_usuario' => $datos['nombre_usuario'],
-            'foto_perfil' => $datos['foto_perfil'],
-            'ciudad' => $datos['ciudad'],
-            'pais' => isset($datos['pais']) ? $datos['pais'] : ''
-        ]);
+        $this->view->render('headerPerfil', 'perfil', $datos);
 
     }
 
@@ -58,6 +50,11 @@ class PerfilController
         }
 
         $datos = $this->model->obtenerDatosPerfil($id_usuario);
+
+        if (empty($datos['foto_perfil']) || $datos['foto_perfil'] === 'img/sinperfil.png') {
+            $datos['foto_perfil'] = false;
+        }
+
         $datos['modo_edicion'] = true;
 
         // Marcar selección del sexo
