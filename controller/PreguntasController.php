@@ -28,7 +28,7 @@ class PreguntasController
             Session::set('usuario', $usuario);
         }
 
-        // 🔥 LIMPIEZA si ya pasó el tiempo pero el usuario recargó
+        // LIMPIEZA si ya pasó el tiempo pero el usuario recargó
         if (
             isset($usuario['inicio_pregunta'][$partida]) &&
             (time() - $usuario['inicio_pregunta'][$partida] > 10)

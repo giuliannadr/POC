@@ -11,17 +11,14 @@
                              style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
 
                             <img id="previewImg"
-                                 src="{{{foto_perfil}}}"
+                                 src="{{#foto_perfil}}{{{foto_perfil}}}{{/foto_perfil}}{{^foto_perfil}}img/sinperfil.png{{/foto_perfil}}"
                                  alt="Foto de perfil"
                                  class="rounded-circle"
                                  style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #00eaff; position: absolute; top: 0; left: 0;">
 
-
-
                             {{^foto_perfil}}
-                                <svg xmlns="http://www.w3.org/2000/svg" id="profile-svg" width="150" height="150"
-                                     fill="#A6FD35"
-                                     class="bi bi-person-circle" viewBox="0 0 16 16"
+                                <svg id="profile-svg" xmlns="http://www.w3.org/2000/svg" width="150" height="150"
+                                     fill="#A6FD35" class="bi bi-person-circle" viewBox="0 0 16 16"
                                      style="position: absolute; top: 0; left: 0; border-radius: 50%; border: 2px solid #00eaff; object-fit: cover;">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                     <path fill-rule="evenodd"
@@ -29,6 +26,7 @@
                                 </svg>
                             {{/foto_perfil}}
                         </div>
+
 
                         <input type="file" class="text-center" name="profilePic" accept="image/*" id="profilePic"
                                style="display:none;" onchange="previewImage(this)">
@@ -56,9 +54,12 @@
                         <div class="col">
                             <div class="info-label">Sexo</div>
                             <select name="sexo" class="form-control mb-2 info-box">
-                                <option value="masculino" {{#sexo_masculino}}selected{{/sexo_masculino}}>Masculino</option>
+                                <option value="masculino" {{#sexo_masculino}}selected{{/sexo_masculino}}>Masculino
+                                </option>
                                 <option value="femenino" {{#sexo_femenino}}selected{{/sexo_femenino}}>Femenino</option>
-                                <option value="prefiero no cargarlo" {{#sexo_otro}}selected{{/sexo_otro}}>Prefiero no cargarlo</option>
+                                <option value="prefiero no cargarlo" {{#sexo_otro}}selected{{/sexo_otro}}>Prefiero no
+                                    cargarlo
+                                </option>
                             </select>
                         </div>
                         <div class="col">
@@ -106,16 +107,17 @@
                     <div id="profile-container"
                          style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
 
-                        <img id="previewImg"
-                             src="{{{foto_perfil}}}"
-                             alt="Foto de perfil"
-                             class="rounded-circle"
-                             style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #00eaff; position: absolute; top: 0; left: 0;">
-                        
+                        {{#foto_perfil}}
+                            <img id="previewImg"
+                                 src="{{{foto_perfil}}}"
+                                 alt="Foto de perfil"
+                                 class="rounded-circle"
+                                 style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 2px solid #00eaff; position: absolute; top: 0; left: 0;">
+                        {{/foto_perfil}}
+
                         {{^foto_perfil}}
                             <svg xmlns="http://www.w3.org/2000/svg" id="profile-svg" width="150" height="150"
-                                 fill="#A6FD35"
-                                 class="bi bi-person-circle" viewBox="0 0 16 16"
+                                 fill="#A6FD35" class="bi bi-person-circle" viewBox="0 0 16 16"
                                  style="position: absolute; top: 0; left: 0; border-radius: 50%; border: 2px solid #00eaff; object-fit: cover;">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                 <path fill-rule="evenodd"
@@ -257,12 +259,15 @@
             const reader = new FileReader();
             reader.onload = function (e) {
                 const preview = document.getElementById('previewImg');
+                const svg = document.getElementById('profile-svg');
                 preview.src = e.target.result;
-                preview.style.display = 'block'; // por si estaba oculto
+                preview.style.display = 'block'; // mostrar imagen
+                if (svg) svg.style.display = 'none'; // ocultar SVG
             }
             reader.readAsDataURL(file);
         }
     }
+
 </script>
 
 

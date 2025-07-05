@@ -60,7 +60,7 @@ class LobbyJugController
         Session::set('usuario', $usuarioActualizado);
 
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyJugData($usuario);
+        $data = $dataLobby->getLobbyJugData($usuarioActualizado);
         $this->view->render('headerGrande', 'lobbyJug', $data);
     }
 

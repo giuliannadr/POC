@@ -276,6 +276,8 @@
     });
 </script>
 <script>
+    const passInput = document.querySelector('input[name="passRegistro"]');
+    const passConfirmInput = document.querySelector('input[name="passConfirmar"]');
     const emailInput = document.querySelector('input[name="emailRegistro"]');
     const mensajeEmail = document.getElementById('mensajeEmail');
 
@@ -316,7 +318,7 @@
     const usuarioInput = document.querySelector('input[name="usuarioRegistro"]');
     const mensajeUsuario = document.getElementById('mensajeUsuario');
 
-    emailInput.addEventListener('blur', function () {
+    usuarioInput.addEventListener('blur', function () {
         const usuario = usuarioInput.value.trim();
         if (usuario === "") return;
 

@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -321,6 +322,9 @@ class JugadorModel
 
     public function existeUsuario($usuario)
     {
+        if (trim($usuario) === "") {
+            return false;
+        }
         $sql = "SELECT id_usuario FROM usuario WHERE nombre_usuario = ?";
         $stmt = $this->database->prepare($sql);
         $stmt->bind_param("s", $usuario);
@@ -330,6 +334,7 @@ class JugadorModel
         $stmt->close();
         return $existe;
     }
+
 }
 
 ?>

@@ -85,7 +85,7 @@ class RegistroController
     public function verificarUsuario()
     {
         if (isset($_GET['usuario'])) {
-            $usuario = $_GET['email'];
+            $usuario = $_GET['usuario'];
             $yaExiste = $this->model->existeUsuario($usuario);
             header('Content-Type: application/json');
             echo json_encode(['existe' => $yaExiste]);

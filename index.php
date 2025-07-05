@@ -14,21 +14,6 @@ $method = isset($_GET['method']) ? $_GET['method'] : null;
 
 $publicControllers = ['home', 'registro', 'login'];
 
-if ($controller === 'registro' && $method === 'verificarEmail') {
-    require_once("controller/RegistroController.php");
-    require_once("model/JugadorModel.php");
-    require_once("view/View.php");
-
-    $db = $configuration->getDatabase();
-    $emailHandler = $configuration->getEmail(); // O como se llame tu clase de envío
-    $model = new JugadorModel($db, $emailHandler);
-    $view = new View();
-    $registroController = new RegistroController($model, $view);
-
-    $registroController->verificarEmail();
-    exit;
-}
-
 /*
 // Verifica si el controlador actual requiere sesión
 if (!in_array($controller, $publicControllers)) {
