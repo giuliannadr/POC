@@ -21,9 +21,10 @@ class LobbyADMController
         $periodo = $_GET['periodo'] ?? 'mes';
 
         $botones = [
-            ['texto' => 'Dia', 'link' => '/POC/admin/dashboard?periodo=dia'],
-            ['texto' => 'Semana', 'link' => '/POC/admin/dashboard?periodo=semana'],
-            ['texto' => 'Mes', 'link' => '/POC/admin/dashboard?periodo=mes']
+            ['texto' => 'Día', 'link' => '/POC/lobbyAdm/show?periodo=dia', 'activo' => $periodo === 'dia'],
+            ['texto' => 'Semana', 'link' => '/POC/lobbyAdm/show?periodo=semana', 'activo' => $periodo === 'semana'],
+            ['texto' => 'Mes', 'link' => '/POC/lobbyAdm/show?periodo=mes', 'activo' => $periodo === 'mes'],
+            ['texto' => 'Año', 'link' => '/POC/lobbyAdm/show?periodo=anio', 'activo' => $periodo === 'anio']
         ];
 
         $adminModel = new AdminModel($this->db);
@@ -67,7 +68,6 @@ class LobbyADMController
 
         $this->view->render('headerAdminEditor', 'lobbyADM', $data);
     }
-
 
     public function exportarPDF()
     {

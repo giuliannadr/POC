@@ -93,6 +93,11 @@ class AdminModel
                 $hoy->modify('-6 days')->setTime(0, 0);
                 break;
             case 'mes':
+                $hoy->modify('-29 days')->setTime(0, 0);
+                break;
+            case 'anio':
+                $hoy->modify('-1 year')->setTime(0, 0);
+                break;
             default:
                 $hoy->modify('-29 days')->setTime(0, 0);
                 break;
@@ -100,6 +105,8 @@ class AdminModel
 
         return $hoy->format('Y-m-d H:i:s');
     }
+
+
 
    /* private function obtenerFiltroPorPeriodo(string $periodo, string $columnaFecha = 'fecha_registro'): string {
         switch ($periodo) {
