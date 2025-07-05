@@ -30,8 +30,9 @@ class LobbyADMController
         $adminModel = new AdminModel($this->db);
 
         $datos = $adminModel->obtenerEstadisticas($periodo);
-        $estadisticasPorEdad = $adminModel->obtenerEstadisticasPorEdad();
-        $usuariosPorPais = $adminModel->obtenerEstadisticasPorPais();
+        $estadisticasPorEdad = $adminModel->obtenerEstadisticasPorEdad($periodo);
+        $usuariosPorPais = $adminModel->obtenerEstadisticasPorPais($periodo);
+        $usuariosNuevos = $adminModel->obtenerUsuariosNuevosPorPeriodo($periodo);
 
         $totalEdad = $estadisticasPorEdad['menores'] + $estadisticasPorEdad['adultos'] + $estadisticasPorEdad['jubilados'];
         $porcentajesEdad = [
@@ -40,7 +41,29 @@ class LobbyADMController
             'porcentajeJubilados' => $totalEdad > 0 ? round(($estadisticasPorEdad['jubilados'] / $totalEdad) * 100, 1) : 0
         ];
 
-        $datosGenero = $adminModel->obtenerEstadisticasPorGenero();
+        $totalPaises = 0;
+        foreach ($usuariosPorPais as $paisDato) {
+            $totalPaises += $paisDato['cantidad'];
+        }
+
+        $paisesConPorcentaje = [];
+        foreach ($usuariosPorPais as $paisDato) {
+            $porcentaje = $totalPaises > 0 ? round(($paisDato['cantidad'] / $totalPaises) * 100, 1) : 0;
+            $paisesConPorcentaje[] = [
+                'pais' => $paisDato['pais'],
+                'cantidad' => $paisDato['cantidad'],
+                'porcentaje' => $porcentaje
+            ];
+        }
+
+        $paisesParaGrafico = [];
+        foreach ($paisesConPorcentaje as $paisDato) {
+            $paisesParaGrafico[] = [$paisDato['pais'], $paisDato['porcentaje']];
+        }
+        $dataPaisesJson = json_encode($paisesParaGrafico);
+
+
+        $datosGenero = $adminModel->obtenerEstadisticasPorGenero($periodo);
         $totalGenero = $datosGenero['hombres'] + $datosGenero['mujeres'] + $datosGenero['otros'];
         $porcentajeHombres = $totalGenero > 0 ? round(($datosGenero['hombres'] / $totalGenero) * 100, 1) : 0;
         $porcentajeMujeres = $totalGenero > 0 ? round(($datosGenero['mujeres'] / $totalGenero) * 100, 1) : 0;
@@ -54,7 +77,9 @@ class LobbyADMController
             'menores' => $estadisticasPorEdad['menores'],
             'adultos' => $estadisticasPorEdad['adultos'],
             'jubilados' => $estadisticasPorEdad['jubilados'],
-            'usuariosPorPais' => $usuariosPorPais,
+            'paisesConPorcentaje' => $paisesConPorcentaje,
+            'dataPaisesJson' => $dataPaisesJson,
+            'usuariosNuevos' => $usuariosNuevos['usuariosNuevos'],
             'porcentajeMenores' => $porcentajesEdad['porcentajeMenores'],
             'porcentajeAdultos' => $porcentajesEdad['porcentajeAdultos'],
             'porcentajeJubilados' => $porcentajesEdad['porcentajeJubilados'],
@@ -73,8 +98,11 @@ class LobbyADMController
     {
         $imgEdad = $_POST['imgEdad'] ?? '';
         $imgGenero = $_POST['imgGenero'] ?? '';
+        $imgPais = $_POST['imgPais'] ?? '';
         $htmlPaises = $_POST['htmlPaises'] ?? '';
         $htmlEstadisticas = $_POST['htmlEstadisticas'] ?? '';
+        $htmlEdad = $_POST['htmlEdad'] ?? '';
+        $htmlGenero = $_POST['htmlGenero'] ?? '';
 
         $html = "
     <style>
@@ -109,20 +137,23 @@ class LobbyADMController
             min-width: 40px;
             text-align: center;
         }
-
-        /* Contenedor flex para gráficos */
-        .graficos-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
+        .container-datos {
+            width: 100%;
+            text-align: center; 
         }
-        .graficos-container img {
-            width: 45%; /* Ajusta tamaño para que quepan los dos */
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            padding: 10px;
+        .container-datos img {
+            display: inline-block;
+            width: 50%;
+        }
+        
+        .container-genero {
+            width: 100%;
+            text-align: center; 
+            page-break-inside: avoid;
+        }
+        .container-genero img {
+            display: inline-block;
+            width: 50%;
         }
     </style>
 
@@ -131,14 +162,22 @@ class LobbyADMController
     <h2>Estadísticas Generales</h2>
     <div>$htmlEstadisticas</div>
 
-    <h2>Distribución por Edad y Género</h2>
-    <div class='graficos-container'>
-        <img src='$imgEdad' alt='Gráfico por Edad'>
-        <img src='$imgGenero' alt='Gráfico por Género'>
+    <div class='container-datos'>
+        <h2 style='text-align: left'>Distribución por Edad</h2>
+        <div style='text-align: left'>$htmlEdad</div>
+        <img src='$imgEdad' alt='Gráfico por Edad' style='width: 45%;'>
     </div>
-
-    <h2>Usuarios por País</h2>
-    <div>$htmlPaises</div>
+    <div class='container-genero'>
+        <h2 style='text-align: left'>Distribución por Género</h2>
+        <div style='text-align: left'>$htmlGenero</div>
+        <img src='$imgGenero' alt='Gráfico por Género' style='width: 45%;'>
+    </div>
+    
+    <div class='container-datos'>
+        <h2 style='text-align: left'>Usuarios por País</h2>
+        <div style='text-align: left'>$htmlPaises</div>
+        <img src='$imgPais' alt='Gráfico por País' style='width: 45%;'>
+    </div>
     ";
 
         $pdf = new Dompdf();

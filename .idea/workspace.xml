@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LobbyJugController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyJugController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PerfilController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PerfilController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PreguntasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PreguntasController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/RegistroController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/RegistroController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/DataLobbys.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/DataLobbys.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/JugadorModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/JugadorModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/lobbyJugView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyJugView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/perfilJugadorView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilJugadorView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/perfilView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/registroView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/registroView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/LobbyADMController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyADMController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +104,7 @@
       <workItem from="1751706595403" duration="1263000" />
       <workItem from="1751710992562" duration="609000" />
       <workItem from="1751713897466" duration="4518000" />
+      <workItem from="1751718736364" duration="7578000" />
     </task>
     <servers />
   </component>
