@@ -174,8 +174,8 @@ class LobbyADMController
     </div>
     
     <div class='container-datos'>
-        <h2>Usuarios por País</h2>
-        <div>$htmlPaises</div>
+        <h2 style='text-align: left'>Usuarios por País</h2>
+        <div style='text-align: left'>$htmlPaises</div>
         <img src='$imgPais' alt='Gráfico por País' style='width: 45%;'>
     </div>
     ";
