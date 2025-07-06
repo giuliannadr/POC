@@ -587,6 +587,31 @@ public function finalizarPartida($id_partida){
 
         return $preguntas;
     }
+    public function obtenerPreguntaSugeridaCompleta($idPregunta) {
+        $stmt = $this->database->prepare("
+        SELECT p.id_pregunta AS idpregunta,
+               p.enunciado AS enunciado,
+               c.nombre AS categoria,
+               r.texto AS respuesta,
+               r.esCorrecta
+        FROM sugerenciapregunta sp
+        JOIN pregunta p ON sp.id_pregunta_sugerida = p.id_pregunta
+        JOIN categoria c ON c.id_categoria = p.id_categoria
+        JOIN respuesta r ON r.id_pregunta = p.id_pregunta
+        WHERE p.id_pregunta = ?
+    ");
+        $id = (int) $idPregunta;
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $preguntas = [];
+        while ($row = $result->fetch_assoc()) {
+            $preguntas[] = $row;
+        }
+
+        return $preguntas;
+    }
 
     public function obtenerSugeridas(){
         $stmt = $this->database->prepare("SELECT p.id_pregunta as idpregunta, p.enunciado as enunciado, c.nombre as categoria
@@ -617,13 +642,18 @@ public function finalizarPartida($id_partida){
     }
 
     public function eliminar($idPregunta) {
-        // 1. Eliminar registros hijos que referencian la pregunta
+        //1. eliminar registros hijos en sugerenciaPregunta
+        $sqlBorrarSugerencias = "DELETE FROM sugerenciapregunta WHERE id_pregunta_sugerida = ?";
+        $stmt = $this->database->prepare($sqlBorrarSugerencias);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        // 2. Eliminar registros hijos que referencian la pregunta
         $sqlBorrarRelacionados = "DELETE FROM jugadorrespondepregunta WHERE id_pregunta = ?";
         $stmt = $this->database->prepare($sqlBorrarRelacionados);
         $stmt->bind_param("i", $idPregunta);
         $stmt->execute();
 
-        // 2. Ahora eliminar la pregunta
+        // 3. Ahora eliminar la pregunta
         $sqlBorrarPregunta = "DELETE FROM pregunta WHERE id_pregunta = ?";
         $stmt = $this->database->prepare($sqlBorrarPregunta);
         $stmt->bind_param("i", $idPregunta);

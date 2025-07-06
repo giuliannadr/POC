@@ -45,7 +45,7 @@ class CrearPreguntaController
         $enviada = true;
 
         $botones = new DataLobbys();
-        $lobbyJug = $botones->getLobbyJugData();
+        $lobbyJug = $botones->getLobbyJugData($usuario);
         $data = $lobbyJug;
         $data['enviada'] = $enviada;
 

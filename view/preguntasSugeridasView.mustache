@@ -45,6 +45,11 @@
                         <td style="word-break: break-word;">{{respuesta}}</td>
                         <td>
                             <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; width: 100%;">
+                                <form action="/POC/LobbyEDITOR/aprobarPregunta" method="post">
+                                    <input type="hidden" name="id" value="{{idpregunta}}">
+                                    <button type="submit" class="btn btn-violeta" style="border-radius: 20px;">Aprobar
+                                    </button>
+                                </form>
                                 <form action="/POC/LobbyEDITOR/editarPregunta" method="post">
                                     <input type="hidden" name="id" value="{{idpregunta}}">
                                     <button type="submit" class="btn btn-violeta" style="border-radius: 20px;">Editar
