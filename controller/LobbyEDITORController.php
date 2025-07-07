@@ -287,6 +287,47 @@ class LobbyEDITORController
         $this->view->render('headerAdminEditor', 'preguntasSugeridas', $data);
     }
 
+    public function buscarPregunta()
+    {
+        $dataLobby = new DataLobbys();
+        $data = $dataLobby->getLobbyEditorData();
+        $this->view->render('headerAdminEditor', 'buscarPregunta', $data);
+    }
+
+    public function buscar()
+    {
+
+        $dataLobby = new DataLobbys();
+        $data = $dataLobby->getLobbyEditorData();
+
+        $data['seccionActiva'] = 'buscarPregunta';
+        $buscar = $_POST['buscarPregunta'] ?? null;
+        $data['buscarPregunta'] = $buscar;
+        $data['busquedaRealizada'] = true;
+
+        if ($buscar) {
+            // Si buscás por idpregunta, debe coincidir con el parámetro en buscarReporte
+            $data['preguntas'] = $buscar ? $this->model->buscarPreguntas($buscar) : [];
+
+        }
+
+        foreach ($data['preguntas'] as &$pregunta) {
+            $respuestas = $this->model->obtenerRespuestasDePregunta($pregunta['idpregunta']);
+            $pregunta['jsonRespuestas'] = json_encode($respuestas, JSON_HEX_QUOT | JSON_HEX_APOS);
+
+            // Opcional: guardar el texto de la respuesta correcta para mostrar directo
+            foreach ($respuestas as $r) {
+                if ($r['esCorrecta']) {
+                    $pregunta['respuestaCorrectaTexto'] = $r['texto'];
+                    break;
+                }
+            }
+        }
+        unset($pregunta);
+        $this->view->render('headerAdminEditor', 'buscarPregunta', $data);
+
+    }
+
     public function aprobarPregunta() {
         if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
              $idPregunta = $_POST["id"];

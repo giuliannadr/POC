@@ -5,23 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view/buscarPreguntaView.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/LobbyEDITORController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyEDITORController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/PreguntasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/PreguntasController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/PreguntasModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PreguntasModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/POCstyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/POCstyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/PreguntasStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/PreguntasStyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/editarPreguntaView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/editarPreguntaView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/gestionarPreguntasEditorView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/gestionarPreguntasEditorView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/homeLoginView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/homeLoginView.mustache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/view/lobbyEDITORView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyEDITORView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/lobbyJugView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyJugView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/preguntaView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntaView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/preguntasReportadasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasReportadasView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

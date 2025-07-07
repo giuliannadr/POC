@@ -1,0 +1,178 @@
+<div class="mt-4 px-4" style="display: flex; flex-direction: column; align-items: center; gap: 1.5em;">
+    <!-- Botón Volver centrado -->
+    <a href="/POC/LobbyEDITOR/show"
+       class="btn btn-danger btn-lg fw-bold rounded-pill px-4 boton-animado">
+        Volver
+    </a>
+
+    <!-- Formulario de búsqueda centrado -->
+    <form class="d-flex gap-2" method="post" action="/POC/LobbyEDITOR/buscar" style="width: 100%; max-width: 600px; margin-bottom: 50px;">
+        <input class="p-2 fs-6 rounded-pill texto-verde"
+               type="search"
+               name="buscarPregunta"
+               id="buscarPregunta"
+               placeholder="Buscar por ID, enunciado o categoría"
+               value="{{buscarPregunta}}"
+               style="background-color: var(--color-violeta-oscuro); width: 100%;">
+        <button class="btn btn-violeta fs-6 px-3" type="submit">Buscar</button>
+    </form>
+</div>
+{{#preguntas}}
+<div class="div-tabla" style="display:flex; align-items: center; justify-content: center;">
+    <div class="contenedor-tabla">
+        <div style="
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: auto;  /* <== permite scroll horizontal */
+        -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
+    ">
+            <table class="table table-striped table-sm"
+                   style="width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0; min-width: 700px;">
+                <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
+                <tr>
+                    <th style="text-align: center; width: 80px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ID
+                    </th>
+                    <th style="min-width: 200px; word-break: break-word;">Enunciado</th>
+                    <th style="min-width: 120px; word-break: break-word;">Categoria</th>
+                    <th style="min-width: 150px; word-break: break-word;">Respuesta</th>
+                    <th style="min-width: 140px;">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#preguntas}}
+                    <tr>
+                        <td style="text-align: center">{{idpregunta}}</td>
+                        <td style="word-break: break-word;">{{enunciado}}</td>
+                        <td>{{categoria}}</td>
+                        <td style="word-break: break-word;">{{respuesta}}</td>
+                        <td>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; width: 100%;">
+                                <button
+                                        type="button"
+                                        class="btn btn-violeta ver-detalle-btn"
+                                        data-enunciado="{{enunciado}}"
+                                        data-categoria="{{categoria}}"
+                                        data-respuestas='{{jsonRespuestas}}'
+                                        data-dificultad="{{dificultad}}"
+                                        style="border-radius: 20px;"
+                                >
+                                    Ver detalle
+                                </button>
+                                <form action="/POC/LobbyEDITOR/editarPregunta" method="post">
+                                    <input type="hidden" name="id" value="{{idpregunta}}">
+                                    <button type="submit" class="btn btn-violeta" style="border-radius: 20px;">Editar
+                                    </button>
+                                </form>
+                                <form action="/POC/LobbyEDITOR/eliminarPregunta" method="post">
+                                    <input type="hidden" name="id" value="{{idpregunta}}">
+                                    <button type="submit" class="btn btn-danger" style="border-radius: 20px;">Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {{/preguntas}}
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+</div>
+
+{{/preguntas}}
+
+{{^preguntas}}
+    {{#busquedaRealizada}}
+        <div class="text-center mt-4">
+            <p style="color: var(--color-verde)">No se encontraron resultados.</p>
+        </div>
+    {{/busquedaRealizada}}
+{{/preguntas}}
+<!-- Modal detalle pregunta -->
+<div class="modal fade" id="detallePreguntaModal" tabindex="-1" aria-labelledby="detallePreguntaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content text-white" style="background-color: var(--color-violeta-claro); border-radius: 25px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detallePreguntaLabel">Detalle de la Pregunta</h5>
+            </div>
+            <div class="modal-body">
+                <h6><strong>Enunciado:</strong></h6>
+                <p id="modalEnunciado"></p>
+
+                <h6><strong>Categoría:</strong></h6>
+                <p id="modalCategoria"></p>
+
+                <h6><strong>Respuestas:</strong></h6>
+                <ul id="modalRespuestas" style="list-style-type:none; padding-left:0;"></ul>
+
+                <h6><strong>Dificultad:</strong></h6>
+                <p id="modalDificultad"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="background-color: var(--color-verde); color: var(--color-violeta-oscuro); border-radius: 25px" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = new bootstrap.Modal(document.getElementById('detallePreguntaModal'));
+        const enunciadoElem = document.getElementById('modalEnunciado');
+        const categoriaElem = document.getElementById('modalCategoria');
+        const respuestasElem = document.getElementById('modalRespuestas');
+        const dificultadElem = document.getElementById('modalDificultad'); // <-- agregalo aquí
+
+        document.querySelectorAll('.ver-detalle-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const enunciado = button.getAttribute('data-enunciado');
+                const categoria = button.getAttribute('data-categoria');
+                const dificultad = button.getAttribute('data-dificultad'); // <-- acá lo capturás
+                const respuestasJson = button.getAttribute('data-respuestas');
+
+                enunciadoElem.textContent = enunciado;
+                categoriaElem.textContent = categoria;
+                dificultadElem.textContent = dificultad + '%';
+
+
+                // Limpiamos respuestas anteriores
+                respuestasElem.innerHTML = '';
+
+                try {
+                    const respuestas = JSON.parse(respuestasJson);
+
+                    respuestas.forEach(r => {
+                        const li = document.createElement('li');
+                        li.textContent = r.texto;
+                        li.style.padding = '6px 0';
+                        li.style.borderBottom = '1px solid #444';
+
+                        if (r.esCorrecta) {
+                            li.style.fontWeight = 'bold';
+                            li.style.color = 'var(--color-verde)'; // verde para correcta
+                            li.textContent += " (Correcta)";
+                        }
+
+                        respuestasElem.appendChild(li);
+                    });
+                } catch (e) {
+                    respuestasElem.innerHTML = '<li>Error al cargar respuestas</li>';
+                }
+
+                modal.show();
+            });
+        });
+    });
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+</body>
+</html>
