@@ -506,10 +506,14 @@ public function finalizarPartida($id_partida){
         $stmt = $this->database->prepare("
         SELECT p.id_pregunta AS idpregunta, 
                p.enunciado AS enunciado, 
-               c.nombre AS categoria
+               c.nombre AS categoria,
+              u.nombre_usuario AS usuario,
+            s.fecha_sugerencia AS fecha
         FROM sugerenciapregunta s
         JOIN pregunta p ON p.id_pregunta = s.id_pregunta_sugerida
         JOIN categoria c ON c.id_categoria = p.id_categoria
+          JOIN Jugador j on s.id_jugador_sugiere = j.id_usuario
+        JOIN usuario u ON j.id_usuario = u.id_usuario
         WHERE s.estado_sugerencia = 'pendiente'
           AND (
               p.id_pregunta = ? 
@@ -533,6 +537,27 @@ public function finalizarPartida($id_partida){
             return $preguntas;
         }
 
+    public function obtenerRespuestasDePregunta($idPregunta) {
+        $stmt = $this->database->prepare("
+        SELECT texto, esCorrecta
+        FROM respuesta
+        WHERE id_pregunta = ?
+        ORDER BY id_respuesta ASC
+    ");
+        $id = (int)$idPregunta;
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $respuestas = [];
+        while ($row = $result->fetch_assoc()) {
+            $respuestas[] = [
+                'texto' => $row['texto'],
+                'esCorrecta' => (bool)$row['esCorrecta']
+            ];
+        }
+        return $respuestas;
+    }
 
     public function buscarPorId($idPregunta){
         $stmt = $this->database->prepare("
@@ -565,6 +590,8 @@ public function finalizarPartida($id_partida){
         $stmt = $this->database->prepare("
     SELECT p.id_pregunta AS idpregunta,
            p.enunciado AS enunciado,
+        c.id_categoria AS idcategoria,
+          r.id_respuesta AS idrespuesta,   
            c.nombre AS categoria,
            r.texto AS respuesta,
            r.esCorrecta
@@ -591,13 +618,15 @@ public function finalizarPartida($id_partida){
         $stmt = $this->database->prepare("
         SELECT p.id_pregunta AS idpregunta,
                p.enunciado AS enunciado,
+              c.id_categoria AS idcategoria,
+                r.id_respuesta AS idrespuesta,   
                c.nombre AS categoria,
                r.texto AS respuesta,
                r.esCorrecta
         FROM sugerenciapregunta sp
         JOIN pregunta p ON sp.id_pregunta_sugerida = p.id_pregunta
         JOIN categoria c ON c.id_categoria = p.id_categoria
-        JOIN respuesta r ON r.id_pregunta = p.id_pregunta
+        JOIN respuesta r ON r.id_pregunta = p.id_pregunta 
         WHERE p.id_pregunta = ?
     ");
         $id = (int) $idPregunta;
@@ -614,10 +643,22 @@ public function finalizarPartida($id_partida){
     }
 
     public function obtenerSugeridas(){
-        $stmt = $this->database->prepare("SELECT p.id_pregunta as idpregunta, p.enunciado as enunciado, c.nombre as categoria
-                                        FROM pregunta p JOIN categoria c JOIN sugerenciapregunta s
-                                          ON  c.id_categoria = p.id_categoria AND p.id_pregunta = s.id_pregunta_sugerida AND s.estado_sugerencia = 'pendiente'");
-
+        $stmt = $this->database->prepare("
+        SELECT
+            p.id_pregunta AS idpregunta,
+            p.enunciado AS enunciado,
+            c.nombre AS categoria,
+            r.texto AS respuesta,
+            u.nombre_usuario AS usuario,
+            s.fecha_sugerencia AS fecha
+        FROM pregunta p
+        JOIN categoria c ON c.id_categoria = p.id_categoria
+        JOIN sugerenciapregunta s ON p.id_pregunta = s.id_pregunta_sugerida
+        JOIN respuesta r ON r.id_pregunta = p.id_pregunta AND r.esCorrecta = 1
+        JOIN Jugador j on s.id_jugador_sugiere = j.id_usuario
+        JOIN usuario u ON j.id_usuario = u.id_usuario
+        WHERE s.estado_sugerencia = 'pendiente'
+    ");
         $stmt->execute();
         $result= $stmt->get_result();
 
@@ -729,7 +770,7 @@ public function finalizarPartida($id_partida){
     }
     public function buscarReporte($idPregunta) {
         $sql = "SELECT r.id_reporte, r.id_jugador_reporta,  r.id_pregunta_reportada AS idpregunta, r.texto, r.estado_reporte, r.fecha_reporte,
-                   p.enunciado, c.nombre AS categoria
+                   p.enunciado, c.nombre AS categoria, p.dificultad
             FROM reportePregunta r
             INNER JOIN pregunta p ON r.id_pregunta_reportada = p.id_pregunta
             INNER JOIN categoria c ON p.id_categoria = c.id_categoria
@@ -747,7 +788,7 @@ public function finalizarPartida($id_partida){
 
     public function obtenerReportes() {
         $sql = "SELECT r.id_reporte, r.id_jugador_reporta, r.id_pregunta_reportada AS idpregunta , r.texto, r.estado_reporte, r.fecha_reporte,
-                   p.enunciado, c.nombre AS categoria
+                   p.enunciado, c.nombre AS categoria, p.dificultad
             FROM reportePregunta r
             INNER JOIN pregunta p ON r.id_pregunta_reportada = p.id_pregunta
             INNER JOIN categoria c ON p.id_categoria = c.id_categoria
@@ -759,27 +800,43 @@ public function finalizarPartida($id_partida){
 
     public function insertarRespuesta($id, $texto, $esCorrecta)
     {
-        $sql = "INSERT INTO respuesta (id_pregunta, texto, esCorrecta) VALUES (?, ?, ?)";
+        // 1. Verificamos si ya existe una respuesta igual para esta pregunta
+        $sql = "SELECT COUNT(*) FROM respuesta WHERE id_pregunta = ? AND texto = ?";
         $stmt = $this->database->prepare($sql);
-        $stmt->bind_param("isi", $id, $texto, $esCorrecta);
+        $stmt->bind_param("is", $id, $texto);
         $stmt->execute();
 
+        $existe = 0; // <- Agregá esto antes del bind_result
+        $stmt->bind_result($existe);
+        $stmt->fetch();
+        $stmt->close();
 
-
+        // 2. Solo insertamos si no existe
+        if ($existe == 0) {
+            $sql = "INSERT INTO respuesta (id_pregunta, texto, esCorrecta) VALUES (?, ?, ?)";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bind_param("isi", $id, $texto, $esCorrecta);
+            $stmt->execute();
+        }
     }
+
     public function actualizarPregunta($id, $enunciado, $categoria)
     {
         $sql = "UPDATE pregunta SET enunciado = ?, id_categoria = ? WHERE id_pregunta = ?";
         $stmt = $this->database->prepare($sql);
-        $stmt->execute([$enunciado, $categoria, $id]);
+        $stmt->bind_param("sii", $enunciado, $categoria, $id);
+        $stmt->execute();
     }
+
 
     public function actualizarRespuesta($idPregunta, $idRespuesta, $texto, $esCorrecta)
     {
         $sql = "UPDATE respuesta SET texto = ?, esCorrecta = ? WHERE id_pregunta = ? AND id_respuesta = ?";
         $stmt = $this->database->prepare($sql);
-        $stmt->execute([$texto, $esCorrecta, $idPregunta, $idRespuesta]);
+        $stmt->bind_param("siii", $texto, $esCorrecta, $idPregunta, $idRespuesta);
+        $stmt->execute();
     }
+
     public function desmarcarTodasRespuestasComoIncorrectas($idPregunta)
     {
         $sql = "UPDATE respuesta SET esCorrecta = 0 WHERE id_pregunta = ?";

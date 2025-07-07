@@ -8,10 +8,19 @@ Options -Indexes
     RewriteEngine On
     RewriteBase /POC/
     RewriteRule ^(public)($|/) - [L,NC]
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Si la URL es EXACTAMENTE la raíz después de RewriteBase (es decir, vacía),
+    # se dirige a index.php sin parámetros:
     RewriteRule ^$ index.php [L,QSA]
+
     RewriteRule ^(.*)/(.*)/(.*)$ index.php?controller=$1&method=$2&$3 [L,QSA]
     RewriteRule ^(.*)/(.*)$ index.php?controller=$1&method=$2 [L,QSA]
+
+    # Esta condición evita que la regla atrape la URL raíz vacía después de RewriteBase
+    RewriteCond %{REQUEST_URI} !^/POC/?$
+    RewriteCond %{REQUEST_URI} !^/POC/index\.php$
     RewriteRule ^(.*)$ index.php?controller=$1 [L,QSA]
 </IfModule>

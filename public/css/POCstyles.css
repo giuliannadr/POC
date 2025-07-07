@@ -400,6 +400,7 @@ body {
 /* ------------------ POPUPS ------------------ */
 
 #popup {
+
     position: fixed;
     background-color: rgb(1, 10, 126);
     top: 50%;
@@ -447,6 +448,7 @@ body {
 }
 
 #popup-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;

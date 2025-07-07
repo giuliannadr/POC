@@ -80,7 +80,31 @@
 {{/mostrarPopupExito}}
 
 
+{{#editada}}
+    <!-- POPUP MENSAJE ÉXITO -->
+    <div id="popupRevision"
+         class="text-white fondo-violeta p-5 rounded-5 my-5 shadow pop"
+         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 1050; max-width: 90vw; background-color: var(--color-violeta-claro); border: solid 2px var(--color-verde);
+            flex-direction: column; align-items: center; text-align: center;">
+        <h1 class="m-0">¡Pregunta modificada con éxito!</h1>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const popup = document.getElementById('popupRevision');
+            popup.style.display = 'flex';
+
+            setTimeout(() => {
+                popup.style.display = 'none';
+                if (window.location.pathname !== '/POC/lobbyEditor/show') {
+                    window.location.href = '/POC/lobbyEditor/show';
+                }
+            }, 3000);
+        });
+    </script>
+
+{{/editada}}
 
 
 </body>

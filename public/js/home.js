@@ -55,5 +55,7 @@ window.onload = function() {
         popup.style.borderRadius = "15px";
         popup.style.display = "flex";
         popupOverlay.style.display = "flex";
+    }else {
+        popupOverlay.style.display = "none"; // Nada que mostrar
     }
 };

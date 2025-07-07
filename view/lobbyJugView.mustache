@@ -103,45 +103,48 @@
 </div>
 
 <script>
+    let seMostroPopup = false;
+
     function mostrarPopup() {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('popupTiempo').style.display = 'block';
-    }
-
-    function cerrarPopup() {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('popupTiempo').style.display = 'none';
+        seMostroPopup = true;
     }
 
     function mostrarPopupRevision() {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('popupRevision').style.display = 'block';
+        seMostroPopup = true;
+    }
+
+    function cerrarPopup() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('popupTiempo').style.display = 'none';
+        window.location.href = "/POC/LobbyJug/show";
     }
 
     function cerrarPopupRevision() {
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('popupRevision').style.display = 'none';
+        window.location.href = "/POC/LobbyJug/show";
     }
 
     // Mostrar automáticamente si se pasó la variable
-        {{#tiempoAgotado}}
-        mostrarPopup();
-        {{/tiempoAgotado}}
-        {{#enviada}}
-        mostrarPopupRevision();
-        {{/enviada}}
+            {{#tiempoAgotado}}mostrarPopup();{{/tiempoAgotado}}
+        {{#enviada}}mostrarPopupRevision();{{/enviada}}
+
+    // Si no hay ningún popup, redirigir igual
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!seMostroPopup) {
+            window.history.replaceState(null, "", "/POC/LobbyJug/show");
+        }
+    });
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.location.pathname !== '/POC/lobbyJug/show') {
-            window.location.href = '/POC/lobbyJug/show';
-        }
-    });
 
-</script>
 </body>
 </html>

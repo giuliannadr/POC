@@ -49,6 +49,20 @@ class LobbyEDITORController
             $data['preguntas'] = $this->model->obtenerTodasPreguntas();
         }
         $data['buscarPregunta'] = $busqueda;
+
+        foreach ($data['preguntas'] as &$pregunta) {
+            $respuestas = $this->model->obtenerRespuestasDePregunta($pregunta['idpregunta']);
+            $pregunta['jsonRespuestas'] = json_encode($respuestas, JSON_HEX_QUOT | JSON_HEX_APOS);
+
+            // Opcional: guardar el texto de la respuesta correcta para mostrar directo
+            foreach ($respuestas as $r) {
+                if ($r['esCorrecta']) {
+                    $pregunta['respuestaCorrectaTexto'] = $r['texto'];
+                    break;
+                }
+            }
+        }
+        unset($pregunta);
         $this->view->render('headerAdminEditor', 'gestionarPreguntasEditor', $data);
     }
 
@@ -61,14 +75,14 @@ class LobbyEDITORController
         }
 
         $filas = $this->model->obtenerPreguntaCompleta($idPregunta);
-        $esSugerencia=false;
+        $esSugerencia = false;
 
         if (empty($filas)) {
-           $filas=$this->model->obtenerPreguntaSugeridaCompleta($idPregunta);
-           $esSugerencia=true;
+            $filas = $this->model->obtenerPreguntaSugeridaCompleta($idPregunta);
+            $esSugerencia = true;
         }
 
-        if(empty($filas)){
+        if (empty($filas)) {
             die("Pregunta no encontrada");
         }
 
@@ -86,8 +100,7 @@ class LobbyEDITORController
             'CIENCIA' => 6,
         ];
 
-        $categoriaTexto = strtoupper(trim($primeraFila['categoria']));
-        $categoria = $mapaCategorias[$categoriaTexto] ?? 0;
+        $categoria = (int)($primeraFila['idcategoria'] ?? 0);
 
 
         // Obtener respuestas con sus IDs y cuál es correcta
@@ -141,11 +154,14 @@ class LobbyEDITORController
 
         $data = array_merge($dataLobbyArray, $datosPregunta);
 
+
+
         $this->view->render('headerAdminEditor', 'editarPregunta', $data);
     }
 
     public function guardarEdicionPregunta()
     {
+
         $id = $_POST['id'] ?? null;
 
         if (!$id) {
@@ -166,7 +182,7 @@ class LobbyEDITORController
 
         if ($categoria === '') {
             $categoria = $categoriaOriginal;
-        }else {
+        } else {
             // Asegurar que sea entero (por seguridad)
             $categoria = (int) $categoria;
         }
@@ -190,6 +206,10 @@ class LobbyEDITORController
             $respuestaCorrecta = $respuestaCorrectaOriginal;
         }
 
+        // Convertir letra correcta a índice para comparar
+        $letras = ['A' => 0, 'B' => 1, 'C' => 2, 'D' => 3];
+        $indiceRespuestaCorrecta = $letras[$respuestaCorrecta] ?? 0;
+
         // === 5. Guardar en base de datos ===
         // Primero actualizás enunciado y categoría
         $this->model->actualizarPregunta($id, $enunciado, $categoria);
@@ -198,15 +218,14 @@ class LobbyEDITORController
         $idRespuestas = $_POST['id_respuesta'] ?? [];
 
         $this->model->desmarcarTodasRespuestasComoIncorrectas($id);
-        foreach (['A', 'B', 'C', 'D'] as $i => $letra) {
+        for ($i = 0; $i < 4; $i++) {
             $texto = $respuestasFinales[$i];
-            $esCorrecta = ($respuestaCorrecta === $letra) ? 1 : 0;
+            $esCorrecta = ($i === $indiceRespuestaCorrecta) ? 1 : 0;
             $idRespuesta = $idRespuestas[$i] ?? null;
 
             if ($idRespuesta) {
                 $this->model->actualizarRespuesta($id, $idRespuesta, $texto, $esCorrecta);
             } else {
-                // Si no existe idRespuesta, insertá una nueva respuesta ligada a la pregunta
                 $this->model->insertarRespuesta($id, $texto, $esCorrecta);
             }
         }
@@ -227,10 +246,10 @@ class LobbyEDITORController
             ]
         );
 
-
         // Redirigimos o mostramos mensaje de éxito
-        $this->view->render('headerAdminEditor', 'gestionarPreguntasEditor', $data);
+        $this->view->render('headerAdminEditor', 'lobbyEDITOR', $data);
     }
+
 
 
 
@@ -239,16 +258,32 @@ class LobbyEDITORController
     public function preguntasSugeridas()
     {
         $dataLobby = new DataLobbys();
-        $data = $dataLobby->getLobbyEditorData(); // Trae lo mismo que usás en el método show()
+        $data = $dataLobby->getLobbyEditorData(); // Datos generales del lobby
 
         $data['seccionActiva'] = 'preguntasSugeridas';
-        $buscar= $_POST['buscarPregunta'] ?? null;
+        $buscar = $_POST['buscarPregunta'] ?? null;
 
-        if($buscar){
-            $data['preguntas']=$this->model->buscarSugerencia($buscar);
-        }else {
+        if ($buscar) {
+            $data['preguntas'] = $this->model->buscarSugerencia($buscar);
+        } else {
             $data['preguntas'] = $this->model->obtenerSugeridas();
         }
+
+        // Por cada pregunta agregamos el JSON con todas sus respuestas para el modal
+        foreach ($data['preguntas'] as &$pregunta) {
+            $respuestas = $this->model->obtenerRespuestasDePregunta($pregunta['idpregunta']);
+            $pregunta['jsonRespuestas'] = json_encode($respuestas, JSON_HEX_QUOT | JSON_HEX_APOS);
+
+            // Opcional: guardar el texto de la respuesta correcta para mostrar directo
+            foreach ($respuestas as $r) {
+                if ($r['esCorrecta']) {
+                    $pregunta['respuestaCorrectaTexto'] = $r['texto'];
+                    break;
+                }
+            }
+        }
+        unset($pregunta); // Buen hábito para referencias en foreach
+
         $this->view->render('headerAdminEditor', 'preguntasSugeridas', $data);
     }
 
@@ -319,6 +354,19 @@ class LobbyEDITORController
             $data['preguntas'] = $this->model->obtenerReportes();
         }
 
+        foreach ($data['preguntas'] as &$pregunta) {
+            $respuestas = $this->model->obtenerRespuestasDePregunta($pregunta['idpregunta']);
+            $pregunta['jsonRespuestas'] = json_encode($respuestas, JSON_HEX_QUOT | JSON_HEX_APOS);
+
+            // Opcional: guardar el texto de la respuesta correcta para mostrar directo
+            foreach ($respuestas as $r) {
+                if ($r['esCorrecta']) {
+                    $pregunta['respuestaCorrectaTexto'] = $r['texto'];
+                    break;
+                }
+            }
+        }
+        unset($pregunta);
         $this->view->render('headerAdminEditor', 'preguntasReportadas', $data);
     }
 

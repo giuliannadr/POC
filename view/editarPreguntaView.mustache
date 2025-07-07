@@ -79,36 +79,42 @@
 
                             <input type="radio" name="respuestaCorrecta" value="A" id="correctaA" required
                                    {{#opciones.0.seleccionada}}checked{{/opciones.0.seleccionada}}>
-                            <label for="respuestaA">A)</label>
+                            <label for="correctaA">A)</label>
                             <input type="text" name="respuesta[]" id="respuestaA" required
                                    value="{{respuestas.0.texto}}" placeholder="{{respuestas.0.texto}}">
                         </div>
 
                         <div class="respuesta-opcion">
                             <input type="hidden" name="id_respuesta[]" value="{{respuestas.1.id_respuesta}}">
-                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.1.texto}}">  <input type="radio" name="respuestaCorrecta" value="B" id="correctaB"
+                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.1.texto}}">
+
+                            <input type="radio" name="respuestaCorrecta" value="B" id="correctaB"
                                    {{#opciones.1.seleccionada}}checked{{/opciones.1.seleccionada}}>
-                            <label for="respuestaB">B)</label>
+                            <label for="correctaB">B)</label>
                             <input type="text" name="respuesta[]" id="respuestaB" required
-                                   value="{{respuestas.1.texto}}"  placeholder="{{respuestas.1.texto}}">
+                                   value="{{respuestas.1.texto}}" placeholder="{{respuestas.1.texto}}">
                         </div>
 
                         <div class="respuesta-opcion">
                             <input type="hidden" name="id_respuesta[]" value="{{respuestas.2.id_respuesta}}">
-                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.2.texto}}"> <input type="radio" name="respuestaCorrecta" value="C" id="correctaC"
+                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.2.texto}}">
+
+                            <input type="radio" name="respuestaCorrecta" value="C" id="correctaC"
                                    {{#opciones.2.seleccionada}}checked{{/opciones.2.seleccionada}}>
-                            <label for="respuestaC">C)</label>
+                            <label for="correctaC">C)</label>
                             <input type="text" name="respuesta[]" id="respuestaC" required
                                    value="{{respuestas.2.texto}}" placeholder="{{respuestas.2.texto}}">
                         </div>
 
                         <div class="respuesta-opcion">
                             <input type="hidden" name="id_respuesta[]" value="{{respuestas.3.id_respuesta}}">
-                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.3.texto}}"> <input type="radio" name="respuestaCorrecta" value="D" id="correctaD"
+                            <input type="hidden" name="respuesta_original[]" value="{{respuestas.3.texto}}">
+
+                            <input type="radio" name="respuestaCorrecta" value="D" id="correctaD"
                                    {{#opciones.3.seleccionada}}checked{{/opciones.3.seleccionada}}>
-                            <label for="respuestaD">D)</label>
+                            <label for="correctaD">D)</label>
                             <input type="text" name="respuesta[]" id="respuestaD" required
-                                   value="{{respuestas.3.texto}}"  placeholder="{{respuestas.3.texto}}">
+                                   value="{{respuestas.3.texto}}" placeholder="{{respuestas.3.texto}}">
                         </div>
 
                     </div>

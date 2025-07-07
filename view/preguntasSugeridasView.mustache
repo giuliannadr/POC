@@ -14,7 +14,7 @@
     </form>
 </div>
 <div class="div-tabla" style="display:flex; align-items: center; justify-content: center;">
-    <div class="contenedor-tabla">
+    <div class="contenedor-tabla" style="width: 93%">
         <div style="
         flex: 1;
         overflow-y: auto;
@@ -22,17 +22,16 @@
         -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
     ">
             <table class="table table-striped table-sm"
-                   style="width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0; min-width: 700px;">
-                <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
+                   style="width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0; min-width: 900px;">
+            <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
                 <tr>
                     <th style="text-align: center; width: 80px; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                         ID
                     </th>
                     <th style="min-width: 200px; word-break: break-word;">Enunciado</th>
                     <th style="min-width: 120px; word-break: break-word;">Categoria</th>
-                    <th style="min-width: 80px;">Dificultad</th>
-                    <th style="min-width: 150px; word-break: break-word;">Respuesta</th>
-                    <th style="min-width: 140px;">Acciones</th>
+                    <th style="min-width: 130px; word-break: break-word;">Respuesta</th>
+                    <th style="min-width: 160px;">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,10 +40,22 @@
                         <td style="text-align: center">{{idpregunta}}</td>
                         <td style="word-break: break-word;">{{enunciado}}</td>
                         <td>{{categoria}}</td>
-                        <td>{{dificultad}}</td>
                         <td style="word-break: break-word;">{{respuesta}}</td>
                         <td>
                             <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; width: 100%;">
+                                <button
+                                        type="button"
+                                        class="btn btn-violeta ver-detalle-btn"
+                                        data-enunciado="{{enunciado}}"
+                                        data-categoria="{{categoria}}"
+                                        data-respuestas='{{jsonRespuestas}}'
+                                        data-usuario="{{usuario}}"
+                                        data-fecha="{{fecha}}"
+                                        style="border-radius: 20px;"
+                                >
+                                    Ver detalle
+                                </button>
+
                                 <form action="/POC/LobbyEDITOR/aprobarPregunta" method="post">
                                     <input type="hidden" name="id" value="{{idpregunta}}">
                                     <button type="submit" class="btn btn-violeta" style="border-radius: 20px;">Aprobar
@@ -74,6 +85,83 @@
         </div>
     </div>
 </div>
+<!-- Modal detalle pregunta -->
+<div class="modal fade" id="detallePreguntaModal" tabindex="-1" aria-labelledby="detallePreguntaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content text-white" style="background-color: var(--color-violeta-claro); border-radius: 25px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detallePreguntaLabel">Detalle de la Pregunta</h5>
+                </div>
+            <div class="modal-body">
+                <h6><strong>Enunciado:</strong></h6>
+                <p id="modalEnunciado"></p>
+
+                <h6><strong>Categoría:</strong></h6>
+                <p id="modalCategoria"></p>
+
+                <h6><strong>Respuestas:</strong></h6>
+                <ul id="modalRespuestas" style="list-style-type:none; padding-left:0;"></ul>
+
+                <h6><strong>Usuario que sugirió:</strong></h6>
+                <p id="modalUsuario"></p>
+
+                <h6><strong>Fecha de sugerencia:</strong></h6>
+                <p id="modalFecha"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="background-color: var(--color-verde); color: var(--color-violeta-oscuro); border-radius: 25px" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.ver-detalle-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const enunciado = button.getAttribute('data-enunciado');
+            const categoria = button.getAttribute('data-categoria');
+            const respuestasJson = button.getAttribute('data-respuestas');
+            const usuario = button.getAttribute('data-usuario');
+            const fechaCompleta = button.getAttribute('data-fecha');
+
+            // Extraemos solo la parte de la fecha antes del espacio
+            const fechaSolo = fechaCompleta ? fechaCompleta.split(' ')[0] : '';
+
+            document.getElementById('modalEnunciado').textContent = enunciado;
+            document.getElementById('modalCategoria').textContent = categoria;
+            document.getElementById('modalUsuario').textContent = usuario;
+            document.getElementById('modalFecha').textContent = fechaSolo;
+
+            const respuestasElem = document.getElementById('modalRespuestas');
+            respuestasElem.innerHTML = '';
+
+            try {
+                const respuestas = JSON.parse(respuestasJson);
+
+                respuestas.forEach(r => {
+                    const li = document.createElement('li');
+                    li.textContent = r.texto;
+                    li.style.padding = '6px 0';
+                    li.style.borderBottom = '1px solid #444';
+
+                    if (r.esCorrecta) {
+                        li.style.fontWeight = 'bold';
+                        li.style.color = 'var(--color-verde)';
+                        li.textContent += " (Correcta)";
+                    }
+
+                    respuestasElem.appendChild(li);
+                });
+            } catch (e) {
+                respuestasElem.innerHTML = '<li>Error al cargar respuestas</li>';
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('detallePreguntaModal'));
+            modal.show();
+        });
+    });
+
+</script>
 
 
 

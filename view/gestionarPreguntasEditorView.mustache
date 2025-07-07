@@ -30,7 +30,6 @@
                     </th>
                     <th style="min-width: 200px; word-break: break-word;">Enunciado</th>
                     <th style="min-width: 120px; word-break: break-word;">Categoria</th>
-                    <th style="min-width: 80px;">Dificultad</th>
                     <th style="min-width: 150px; word-break: break-word;">Respuesta</th>
                     <th style="min-width: 140px;">Acciones</th>
                 </tr>
@@ -41,10 +40,20 @@
                         <td style="text-align: center">{{idpregunta}}</td>
                         <td style="word-break: break-word;">{{enunciado}}</td>
                         <td>{{categoria}}</td>
-                        <td>{{dificultad}}</td>
                         <td style="word-break: break-word;">{{respuesta}}</td>
                         <td>
                             <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; width: 100%;">
+                                <button
+                                        type="button"
+                                        class="btn btn-violeta ver-detalle-btn"
+                                        data-enunciado="{{enunciado}}"
+                                        data-categoria="{{categoria}}"
+                                        data-respuestas='{{jsonRespuestas}}'
+                                        data-dificultad="{{dificultad}}"
+                                        style="border-radius: 20px;"
+                                >
+                                    Ver detalle
+                                </button>
                                 <form action="/POC/LobbyEDITOR/editarPregunta" method="post">
                                     <input type="hidden" name="id" value="{{idpregunta}}">
                                     <button type="submit" class="btn btn-violeta" style="border-radius: 20px;">Editar
@@ -72,31 +81,85 @@
 
 
 
-{{#editada}}
-    <!-- POPUP MENSAJE ÉXITO -->
-    <div id="popupRevision"
-         class="text-white fondo-violeta p-5 rounded-5 my-5 shadow pop"
-         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 1050; max-width: 90vw; background-color: var(--color-violeta-claro); border: solid 2px var(--color-verde);
-            flex-direction: column; align-items: center; text-align: center;">
-        <h1 class="m-0">¡Pregunta modificada con éxito!</h1>
+<!-- Modal detalle pregunta -->
+<div class="modal fade" id="detallePreguntaModal" tabindex="-1" aria-labelledby="detallePreguntaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content text-white" style="background-color: var(--color-violeta-claro); border-radius: 25px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detallePreguntaLabel">Detalle de la Pregunta</h5>
+            </div>
+            <div class="modal-body">
+                <h6><strong>Enunciado:</strong></h6>
+                <p id="modalEnunciado"></p>
+
+                <h6><strong>Categoría:</strong></h6>
+                <p id="modalCategoria"></p>
+
+                <h6><strong>Respuestas:</strong></h6>
+                <ul id="modalRespuestas" style="list-style-type:none; padding-left:0;"></ul>
+
+                <h6><strong>Dificultad:</strong></h6>
+                <p id="modalDificultad"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="background-color: var(--color-verde); color: var(--color-violeta-oscuro); border-radius: 25px" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const popup = document.getElementById('popupRevision');
-            popup.style.display = 'flex';
 
-            setTimeout(() => {
-                popup.style.display = 'none';
-                if (window.location.pathname !== '/POC/lobbyEditor/gestionarPreguntas') {
-                    window.location.href = '/POC/lobbyEditor/gestionarPreguntas';
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = new bootstrap.Modal(document.getElementById('detallePreguntaModal'));
+        const enunciadoElem = document.getElementById('modalEnunciado');
+        const categoriaElem = document.getElementById('modalCategoria');
+        const respuestasElem = document.getElementById('modalRespuestas');
+        const dificultadElem = document.getElementById('modalDificultad'); // <-- agregalo aquí
+
+        document.querySelectorAll('.ver-detalle-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const enunciado = button.getAttribute('data-enunciado');
+                const categoria = button.getAttribute('data-categoria');
+                const dificultad = button.getAttribute('data-dificultad'); // <-- acá lo capturás
+                const respuestasJson = button.getAttribute('data-respuestas');
+
+                enunciadoElem.textContent = enunciado;
+                categoriaElem.textContent = categoria;
+                dificultadElem.textContent = dificultad + '%';
+
+
+                // Limpiamos respuestas anteriores
+                respuestasElem.innerHTML = '';
+
+                try {
+                    const respuestas = JSON.parse(respuestasJson);
+
+                    respuestas.forEach(r => {
+                        const li = document.createElement('li');
+                        li.textContent = r.texto;
+                        li.style.padding = '6px 0';
+                        li.style.borderBottom = '1px solid #444';
+
+                        if (r.esCorrecta) {
+                            li.style.fontWeight = 'bold';
+                            li.style.color = 'var(--color-verde)'; // verde para correcta
+                            li.textContent += " (Correcta)";
+                        }
+
+                        respuestasElem.appendChild(li);
+                    });
+                } catch (e) {
+                    respuestasElem.innerHTML = '<li>Error al cargar respuestas</li>';
                 }
-            }, 3000);
-        });
-    </script>
 
-{{/editada}}
+                modal.show();
+            });
+        });
+    });
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
