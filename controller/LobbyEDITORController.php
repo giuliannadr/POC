@@ -337,7 +337,7 @@ class LobbyEDITORController
         }
     }
 
-    public function eliminarPregunta() {
+    public function eliminarPreguntaGestion() {
         if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
             $idPregunta = $_POST["id"];
             $this->model->eliminar($idPregunta);
@@ -345,11 +345,12 @@ class LobbyEDITORController
         }
     }
 
+
+
     public function eliminarSugerencia() {
         if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {
             $idSugerencia = $_POST["id"];
             $this->model->eliminarSugerencia($idSugerencia);
-
             $this->preguntasSugeridas();
         }
     }
@@ -396,6 +397,7 @@ class LobbyEDITORController
         }
 
         foreach ($data['preguntas'] as &$pregunta) {
+
             $respuestas = $this->model->obtenerRespuestasDePregunta($pregunta['idpregunta']);
             $pregunta['jsonRespuestas'] = json_encode($respuestas, JSON_HEX_QUOT | JSON_HEX_APOS);
 

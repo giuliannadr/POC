@@ -59,8 +59,8 @@
                                     <button type="submit" class="btn btn-violeta" style="border-radius: 20px;">Editar
                                     </button>
                                 </form>
-                                <form action="/POC/LobbyEDITOR/eliminarPregunta" method="post">
-                                    <input type="hidden" name="id" value="{{idpregunta}}">
+                                <form action="/POC/LobbyEDITOR/eliminarReporte" method="post" class="form-eliminar">
+                                    <input type="hidden" name="id" value="{{id_reporte}}">
                                     <button type="submit" class="btn btn-danger" style="border-radius: 20px;">Eliminar
                                     </button>
                                 </form>
@@ -106,6 +106,23 @@
     </div>
 </div>
 
+<!-- Modal de Confirmación para Eliminar -->
+<div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: var(--color-violeta-claro); color: white; border-radius: 25px; border: solid 2px var(--color-verde)">
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title" id="confirmarEliminarLabel">Confirmar eliminación</h5>
+            </div>
+            <div class="modal-body" style="border-top: none; border-bottom: none;">
+                ¿Estás segura/o de que querés eliminar esta pregunta?
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-secondary" style="border-radius: 25px;" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmarEliminarBtn" style="border-radius: 25px;">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -154,6 +171,26 @@
             modal.show();
         });
     });
+
+        // ================= CONFIRMACIÓN AL ELIMINAR =================
+        let formAEliminar = null;
+        const modalEliminar = new bootstrap.Modal(document.getElementById('confirmarEliminarModal'));
+        const confirmarBtn = document.getElementById('confirmarEliminarBtn');
+
+        document.querySelectorAll('.form-eliminar').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevenimos envío inmediato
+                formAEliminar = form; // Guardamos el form actual
+                modalEliminar.show(); // Mostramos modal
+            });
+        });
+
+        confirmarBtn.addEventListener('click', function () {
+            if (formAEliminar) {
+                formAEliminar.submit(); // Recién ahora enviamos el form
+                modalEliminar.hide();
+            }
+        });
 });
 
 </script>
