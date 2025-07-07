@@ -79,7 +79,7 @@ class Configuration
 
     public function getLobbyADMController()
     {
-        return new LobbyADMController($this->getViewer(), $this->db);
+        return new LobbyADMController($this->getViewer(), new AdminModel($this->db));
     }
 
 

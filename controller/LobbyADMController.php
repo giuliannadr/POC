@@ -7,12 +7,12 @@ require_once("vendor/autoload.php"); // Si usás Composer y Dompdf
 class LobbyADMController
 {
     private $view;
-    private $db;
-
-    public function __construct($view, $db)
+    private $adminModel;
+    public function __construct($view, $adminModel)
     {
         $this->view = $view;
-        $this->db = $db;
+
+        $this->adminModel = $adminModel;
     }
 
     public function show()
@@ -26,11 +26,11 @@ class LobbyADMController
             ['texto' => 'Mes', 'link' => '/POC/admin/dashboard?periodo=mes']
         ];
 
-        $adminModel = new AdminModel($this->db);
 
-        $datos = $adminModel->obtenerEstadisticas($periodo);
-        $estadisticasPorEdad = $adminModel->obtenerEstadisticasPorEdad();
-        $usuariosPorPais = $adminModel->obtenerEstadisticasPorPais();
+
+        $datos = $this->adminModel->obtenerEstadisticas($periodo);
+        $estadisticasPorEdad = $this->adminModel->obtenerEstadisticasPorEdad();
+        $usuariosPorPais = $this->adminModel->obtenerEstadisticasPorPais();
 
         $totalEdad = $estadisticasPorEdad['menores'] + $estadisticasPorEdad['adultos'] + $estadisticasPorEdad['jubilados'];
         $porcentajesEdad = [
@@ -39,7 +39,7 @@ class LobbyADMController
             'porcentajeJubilados' => $totalEdad > 0 ? round(($estadisticasPorEdad['jubilados'] / $totalEdad) * 100, 1) : 0
         ];
 
-        $datosGenero = $adminModel->obtenerEstadisticasPorGenero();
+        $datosGenero = $this->adminModel->obtenerEstadisticasPorGenero();
         $totalGenero = $datosGenero['hombres'] + $datosGenero['mujeres'] + $datosGenero['otros'];
         $porcentajeHombres = $totalGenero > 0 ? round(($datosGenero['hombres'] / $totalGenero) * 100, 1) : 0;
         $porcentajeMujeres = $totalGenero > 0 ? round(($datosGenero['mujeres'] / $totalGenero) * 100, 1) : 0;
