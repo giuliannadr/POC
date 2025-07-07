@@ -6,12 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b1a02da5-2be2-49ff-90d9-40a8c4cfabc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/LobbyEDITORController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyEDITORController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/estilo-lobby.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/estilo-lobby.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/buscarPreguntaView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/buscarPreguntaView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/gestionarPreguntasEditorView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/gestionarPreguntasEditorView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/preguntasReportadasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasReportadasView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/preguntasSugeridasView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/LobbyADMController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/LobbyADMController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/AdminModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/AdminModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/lobbyEDITORView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/lobbyEDITORView.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

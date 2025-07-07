@@ -27,12 +27,12 @@ class LobbyADMController
             ['texto' => 'Año', 'link' => '/POC/lobbyAdm/show?periodo=anio', 'activo' => $periodo === 'anio']
         ];
 
-        $adminModel = new AdminModel($this->db);
 
-        $datos = $adminModel->obtenerEstadisticas($periodo);
-        $estadisticasPorEdad = $adminModel->obtenerEstadisticasPorEdad($periodo);
-        $usuariosPorPais = $adminModel->obtenerEstadisticasPorPais($periodo);
-        $usuariosNuevos = $adminModel->obtenerUsuariosNuevosPorPeriodo($periodo);
+
+        $datos = $this->db->obtenerEstadisticas($periodo);
+        $estadisticasPorEdad = $this->db->obtenerEstadisticasPorEdad($periodo);
+        $usuariosPorPais = $this->db->obtenerEstadisticasPorPais($periodo);
+        $usuariosNuevos = $this->db->obtenerUsuariosNuevosPorPeriodo($periodo);
 
         $totalEdad = $estadisticasPorEdad['menores'] + $estadisticasPorEdad['adultos'] + $estadisticasPorEdad['jubilados'];
         $porcentajesEdad = [
@@ -63,7 +63,7 @@ class LobbyADMController
         $dataPaisesJson = json_encode($paisesParaGrafico);
 
 
-        $datosGenero = $adminModel->obtenerEstadisticasPorGenero($periodo);
+        $datosGenero = $this->db->obtenerEstadisticasPorGenero($periodo);
         $totalGenero = $datosGenero['hombres'] + $datosGenero['mujeres'] + $datosGenero['otros'];
         $porcentajeHombres = $totalGenero > 0 ? round(($datosGenero['hombres'] / $totalGenero) * 100, 1) : 0;
         $porcentajeMujeres = $totalGenero > 0 ? round(($datosGenero['mujeres'] / $totalGenero) * 100, 1) : 0;

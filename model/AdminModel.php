@@ -6,7 +6,7 @@ class AdminModel
 {
     private $db;
 
-    public function __construct($db)
+    public function __construct( $db)
     {
         $this->db = $db;
     }
@@ -26,6 +26,7 @@ class AdminModel
         $sql = "SELECT 
         (SELECT COUNT(*) FROM jugador WHERE activado = 1 AND fecha_registro >= ?) AS totalJugadores,
         (SELECT COUNT(*) FROM partida WHERE fecha_inicio >= ?) AS totalPartidas";
+
 
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param('ss', $fechaInicio, $fechaInicio);
