@@ -61,8 +61,14 @@ class LobbyEDITORController
         }
 
         $filas = $this->model->obtenerPreguntaCompleta($idPregunta);
+        $esSugerencia=false;
 
         if (empty($filas)) {
+           $filas=$this->model->obtenerPreguntaSugeridaCompleta($idPregunta);
+           $esSugerencia=true;
+        }
+
+        if(empty($filas)){
             die("Pregunta no encontrada");
         }
 

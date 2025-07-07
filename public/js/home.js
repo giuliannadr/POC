@@ -54,5 +54,6 @@ window.onload = function() {
         msg.style.color = "white";
         popup.style.borderRadius = "15px";
         popup.style.display = "flex";
+        popupOverlay.style.display = "flex";
     }
 };

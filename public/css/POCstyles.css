@@ -94,12 +94,11 @@ body {
 
 /* fondo grande detrás */
 .registroTits {
-
     position: absolute;
     background-color: #490C98;
     border-radius: 30px;
     padding: 35px;
-    padding-left: 75px;
+
     width: 80%;
     /* Altura del fondo */
     left: 50px;
@@ -209,6 +208,79 @@ body {
 .btn-change:hover {
     background-color: #0056b3; /* azul más oscuro al pasar el mouse */
     color: white;
+}
+
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 1270px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+        position: relative;
+        width: 100%;
+        background-color: #490C98; /* mismo fondo */
+        border-radius: 30px;
+        padding: 20px 30px;
+        margin-bottom: 20px; /* separación con el formulario */
+    }
+
+    /* Ajustar tamaños de texto para móvil */
+    .registroTit {
+        font-size: 48px;
+    }
+
+    .registroP {
+        font-size: 28px;
+        margin-top: 10px;
+    }
+
+    /* Para que el contenedor deje de usar flex en desktop */
+    .contenedorRegistro {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        margin-top: 100px;
+    }
+
+    .registroTits {
+        position: relative !important;
+        width: 80% !important;
+        left: 0 !important;
+        margin-left: 0 !important;
+        padding-left: 30px !important;
+    }
+
+    .registroCard {
+        width: 70% !important;
+        margin: 0 auto 30px auto !important;
+        padding: 20px 15px !important;
+    }
+
+    .input {
+        width: 100% !important;
+    }
+
+    .fechaGenero {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .fechaGenero > div {
+        width: 100% !important;
+    }
+
+    .form-registro {
+        width: 90%;
+    }
 }
 
 /* ------------------ HOME / LOGIN ------------------ */
@@ -585,7 +657,6 @@ body {
 }
 
 
-
 #ranking {
     width: 20em;
 }
@@ -602,6 +673,7 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+
 .fila-crear {
     display: flex;
     flex-direction: column; /* Antes era row */
@@ -609,7 +681,7 @@ body {
     border: solid 2px var(--color-verde);
     padding: 1em;
     gap: 1.5em;
-    width: 60%;
+    width: 80%;
     border-radius: 1em;
     align-items: center;
     justify-content: center;
@@ -689,6 +761,7 @@ body {
     background-color: var(--color-verde);
     border-radius: 50%;
 }
+
 .crear-contenedor {
     display: flex;
     flex-direction: column;
@@ -701,7 +774,6 @@ body {
     width: 100%;
     max-width: 1300px;
 }
-
 
 
 .fila-posicion {
@@ -719,7 +791,7 @@ body {
 }
 
 tbody tr:nth-child(odd) {
-    background-color: var(--color-violeta-masclaro) !important;
+    background-color: var(--color-violet-masclaro) !important;
 }
 
 tbody tr:nth-child(even) {
@@ -727,8 +799,104 @@ tbody tr:nth-child(even) {
     color: white !important;
 }
 
+.grafico {
+    width: 100%;
+    max-width: 500px;
+    min-width: 300px;
+    height: 300px;
+}
 
+@media (max-width: 768px) {
 
+    .fila-crear {
+        width: 100%;
+    }
+
+    main.d-flex {
+        padding: 1.5rem !important;
+    }
+
+    .crear-contenedor {
+        padding: 1.5rem !important;
+        width: 100%;
+        box-sizing: border-box;
+    /
+    }
+
+    form {
+        width: 100% !important;
+    }
+
+    input[type="text"] {
+        width: 100% !important;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    #enunciado {
+        width: 90% !important;
+    }
+
+    .radios-crear, .respuestas-crear {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .radio-opcion, .respuesta-opcion {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    input[type="radio"] {
+        width: auto;
+        height: auto;
+    }
+
+    .radio-opcion label, .respuesta-opcion label {
+        flex-shrink: 0;
+        min-width: 30px;
+        cursor: pointer;
+        color: white;
+    }
+
+    .respuesta-opcion input[type="text"] {
+        flex-grow: 1;
+        border-radius: 30px;
+        padding: 5px 10px;
+    }
+
+    .respuestas-crear {
+        align-items: center;
+        width: 100%;
+    }
+
+    button.btn {
+        width: 100%;
+    }
+}
+
+.contenedor-tabla {
+    width: 80%;
+    border-radius: 20px;
+    border: 2px solid var(--color-violeta-oscuro);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+}
+
+@media (max-width: 980px) {
+    .contenedor-tabla {
+        width: 100% !important;
+    }
+
+    .div-tabla {
+        padding-inline: 15px;
+    }
+}
 
 
 
